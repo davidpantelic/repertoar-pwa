@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+@theme {
+  --breakpoint-xxs: 320px;
+  --breakpoint-xs: 425px;
+}
+
+:root {
+  color-scheme: light;
+  --body-bg: var(--p-surface-50);
+  --card-layer-a: var(--p-surface-0); /* outer card */
+  --card-layer-b: var(--p-surface-50); /* nested card */
+  --p-scrollpanel-bar-size: 5px !important;
+  --p-scrollpanel-bar-background: var(--color-primary-emphasis) !important;
+}
+:root.dark-mode {
+  color-scheme: dark;
+  --body-bg: var(--p-surface-950);
+  --card-layer-a: var(--p-surface-900);
+  --card-layer-b: var(--p-surface-950);
+}
+
+.p-card {
+  --p-card-background: var(--card-layer-a);
+}
+.p-card .p-card {
+  --p-card-background: var(--card-layer-b);
+}
+.p-card .p-card .p-card {
+  --p-card-background: var(--card-layer-a);
+}
+
+.p-panel {
+  --p-panel-background: var(--card-layer-a);
+}
+.p-panel .p-panel {
+  --p-panel-background: var(--card-layer-b);
+}
+.p-panel .p-panel .p-panel {
+  --p-panel-background: var(--card-layer-a);
+}
+
+.p-panel .p-card {
+  --p-card-background: var(--card-layer-b);
+}
+.p-panel .p-card .p-card {
+  --p-card-background: var(--card-layer-a);
+}
+
+html,
+body {
+  /* prevent “drag to refresh” / bounce */
+  overscroll-behavior-y: none;
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: var(--body-bg);
+  min-height: 100svh;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  padding-top: 80px;
+}
+
+h1 {
+  @apply text-xl md:text-2xl;
+  font-weight: 400;
+}
+
+h2 {
+  @apply text-lg md:text-xl;
+  font-weight: 400;
+}
+
+h3 {
+  @apply text-base md:text-lg;
+  font-weight: 400;
+}
+
+h4,
+h5,
+h6 {
+  @apply text-sm md:text-base;
+  font-weight: 400;
+}
+
+p,
+a {
+  @apply text-sm md:text-base;
+  font-weight: 400;
+}
+
+input,
+textarea,
+select,
+.p-button-label,
+.p-togglebutton-label {
+  @apply text-sm! md:text-base!;
+  font-weight: 400;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* #installInstructions {
+   display: none
+}
+@media (display-mode: browser) {
+   #installInstructions {
+     display: block
+   }
+} */
+
+.p-toast {
+  max-width: calc(100% - 40px);
+}
+
+.p-toast-message-content {
+  justify-content: space-between;
+}
+
+.p-dialog {
+  margin-inline: 20px !important;
+}
+
+.p-dialog.install-instructions-dialog {
+  max-width: 550px;
+}
+
+.p-dialog.update-dialog {
+  max-width: 550px;
+}
+
+.p-dialog.about-dialog .p-accordionheader {
+  padding-inline: 0;
+}
+
+.p-dialog.about-dialog .p-accordioncontent-content {
+  padding-inline: 0;
+}
+
+.settings-drawer.p-drawer {
+  width: auto !important;
+}
+.settings-drawer.p-drawer .p-drawer-header {
+  justify-content: center;
+}
+
+.p-selectbutton .p-togglebutton-content {
+  padding-inline: 6px;
+}
+
+.p-toast-summary:empty,
+.p-toast-detail:empty,
+.p-toast-message-icon:empty {
+  display: none;
+}

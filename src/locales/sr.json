@@ -1,0 +1,269 @@
+{
+  "appInfo": {
+    "name": "Webdak PWA"
+  },
+  "words": {
+    "hello": "Zdravo Svete!",
+    "appName": "Ime aplikacije",
+    "lastUpdate": "Poslednje ažuriranje",
+    "contact": "Kontakt",
+    "home": "Početna",
+    "chooseLanguage": "Izaberi jezik",
+    "install": "Instaliraj",
+    "notNow": "Ne sad",
+    "refresh": "Osveži",
+    "save": "Sačuvaj",
+    "cancel": "Otkaži",
+    "update": "Ažuriraj",
+    "updated": "Ažurirano",
+    "edit": "Izmeni",
+    "delete": "Izbriši",
+    "deleted": "Izbrisan",
+    "copyLink": "Kopiraj link",
+    "linkCopied": "Link kopiran",
+    "hideButton": "Skloni dugme",
+    "restore": "Povrati",
+    "later": "Kasnije",
+    "send": "Pošalji",
+    "profile": "Korisnički nalog",
+    "register": "Registruj se",
+    "login": "Prijavi se",
+    "logout": "Odjavi se",
+    "logoutOthers": "Odjavi se sa ostalih uređaja",
+    "chat": "Razgovor",
+    "resetPassword": "Resetujte lozinku",
+    "or": "ili",
+    "started": "Pokrenuto"
+  },
+  "meta": {
+    "description": "Webdak Vue3 PWA šablon"
+  },
+  "toasts": {
+    "upToDateToastGroup": {
+      "success": {
+        "summary": "Aplikacija je ažurirana",
+        "detail": "Već imate najnoviju verziju."
+      }
+    },
+    "notificationsToastGroup": {
+      "danger1": {
+        "summary": "Nije moguće omogućiti obaveštenja.",
+        "detail1": "Service Worker nije podržan.",
+        "detail2": "Push Manager nije podržan."
+      },
+      "warn1": {
+        "summary": "Obaveštenja su blokirana.",
+        "detail": "Obaveštenja su blokirana u pretraživaču. Otvorite podešavanja sajta i ponovo ih omogućite. Ili ih resetujte pa opet kliknite na ovo isto dugme u aplikaciji."
+      },
+      "warn2": {
+        "summary": "Pokušajte ponovo.",
+        "detail": "Dozvola nije izabrana. Kliknite ponovo i odaberite 'Dozvoli' ili 'Allow'."
+      },
+      "warn3": {
+        "summary": "Obaveštenja blokirana.",
+        "detail": "Dozvola za obaveštenja nije odobrena."
+      },
+      "danger2": {
+        "summary": "VAPID public key nije postavljen."
+      },
+      "danger3": {
+        "summary": "Neuspešno omogućavanje obaveštenja."
+      },
+      "success": {
+        "summary": "Obaveštenja su omogućena."
+      }
+    },
+    "installToastGroup": {
+      "secondary": {
+        "summary": "Instalirajte aplikaciju",
+        "detail": "Možete instalirati aplikaciju na svoj uređaj kako biste imali brži pristup i više mogućnosti."
+      },
+      "success": {
+        "summary": "Instalacija u toku...",
+        "detail": "Aplikacija će biti instalirana za par trenutaka i nakon toga je možete otvoriti sa početnog ekrana."
+      }
+    },
+    "offlineToastGroup": {
+      "success": {
+        "summary": "Online",
+        "detail": "Ponovo ste povezani na mrežu."
+      },
+      "warn": {
+        "summary": "Offline",
+        "detail": "Trenutno niste na mreži, srećom aplikacija može da radi offline s tim što neke funkcionalnosti možda neće biti moguće dok se ponovo ne povežete na mrežu."
+      }
+    },
+    "updatePwaToastGroup": {
+      "warn": {
+        "summary": "Nova verzija aplikacije je dostupna",
+        "detail": "Ažurirajte odmah klikom na dugme ispod (završite trenutnu radnju jer će se aplikacija sama zatvoriti i ponovo pokrenuti) ili kasnije klikom na dugme na vrhu."
+      },
+      "success": {
+        "summary": "Aplikacija je ažurirana.",
+        "detail": ""
+      }
+    },
+    "screenWakeLockToastGroup": {
+      "success": {
+        "summary": "Svetlo uključeno",
+        "detail": "Displej će sada biti osvetljen konstanto."
+      },
+      "error": {
+        "summary": "Nažalost...",
+        "detail": "Na ovom uređaju nije moguće uključiti konstanto osvetljenje."
+      }
+    },
+    "group": {
+      "success": {
+        "summary": "",
+        "detail": ""
+      }
+    }
+  },
+  "dialogs": {
+    "installFailed": {
+      "header": "Instalacija nije moguća u trenutnom pretraživaču.",
+      "text1": "Da biste instalirali aplikaciju na svoj uređaj, otvorite link u Google Chrome pretraživaču a zatim kliknite na {0} dugme.",
+      "text2": "Klikom na dugme ispod možete kopirate link aplikacije a zatim ga zalepiti u Google Chrome pretraživač.",
+      "text3": "Svakako možete nastaviti da koristite aplikaciju i bez instaliranja. Ako želite, klikom na dugme ispod, možete skloniti \"Instaliraj\" dugme."
+    },
+    "updateDialogConfirm": {
+      "header": "Ažuriranje dostupno",
+      "message": "Da li želite da ažurirate aplikaciju? Pre toga završite trenutnu radnju jer će se aplikacija sama zatvoriti i ponovo pokrenuti.",
+      "reject": "Kasnije",
+      "accept": "Ažuriraj"
+    }
+  },
+  "api": {
+    "noRecords": "Nema zapisa",
+    "noDeletedRecords": "Nema obrisanih zapisa",
+    "loadingFailed": "Učitavanje nije uspelo",
+    "changeSaved": "Izmene sačuvane",
+    "changeFailed": "Čuvanje izmene nije uspelo",
+    "deleteSuccess": "Obrisano (soft delete)",
+    "deleteFailed": "Brisanje nije uspelo",
+    "readFromIDB": "Učitaj iz IndexedDB",
+    "readFromSB": "Učitaj iz Supabase",
+    "recordRestored": "Zapis je vraćen",
+    "recordRestoreFailed": "Vraćanje nije uspelo",
+    "showDeleted": "Prikaži obrisane",
+    "syncOnReconnect": "Auto-sinhronizacija pri ponovnom povezivanju",
+    "syncDb": "Sinhronizuj bazu",
+    "syncSuccess": "Sinhronizacija završena.",
+    "syncFailed": "Sinhronizacija nije uspela.",
+    "writeToIDB": "Sačuvaj u IndexedDB",
+    "writeToIDBSuccess": "Sačuvano u IndexedDB",
+    "writeToSB": "Sačuvaj u Supabase",
+    "writeToSBSuccess": "Sačuvano u Supabase",
+    "writeToDBFailed": "Čuvanje nije uspelo",
+    "writeLocallySuccess": "Sačuvano lokalno, čeka sinhronizaciju"
+  },
+  "form": {
+    "fields": {
+      "title": "Naslov",
+      "username": "Korisničko ime",
+      "password": "Lozinka",
+      "passwordConfirm": "Potvrdite lozinku",
+      "newPassword": "Nova lozinka",
+      "newPasswordConfirm": "Potvrdite novu lozinku",
+      "body": "Poruka",
+      "url": "link",
+      "button": "Pošalji"
+    },
+    "message": {
+      "success": "Push obaveštenje poslato",
+      "error": "Slanje push obaveštenja nije uspelo",
+      "registerSuccess": "Uspešna registracija",
+      "registerSuccessMessage": "Da biste završili registraciju, verifikujte svoju email adresu klikom na link koji vam je poslat na email.",
+      "registerFailed": "Registracija nije uspela",
+      "registerFailedEmailRateLimit": "Poslato je previše zahteva za email. Sačekajte nekoliko minuta pa pokušajte ponovo",
+      "loginFailed": "Prijava nije uspela",
+      "loginFailedWrongCredentials": "Netačni podaci za prijavu",
+      "loginFailedUnverifiedEmail": "Potrebno je prvo da verifikujete svoju email adresu klikom na link koji vam je poslat na email.",
+      "loginSuccess": "Uspešna prijava",
+      "logoutFailed": "Odjava nije uspela",
+      "logoutSuccess": "Uspešna odjava",
+      "logoutOthersSuccess": "Uspešno ste se odjavili sa svih ostalih uređaja.",
+      "loggedRequired": "Morate biti prijavljeni"
+    },
+    "validation": {
+      "titleRequired": "Naslov je obavezan",
+      "usernameRequired": "Korisničko ime je obavezno",
+      "usernameMaxLength": "Korisničko ime može imati 30 karaktera ili manje",
+      "emailRequired": "Email je obavezan",
+      "passwordRequired": "Lozinka je obavezna",
+      "passwordConfirmRequired": "Potvrda lozinke je obavezna",
+      "passwordMismatch": "Lozinke se ne poklapaju",
+      "passwordMinLength": "Lozinka mora imati najmanje 6 karaktera"
+    }
+  },
+  "authConfirmation": {
+    "title": "Email adresa je verifikovana",
+    "text": "Verifikacija je uspešna. Sada se možete prijaviti (u aplikaciji ako ste je instalirali) sa svojim podacima."
+  },
+  "googleAuth": {
+    "pageConfirmationTitle": "Prijavljeni sa Google nalogom",
+    "pageConfirmationText": "Uspešno ste se prijavili sa Google nalogom, možete nastaviti da koristite aplikaciju.",
+    "googleEmailLocked": "Za naloge prijavljene preko Google-a, nije moguće promeniti email adresu na ovaj način.",
+    "failedSigning": "Prijavljivanje sa Google nalogom nije uspelo."
+  },
+  "userEdit": {
+    "editButton": "Izmeni informacije",
+    "editSuccessfulTitle": "Promene su sačuvane",
+    "editSuccessfulTextEmail": "Potrebno je da potvrdite novu email adresu klikom na link koji vam je poslat.",
+    "editFailedTitle": "Promene nisu sačuvane",
+    "editFailedOverLimit": "Molimo pokušajte malo kasnije",
+    "editFailedSameData": "Niste ništa promenili",
+    "editEmailVerificationOne": "Link za potvrdu je prihvaćen. Potvrdite i link koji je poslat na vašu drugu email adresu.",
+    "editEmailVerificationBoth": "Link za potvrdu je prihvaćen. Obe email adrese su potvrđene. Bićete odjavljeni sa svih uređaja. Prijavite se ponovo sa novom email adresom."
+  },
+  "resetPasswordRequest": {
+    "requestTitle": "Link uspešno poslat na email.",
+    "requestMessage": "Link za resetovanje lozinke vam je poslat na email. Potrebno je da kliknete na link koji će vas odvesti na stranicu gde možete resetovati svoju lozinku. Link važi 1 sat.",
+    "requestFailTitle": "Link nije poslat",
+    "requestFailMessage": "Link za resetovanje lozinke vam je već poslat na email. Molimo pokušajte kasnije.",
+    "pageTitle": "Resetovanje lozinke",
+    "successfulChange": "Lozinka uspešno promenjena",
+    "successfulChangeText": "Bićete odjavljeni na svim uređajima, uključujući i ovaj. Molimo prijavite se sa novom lozinkom.",
+    "failedChangeTitle": "Promena lozinke neuspešna",
+    "failedChangeText": "Nova lozinka treba da se razlikuje od stare lozinke. Molimo pokušajte ponovo.",
+    "checkingLink": "Link za resetovanje lozinke se proverava...",
+    "invalidOrExpiredLinkTitle": "Neuspešno",
+    "invalidOrExpiredLinkText": "Link za resetovanje lozinke je istekao ili nije ispravan. Možete pokušati ponovo.",
+    "temporaryCheckFailedTitle": "Privremeni problem",
+    "temporaryCheckFailedText": "Trenutno nije moguće proveriti link za resetovanje lozinke. Proverite internet vezu i pokušajte ponovo."
+  },
+  "aboutTitle": "Pomoć",
+  "aboutAppInstall": {
+    "title": "Instaliranje aplikacije",
+    "text1": "Za najbolje moguće korisničko iskustvo, bržu i stabilniju aplikaciju - potrebno je instalirati aplikaciju kroz Google Chrome pretraživač.",
+    "text2": "Da biste instalirali aplikaciju na svoj uređaj, otvorite link u Google Chrome pretraživaču a zatim kliknite na {0} dugme. Kada se pojavi prozor u kome se traži dozvola za instaliranje aplikacije, potrebno je da potvrdite (Potvrdi / Dozvoli / Allow / Install). Ukoliko odbijete, postupak možete ponoviti.",
+    "text3": "Klikom na dugme ispod možete kopirate link aplikacije a zatim ga zalepiti u Google Chrome pretraživač.",
+    "text4": "Ukoliko nemate Chrome pretraživač, aplikaciju možete instalirati ili dodati ikonicu/prečicu na početni ekran, i koristeći druge pretraživače (Firefox, Opera, Edge, i drugo). Potrebno je klikom na tri tačke/crtice otvoriti meni i pronaći opciju \"Instaliraj\" ili nešto kao \"Dodaj aplikaciju/prečicu na početni ekran\".",
+    "text5": "iOS: Ukoliko gore navedeni postupak ne uspe na iOS uređaju, otvorite aplikaciju u Safari pretraživaču, tapnite na dugme za deljenje (Share) i izaberite \"Add to Home Screen\" / \"Dodaj na početni ekran\".",
+    "text6": "Svakako možete nastaviti da koristite aplikaciju i bez instaliranja."
+  },
+  "aboutNotifications": {
+    "title": "Obaveštenja",
+    "text1": "Kao i svaka druga, i ova aplikacija može slati obaveštenja na vaš uređaj, ali je neophodno da to prvo odobrite klikom na ikonicu obaveštenja",
+    "text2": "potom će se pojaviti prozor u kome se traži dozvola, potrebno je da odobrite klikom na \"Dozvoli\" ili \"Approve\" ili slično.",
+    "text3": "Ukoliko su obaveštenja odbijena, možete resetovati podešavanja sajta u pretraživaču: Podešavanja > Privatnost/Bezbednost > Podešavanja sajta > {0} > Resetujte dozvole.",
+    "selectAppUrl": "izaberite url ove aplikacije"
+  },
+  "aboutOffline": {
+    "title": "Offline režim",
+    "text1": "Aplikacije može da radi i kada nemate interneta, sve što uradite biće sačuvano na vašem uređaju a kada ponovo uspostavite vezu sa internetom aplikacija će se automatski sinhronizovati sa cloud-om.",
+    "text2": "Kada uđete u offline režim, pojaviće se indikator",
+    "text3": "koji će vam to signalizirati."
+  },
+  "aboutApp": {
+    "title": "O aplikaciji",
+    "text1": "Izrada PWA i web aplikacije"
+  },
+  "privacyPolicy": {
+    "title": "Politika privatnosti"
+  },
+  "termsOfUse": {
+    "title": "Uslovi korišćenja"
+  }
+}

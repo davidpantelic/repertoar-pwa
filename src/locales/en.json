@@ -1,0 +1,271 @@
+{
+  "appInfo": {
+    "name": "Webdak PWA"
+  },
+  "words": {
+    "hello": "Hello World!",
+    "appName": "App name",
+    "lastUpdate": "Last updated",
+    "contact": "Contact",
+    "home": "Home",
+    "chooseLanguage": "Choose language",
+    "install": "Install",
+    "notNow": "Not now",
+    "refresh": "Refresh",
+    "save": "Save",
+    "cancel": "Cancel",
+    "update": "Update",
+    "updated": "Updated",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleted": "Deleted",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "hideButton": "Hide button",
+    "restore": "Restore",
+    "later": "Later",
+    "send": "Send",
+    "profile": "User account",
+    "register": "Register",
+    "login": "Log in",
+    "logout": "Log out",
+    "logoutOthers": "Log out from other devices",
+    "chat": "Chat",
+    "resetPassword": "Reset password",
+    "or": "or",
+    "started": "Started"
+  },
+  "meta": {
+    "description": "Reusable Vue3 PWA template by Webdak"
+  },
+  "toasts": {
+    "upToDateToastGroup": {
+      "success": {
+        "summary": "Application is updated",
+        "detail": "You already have the latest version."
+      }
+    },
+    "notificationsToastGroup": {
+      "danger1": {
+        "summary": "Unable to enable notifications.",
+        "detail1": "Service Worker not supported.",
+        "detail2": "Push Manager not supported."
+      },
+      "warn1": {
+        "summary": "Notifications are blocked.",
+        "detail": "Notifications are blocked in the browser. Open the site settings and re-enable them. Or reset them and click this same button in the app again."
+      },
+      "warn2": {
+        "summary": "Try again.",
+        "detail": "Permission not selected. Click again and select 'Allow' or 'Approve'."
+      },
+      "warn3": {
+        "summary": "Notifications are blocked.",
+        "detail": "Notification permission not granted."
+      },
+      "danger2": {
+        "summary": "VAPID public key not set."
+      },
+      "danger3": {
+        "summary": "Failed to enable notifications."
+      },
+      "success": {
+        "summary": "Notifications are enabled."
+      }
+    },
+    "installToastGroup": {
+      "secondary": {
+        "summary": "Install the app",
+        "detail": "You can install the app on your device for faster access and more features."
+      },
+      "success": {
+        "summary": "Installation in progress...",
+        "detail": "The application will be installed in a few moments and after that you can open it from the home screen."
+      }
+    },
+    "offlineToastGroup": {
+      "success": {
+        "summary": "Online",
+        "detail": "You are reconnected to the network."
+      },
+      "warn": {
+        "summary": "Offline",
+        "detail": "You are currently offline, fortunately the app can work offline, however some functionality may not be available until you reconnect."
+      }
+    },
+    "updatePwaToastGroup": {
+      "warn": {
+        "summary": "A new version of the app is available",
+        "detail": "Update now by clicking the button below (finish the current action as the app will close and restart itself) or later by clicking the button at the top."
+      },
+      "success": {
+        "summary": "Application is updated",
+        "detail": ""
+      }
+    },
+    "screenWakeLockToastGroup": {
+      "success": {
+        "summary": "Light on",
+        "detail": "The display will now be lit constantly."
+      },
+      "error": {
+        "summary": "Unfortunately...",
+        "detail": "It is not possible to turn on constant lighting on this device."
+      }
+    },
+    "group": {
+      "success": {
+        "summary": "",
+        "detail": ""
+      }
+    }
+  },
+  "dialogs": {
+    "installFailed": {
+      "header": "Installation is not possible in the current browser.",
+      "text1": "To install the application on your device, open the link in the Google Chrome browser and then click the {0} button.",
+      "text2": "By clicking the button below, you can copy the application link and then paste it into the Google Chrome browser.",
+      "text3": "You can certainly continue to use the application without installing it. If you want, you can hide the \"Install\" button by clicking the button below."
+    },
+    "updateDialogConfirm": {
+      "header": "Update available",
+      "message": "Do you want to update the app? Before that, finish the current action because the application will close and restart itself.",
+      "reject": "Later",
+      "accept": "Update"
+    }
+  },
+  "api": {
+    "noRecords": "No records",
+    "noDeletedRecords": "No deleted records",
+    "loadingFailed": "Loading failed",
+    "changeSaved": "Changes saved",
+    "changeFailed": "Failed to save changes",
+    "deleteSuccess": "Deleted (soft delete)",
+    "deleteFailed": "Deletion failed",
+    "readFromIDB": "Read from IndexedDB",
+    "readFromSB": "Read from Supabase",
+    "recordRestored": "Record restored",
+    "recordRestoreFailed": "Failed to restore record",
+    "showDeleted": "Show deleted",
+    "syncOnReconnect": "Auto-sync on reconnect",
+    "syncDb": "Sync DB",
+    "syncSuccess": "Sync successful",
+    "syncFailed": "Sync failed",
+    "writeToIDB": "Save in IndexedDB",
+    "writeToIDBSuccess": "Saved in IndexedDB",
+    "writeToSB": "Save in Supabase",
+    "writeToSBSuccess": "Saved in Supabase",
+    "writeToDBFailed": "Saving failed",
+    "writeLocallySuccess": "Saved locally, waiting for sync"
+  },
+  "form": {
+    "fields": {
+      "title": "Title",
+      "username": "Username",
+      "password": "Password",
+      "passwordConfirm": "Confirm password",
+      "newPassword": "New password",
+      "newPasswordConfirm": "Confirm new password",
+      "body": "Message",
+      "url": "Link",
+      "button": "Send"
+    },
+    "message": {
+      "success": "Push notification sent",
+      "error": "Failed to send push notification",
+      "registerSuccess": "Successful registration",
+      "registerSuccessMessage": "To complete registration, please verify your email address by clicking the link sent to your email.",
+      "registerFailed": "Registration failed",
+      "registerFailedEmailRateLimit": "Too many email requests. Please wait a few minutes and try again",
+      "loginFailed": "Login failed",
+      "loginFailedWrongCredentials": "Incorrect login information",
+      "loginFailedUnverifiedEmail": "You need to first verify your email address by clicking the link sent to your email.",
+      "loginSuccess": "Successful login",
+      "logoutFailed": "Logout failed",
+      "logoutSuccess": "Successful logout",
+      "logoutOthersSuccess": "You have successfully logged out from any other devices.",
+      "loggedRequired": "You must be logged in"
+    },
+    "validation": {
+      "titleRequired": "Title is required",
+      "usernameRequired": "Username is required",
+      "usernameMaxLength": "Username can be 30 characters or less",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "passwordConfirmRequired": "Password confirmation is required",
+      "passwordMismatch": "Passwords do not match",
+      "passwordMinLength": "Password must be at least 6 characters"
+    }
+  },
+  "googleAuth": {
+    "pageConfirmationTitle": "Signed with Google",
+    "pageConfirmationText": "You have successfully signed with Google account, you may continue to use the app.",
+    "googleEmailLocked": "For accounts signed in through Google, it is not possible to change the email address in this way.",
+    "failedSigning": "Failed to sign in with Google account."
+  },
+  "userEdit": {
+    "editButton": "Edit info",
+    "editSuccessfulTitle": "Changes saved.",
+    "editSuccessfulTextEmail": "You need to confirm the new email address by clicking on the link sent to you.",
+    "editFailedTitle": "Changes not saved",
+    "editFailedOverLimit": "Please try again a little bit later",
+    "editFailedSameData": "You have not changed anything",
+    "editEmailVerificationOne": "Confirmation link accepted. Please confirm the link sent to your other email address.",
+    "editEmailVerificationBoth": "Confirmation link accepted. Both email addresses are confirmed. You will be logged out on all devices. Please log in again with your new email address."
+  },
+  "authConfirmation": {
+    "title": "Email verified",
+    "text": "Your email has been verified successfully. You can now log in (in app if you've installed it) with your details."
+  },
+  "resetPasswordRequest": {
+    "requestTitle": "Link successfully sent to email.",
+    "requestMessage": "A password reset link has been sent to your email. You need to click on a link that will take you to a page where you can reset your password. The link is valid for 1 hour.",
+    "requestFailTitle": "Reset link not sent",
+    "requestFailMessage": "A password reset link has already been sent to your email recently. Please try again later.",
+    "pageTitle": "Password reset",
+    "successfulChange": "Password changed successfully",
+    "successfulChangeText": "You will be logged out from all devices, including this one. Please log in with new password.",
+    "failedChangeTitle": "Changing password failed",
+    "failedChangeText": "New password should be different from the old password. Please try again.",
+    "checkingLink": "The password reset link is being verified...",
+    "invalidOrExpiredLinkTitle": "Failed",
+    "invalidOrExpiredLinkText": "The password reset link has expired or is invalid. You can try again.",
+    "temporaryCheckFailedTitle": "Temporary issue",
+    "temporaryCheckFailedText": "We couldn't verify the password reset link right now. Check your internet connection and try again."
+  },
+  "aboutTitle": "Help",
+  "aboutAppInstall": {
+    "title": "Installing the application",
+    "text1": "For the best possible user experience, a faster and more stable application - it is necessary to install the application through the Google Chrome browser.",
+    "text2": "To install the application on your device, open the link in the Google Chrome browser and then click the {0} button. When a window appears asking for permission to install the application, you need to confirm (Confirm / Allow / Install). If you refuse, you can repeat the process.",
+    "text3": "By clicking the button below, you can copy the application link and then paste it into the Google Chrome browser.",
+    "buttonLabelCopy": "Copy link",
+    "buttonLabelCopied": "Link copied",
+    "text4": "If you don't have Chrome browser, you can install the application or add an icon/shortcut to the home screen using other browsers (Firefox, Opera, Edge, etc.). You need to click on the three dots/dashes to open the menu and find the \"Install\" option or something like \"Add application/shortcut to home screen\".",
+    "text5": "iOS: If the above procedure does not work on your iOS device, open the app in the Safari browser, tap the Share button, and select \"Add to Home Screen\".",
+    "text6": "You can certainly continue to use the application without installing it."
+  },
+  "aboutNotifications": {
+    "title": "Notifications",
+    "text1": "Like any other application, this application can send notifications to your device, but you must first approve this by clicking on the notification icon",
+    "text2": "then a window will appear asking for permission, you need to approve by clicking \"Allow\" or \"Approve\" or similar.",
+    "text3": "If notifications are rejected, you can reset the site settings in your browser: Settings > Privacy/Security > Site Settings > {0} > Reset permissions.",
+    "selectAppUrl": "select this app's url"
+  },
+  "aboutOffline": {
+    "title": "Offline mode",
+    "text1": "The application can work even when you don't have internet access, everything you do will be saved on your device and when you reconnect to the internet, the application will automatically sync with the cloud.",
+    "text2": "When you enter offline mode, an indicator will appear",
+    "text3": "which will signal this to you."
+  },
+  "aboutApp": {
+    "title": "About application",
+    "text1": "Developing PWAs and web applications by"
+  },
+  "privacyPolicy": {
+    "title": "Privacy policy"
+  },
+  "termsOfUse": {
+    "title": "Terms of Use"
+  }
+}
