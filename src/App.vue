@@ -28,7 +28,7 @@ onMounted(async () => {
 const metaDescription = computed(() => t("meta.description"));
 
 useHead({
-  title: "Webdak PWA",
+  title: "Repertoar",
   meta: [
     {
       name: "description",
@@ -37,14 +37,14 @@ useHead({
   ],
   link: [
     { rel: "icon", href: "/favicon.ico" },
-    { rel: "mask-icon", href: "/webdak.svg", color: "#0f1c0d" },
-    { rel: "apple-touch-icon", href: "/webdak_192.png", sizes: "192x192" },
+    { rel: "mask-icon", href: "/repertoar.svg", color: "#0f1c0d" },
+    { rel: "apple-touch-icon", href: "/repertoar_192.png", sizes: "192x192" },
     { rel: "canonical", href: "https://example.com/" },
   ],
 });
 
 useSeoMeta({
-  ogTitle: "Webdak PWA",
+  ogTitle: "Repertoar",
   ogDescription: metaDescription,
   ogImage: "/social_share.jpg",
 });

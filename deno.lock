@@ -1,0 +1,82 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@negrel/http-ece@0.7.0": "0.7.0",
+    "jsr:@negrel/webpush@0.5.0": "0.5.0",
+    "jsr:@std/bytes@1": "1.0.6",
+    "jsr:@std/encoding@1": "1.0.10"
+  },
+  "jsr": {
+    "@negrel/http-ece@0.7.0": {
+      "integrity": "068e61ba6f52da5454051a283cc19621607f8dd6e74d55c01bb365b8c6644076",
+      "dependencies": [
+        "jsr:@std/bytes",
+        "jsr:@std/encoding"
+      ]
+    },
+    "@negrel/webpush@0.5.0": {
+      "integrity": "919ed5bf4d676923667c5278093f36ffb2efe7fe2f155b6d32723ea3b73fa693",
+      "dependencies": [
+        "jsr:@negrel/http-ece",
+        "jsr:@std/bytes",
+        "jsr:@std/encoding"
+      ]
+    },
+    "@std/bytes@1.0.6": {
+      "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
+    },
+    "@std/encoding@1.0.10": {
+      "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
+    }
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@ark-ui/vue@^5.30.0",
+        "npm:@iconify-json/material-symbols-light@^1.2.53",
+        "npm:@iconify/vue@5",
+        "npm:@primeuix/themes@^2.0.3",
+        "npm:@primevue/auto-import-resolver@^4.5.4",
+        "npm:@primevue/forms@^4.5.4",
+        "npm:@supabase/supabase-js@^2.91.1",
+        "npm:@tailwindcss/vite@^4.1.18",
+        "npm:@tsconfig/node24@^24.0.3",
+        "npm:@types/node@^24.10.4",
+        "npm:@unhead/vue@^2.1.2",
+        "npm:@vee-validate/zod@^4.15.1",
+        "npm:@vitejs/plugin-vue@^6.0.3",
+        "npm:@vue/eslint-config-typescript@^14.6.0",
+        "npm:@vue/tsconfig@~0.8.1",
+        "npm:@vueuse/core@^14.1.0",
+        "npm:@vueuse/integrations@^14.1.0",
+        "npm:@vueuse/shared@^14.1.0",
+        "npm:autoprefixer@^10.4.23",
+        "npm:eslint-plugin-vue@~10.6.2",
+        "npm:eslint@^9.39.2",
+        "npm:jiti@^2.6.1",
+        "npm:npm-run-all2@^8.0.4",
+        "npm:pinia@^3.0.4",
+        "npm:postcss@^8.5.6",
+        "npm:primeicons@7",
+        "npm:primevue@^4.5.4",
+        "npm:sass@^1.97.2",
+        "npm:tailwindcss-primeui@~0.6.1",
+        "npm:typescript@~5.9.3",
+        "npm:universal-cookie@^7.2.2",
+        "npm:unplugin-auto-import@^20.3.0",
+        "npm:unplugin-icons@^23.0.1",
+        "npm:unplugin-vue-components@30",
+        "npm:unplugin-vue-router@~0.19.2",
+        "npm:vee-validate@^4.15.1",
+        "npm:vite-plugin-pwa@^1.2.0",
+        "npm:vite-plugin-vue-devtools@^8.0.5",
+        "npm:vite@^7.3.0",
+        "npm:vue-i18n@^11.2.8",
+        "npm:vue-router@^4.6.4",
+        "npm:vue-tsc@^3.2.2",
+        "npm:vue@^3.5.26",
+        "npm:zod@^3.25.76"
+      ]
+    }
+  }
+}

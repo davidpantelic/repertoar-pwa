@@ -1,6 +1,6 @@
 {
   "appInfo": {
-    "name": "Webdak PWA"
+    "name": "Repertoar"
   },
   "words": {
     "hello": "Hello World!",
@@ -36,7 +36,7 @@
     "started": "Started"
   },
   "meta": {
-    "description": "Reusable Vue3 PWA template by Webdak"
+    "description": "Songs playlist manager"
   },
   "toasts": {
     "upToDateToastGroup": {

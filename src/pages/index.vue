@@ -2,7 +2,7 @@
 
 <template>
   <main>
-    <h1>Webdak Vue PWA <span class="text-3xl">v36</span></h1>
+    <h1>Repertoar <span class="text-3xl">v36</span></h1>
     <p v-tooltip="$d(new Date('2026-01-14'), 'numeric')" class="w-fit">
       {{ $t("words.started") }}:
       <ArkFormatRelativeTime :value="new Date('2026-01-14')" />

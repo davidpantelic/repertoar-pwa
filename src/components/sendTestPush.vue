@@ -4,7 +4,7 @@ import { useUserSession } from "@/stores/userSession";
 const userSessionStore = useUserSession();
 const sendMessage = ref<string | null>(null);
 const pushTitle = ref("Test notification");
-const pushBody = ref("Hello from Webdak PWA");
+const pushBody = ref("Hello from Repertoar");
 const pushUrl = ref("/");
 const toast = useToast();
 const { t } = useI18n();

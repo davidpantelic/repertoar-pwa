@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 import type { AppRecord, QueueItem } from "@/types";
 
-const DB_NAME = "webdak-pwa";
+const DB_NAME = "repertoar-pwa";
 const DB_VERSION = 2;
 const STORE_NAME = "records";
 const QUEUE_STORE = "queue";

@@ -1,6 +1,6 @@
 {
   "appInfo": {
-    "name": "Webdak PWA"
+    "name": "Repertoar"
   },
   "words": {
     "hello": "Zdravo Svete!",
@@ -36,7 +36,7 @@
     "started": "Pokrenuto"
   },
   "meta": {
-    "description": "Webdak Vue3 PWA šablon"
+    "description": "Menadžer za plejliste pesama"
   },
   "toasts": {
     "upToDateToastGroup": {

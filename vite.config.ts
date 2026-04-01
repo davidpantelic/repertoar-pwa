@@ -22,9 +22,9 @@ export default defineConfig({
       filename: "sw.ts",
       includeAssets: ["favicon.ico", "robots.txt"],
       manifest: {
-        name: "Webdak PWA",
-        short_name: "WebdakPWA",
-        description: "Reusable Vue3 PWA template by Webdak",
+        name: "Repertoar",
+        short_name: "Repertoar",
+        description: "Songs playlist manager",
         theme_color: "#0f1c0d",
         background_color: "#0f1c0d",
         orientation: "portrait",
@@ -71,28 +71,28 @@ export default defineConfig({
         // ],
         icons: [
           {
-            src: "/webdak_192.png",
+            src: "/repertoar_192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/webdak_384.png",
+            src: "/repertoar_384.png",
             sizes: "384x384",
             type: "image/png",
           },
           {
-            src: "/webdak_512.png",
+            src: "/repertoar_512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "/webdak_512_maskable.png",
+            src: "/repertoar_512_maskable.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
           },
           {
-            src: "/webdak_1024.png",
+            src: "/repertoar_1024.png",
             sizes: "1024x1024",
             type: "image/png",
           },

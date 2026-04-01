@@ -12,7 +12,7 @@ const {
 } = useInstallPrompt();
 useInstallPrompt();
 
-const cookies = useCookies(["webdak-pwa-cookie"]);
+const cookies = useCookies(["repertoar-pwa-cookie"]);
 
 const isInstallToastVisible = ref(false);
 const showInstallButton = ref(false);
@@ -80,7 +80,7 @@ onMounted(() => {
     sessionStorage.getItem("install_button_clicked") === "1";
 
   hideInstallButton.value =
-    cookies.get("webdak-pwa-cookie") === "install-button-clicked";
+    cookies.get("repertoar-pwa-cookie") === "install-button-clicked";
   setTimeout(() => {
     waitAfterMounted.value = true;
   }, 500);
@@ -103,7 +103,7 @@ const copyAppLink = async () => {
 const hideInstallButtonManually = () => {
   hideInstallButton.value = true;
   cookies.set(
-    "webdak-pwa-cookie",
+    "repertoar-pwa-cookie",
     "install-button-clicked",
     { maxAge: 3600 }, // s
   );

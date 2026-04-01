@@ -14,7 +14,7 @@ declare let self: ServiceWorkerGlobalScope & {
   }>;
 };
 
-const BADGE_DB = "webdak-pwa-badge";
+const BADGE_DB = "repertoar-pwa-badge";
 const BADGE_STORE = "meta";
 const BADGE_KEY = "count";
 
@@ -162,8 +162,8 @@ self.addEventListener("push", (event) => {
       const title = data.title ?? "Notification";
       const options: NotificationOptions = {
         body: data.body ?? "",
-        icon: data.icon ?? "/webdak_transparent_192.png",
-        badge: data.badge ?? "/webdak_badge.png",
+        icon: data.icon ?? "/repertoar_transparent_192.png",
+        badge: data.badge ?? "/repertoar_badge.png",
         data: {
           url: data.url ?? "/",
         },
