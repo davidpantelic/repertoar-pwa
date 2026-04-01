@@ -14,6 +14,12 @@ import IconsResolver from "unplugin-icons/resolver";
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    port: 5174,
+  },
+  preview: {
+    port: 5174,
+  },
   plugins: [
     VitePWA({
       injectRegister: "auto",

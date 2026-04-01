@@ -105,7 +105,7 @@ const numberFormats = {
 } as const;
 
 const getInitialLocale = () => {
-  const stored = localStorage.getItem("selected_locale");
+  const stored = localStorage.getItem("repertoar_selected_locale");
   return stored || "sr";
 };
 

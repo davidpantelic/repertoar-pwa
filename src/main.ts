@@ -29,7 +29,7 @@ watch(
       : (i18n.global.locale as string),
   (locale) => {
     document.documentElement.lang = String(locale ?? "en");
-    localStorage.setItem("selected_locale", String(locale));
+    localStorage.setItem("repertoar_selected_locale", String(locale));
   },
   { immediate: true },
 );

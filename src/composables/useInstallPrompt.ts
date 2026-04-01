@@ -1,7 +1,7 @@
 import type { BIPEvent } from "@/types";
 
-const DISMISS_KEY = "pwa_install_dismissed_until";
-const INSTALLED_KEY = "pwa_is_installed";
+const DISMISS_KEY = "repertoar_pwa_install_dismissed_until";
+const INSTALLED_KEY = "repertoar_pwa_is_installed";
 // const installPromptDelayHours = 0.002;
 const installPromptDelayHours = 2;
 

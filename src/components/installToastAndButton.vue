@@ -52,7 +52,7 @@ watchEffect(() => {
 
 async function onInstallClick() {
   installButtonClicked.value = true;
-  sessionStorage.setItem("install_button_clicked", "1");
+  sessionStorage.setItem("repertoar_install_button_clicked", "1");
 
   if (!canPromptInstall.value) {
     installDialogVisible.value = true;
@@ -77,10 +77,10 @@ const onCancelClick = () => {
 
 onMounted(() => {
   installButtonClicked.value =
-    sessionStorage.getItem("install_button_clicked") === "1";
+    sessionStorage.getItem("repertoar_install_button_clicked") === "1";
 
   hideInstallButton.value =
-    cookies.get("repertoar-pwa-cookie") === "install-button-clicked";
+    cookies.get("repertoar-pwa-cookie") === "repertoar-install-button-clicked";
   setTimeout(() => {
     waitAfterMounted.value = true;
   }, 500);
@@ -104,7 +104,7 @@ const hideInstallButtonManually = () => {
   hideInstallButton.value = true;
   cookies.set(
     "repertoar-pwa-cookie",
-    "install-button-clicked",
+    "repertoar-install-button-clicked",
     { maxAge: 3600 }, // s
   );
 };

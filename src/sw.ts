@@ -113,7 +113,7 @@ self.addEventListener("message", (event) => {
 registerRoute(
   ({ request }) => request.destination === "image",
   new CacheFirst({
-    cacheName: "images",
+    cacheName: "repertoar-images",
     plugins: [
       new ExpirationPlugin({
         maxEntries: 200,
@@ -133,7 +133,7 @@ if (supabaseOrigin) {
       // url.pathname.startsWith("/storage/v1/object/public/"),
       url.pathname.startsWith("/rest/v1/"),
     new NetworkFirst({
-      cacheName: "supabase",
+      cacheName: "repertoar-supabase",
       networkTimeoutSeconds: 5,
       plugins: [
         new ExpirationPlugin({
