@@ -2,6 +2,7 @@
 import { useUserSession } from "../stores/userSession";
 
 const userSessionStore = useUserSession();
+const toast = useToast();
 
 const { t } = useI18n();
 const editProfileForm = ref(false);
@@ -10,6 +11,27 @@ const avatarUrl = computed(() => {
   const metadata = userSessionStore.session?.user?.user_metadata ?? {};
   return metadata.avatar_url ?? metadata.picture ?? metadata.photo_url ?? null;
 });
+
+const isGoogleUser = computed(() => {
+  const user = userSessionStore.session?.user as any;
+  if (!user) return false;
+  const providers = (user.identities ?? []).map(
+    (identity: any) => identity.provider,
+  );
+  return (
+    providers.includes("google") || user.app_metadata?.provider === "google"
+  );
+});
+
+const showToast = () => {
+  toast.removeGroup("resetPasswordRequestToastGroup");
+  toast.add({
+    group: "resetPasswordRequestToastGroup",
+    severity: "info",
+    detail: t("googleAuth.googleEmailLocked"),
+    life: 4000,
+  });
+};
 </script>
 
 <template>
@@ -57,6 +79,8 @@ const avatarUrl = computed(() => {
         <Button
           type="button"
           severity="secondary"
+          :disabled="isGoogleUser"
+          @pointerdown="showToast"
           :label="t('words.resetPassword')"
           :icon="
             userSessionStore.isResetPasswordRequestLoading

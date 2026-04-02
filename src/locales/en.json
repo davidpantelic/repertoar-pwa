@@ -214,7 +214,7 @@
   "googleAuth": {
     "pageConfirmationTitle": "Signed with Google",
     "pageConfirmationText": "You have successfully signed with Google account, you may continue to use the app.",
-    "googleEmailLocked": "For accounts signed in through Google, it is not possible to change the email address in this way.",
+    "googleEmailLocked": "For accounts signed in through Google, it is not possible to change the password or email address in this way.",
     "failedSigning": "Failed to sign in with Google account."
   },
   "userEdit": {

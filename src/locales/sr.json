@@ -218,7 +218,7 @@
   "googleAuth": {
     "pageConfirmationTitle": "Prijavljeni ste sa Google nalogom",
     "pageConfirmationText": "Uspešno ste se prijavili sa Google nalogom, možete nastaviti da koristite aplikaciju.",
-    "googleEmailLocked": "Za naloge prijavljene preko Google-a, nije moguće promeniti email adresu na ovaj način.",
+    "googleEmailLocked": "Za naloge prijavljene preko Google-a, nije moguće promeniti lozinku ili email adresu na ovaj način.",
     "failedSigning": "Prijavljivanje sa Google nalogom nije uspelo."
   },
   "userEdit": {
