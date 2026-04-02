@@ -4,6 +4,7 @@
   },
   "words": {
     "hello": "Hello World!",
+    "welcome": "Welcome",
     "appName": "App name",
     "lastUpdate": "Last updated",
     "contact": "Contact",

@@ -16,6 +16,7 @@ export const useUserSession = defineStore("userSession", () => {
   const clickCounter = ref(0);
   const loadingAllUsers = ref(false);
   const allUsers = ref<ChatProfile[]>([]);
+  const router = useRouter();
 
   function isSessionAlreadyGone(err: any) {
     const code = err?.code ?? err?.error?.code;
@@ -241,6 +242,7 @@ export const useUserSession = defineStore("userSession", () => {
         summary: t("form.message.loginSuccess"),
         life: 3000,
       });
+      // router.push({ path: "/" });
       return true;
 
       // await checkSession();
@@ -298,6 +300,7 @@ export const useUserSession = defineStore("userSession", () => {
               life: 3000,
             });
           }
+          router.push({ path: "/login" });
           return;
         }
 
@@ -343,6 +346,7 @@ export const useUserSession = defineStore("userSession", () => {
           summary: t("form.message.logoutSuccess"),
           life: 3000,
         });
+        router.push({ path: "/login" });
       }
     } catch (err: any) {
       // Same: treat missing session as success
@@ -358,6 +362,7 @@ export const useUserSession = defineStore("userSession", () => {
             life: 3000,
           });
         }
+        router.push({ path: "/login" });
         return;
       }
 

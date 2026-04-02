@@ -7,13 +7,14 @@ const visible = ref(false);
     <div class="flex flex-col gap-3 py-1">
       <ColorModeButton />
 
-      <RouterLink to="/chat" @click="visible = false">
+      <!-- <RouterLink to="/chat" @click="visible = false">
         <Button severity="secondary" icon="pi pi-comments" size="large" />
-      </RouterLink>
+      </RouterLink> -->
+
       <ScreenWakeLock />
-      <CheckUpdateButton />
       <RefreshButton />
-      <EnablePushButton />
+      <CheckUpdateButton />
+      <!-- <EnablePushButton /> -->
       <AboutApp @page-link="visible = false" />
       <LocaleChange />
     </div>

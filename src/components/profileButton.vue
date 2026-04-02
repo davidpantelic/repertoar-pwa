@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useUserSession } from "../stores/userSession";
+import { useMainStore } from "../stores/mainStore";
 
 const { t, locale } = useI18n();
-const profileDialogShow = ref<boolean>(false);
 const userSessionStore = useUserSession();
+const mainStore = useMainStore();
 
 const avatarUrl = computed(() => {
   const metadata = userSessionStore.session?.user?.user_metadata ?? {};
@@ -30,7 +31,7 @@ watch(
   (newSession, oldSession) => {
     // Close dialog only when transitioning from logged-out to logged-in.
     if (!oldSession && newSession) {
-      profileDialogShow.value = false;
+      mainStore.profileDialogShow = false;
     }
   },
 );
@@ -43,17 +44,18 @@ watch(
     size="large"
     class="p-0!"
     :variant="avatarUrl ? 'text' : 'simple'"
-    @click="profileDialogShow = true"
+    @click="mainStore.profileDialogShow = true"
   >
     <Avatar
       v-if="userSessionStore.session && avatarUrl"
       :image="avatarUrl || undefined"
+      class="[&>img]:object-contain"
       size="large"
     />
   </Button>
 
   <Dialog
-    v-model:visible="profileDialogShow"
+    v-model:visible="mainStore.profileDialogShow"
     modal
     :header="$t('words.profile')"
     class="w-sm max-w-full mt-12!"
@@ -88,7 +90,7 @@ watch(
             to="/privacy"
             class="p-0! w-fit hover:underline"
             :class="slotProps.class"
-            @click="profileDialogShow = false"
+            @click="mainStore.profileDialogShow = false"
           >
             {{ $t("privacyPolicy.title") }}
           </RouterLink>
@@ -98,7 +100,7 @@ watch(
             to="/terms"
             class="p-0! w-fit hover:underline"
             :class="slotProps.class"
-            @click="profileDialogShow = false"
+            @click="mainStore.profileDialogShow = false"
           >
             {{ $t("termsOfUse.title") }}
           </RouterLink>
@@ -112,7 +114,7 @@ watch(
         size="small"
         icon="pi pi-times"
         variant="text"
-        @click="profileDialogShow = false"
+        @click="mainStore.profileDialogShow = false"
       />
     </template>
   </Dialog>

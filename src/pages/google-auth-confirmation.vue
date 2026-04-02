@@ -12,6 +12,7 @@ onMounted(() => {
   const error = hashParams.get("error_description");
 
   setTimeout(() => {
+    console.log("setTimeout");
     router.push({ path: "/" });
 
     if (accessToken && providerToken && !error) {

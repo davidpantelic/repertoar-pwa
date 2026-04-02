@@ -8,7 +8,7 @@ const { locale } = useI18n();
     <br />
     <p>
       {{ $t("words.lastUpdate") }}:
-      <b>{{ $d(new Date("2026-02-25"), "numeric") }}</b>
+      <b>{{ $d(new Date("2026-04-01"), "numeric") }}</b>
     </p>
     <p>
       {{ $t("words.appName") }}: <strong>{{ $t("appInfo.name") }}</strong>

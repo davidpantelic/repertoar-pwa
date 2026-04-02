@@ -58,6 +58,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/login': RouteRecordInfo<
+      '/login',
+      '/login',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/password-reset': RouteRecordInfo<
       '/password-reset',
       '/password-reset',
@@ -126,6 +133,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/google-auth-confirmation.vue': {
       routes:
         | '/google-auth-confirmation'
+      views:
+        | never
+    }
+    'src/pages/login.vue': {
+      routes:
+        | '/login'
       views:
         | never
     }
