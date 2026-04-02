@@ -15,7 +15,7 @@ const openProfileDialog = () => {
       <h1>{{ $t("words.welcome") }}</h1>
 
       <p class="mt-2">
-        {{ $t("words.appDescription") }}
+        {{ $t("appInfo.description") }}
       </p>
 
       <p class="mt-2">

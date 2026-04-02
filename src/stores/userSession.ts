@@ -633,6 +633,16 @@ export const useUserSession = defineStore("userSession", () => {
     }
   };
 
+  const getSubscriptionPlan = async () => {
+    const { data, error } = await supabase
+      .from("subscription_plan")
+      .select("*")
+      .single();
+
+    if (error) throw error;
+    return data;
+  };
+
   return {
     isLoading,
     isResetPasswordRequestLoading,
@@ -655,5 +665,6 @@ export const useUserSession = defineStore("userSession", () => {
     clickCounter,
     getAllUsers,
     allUsers,
+    getSubscriptionPlan,
   };
 });

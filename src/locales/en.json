@@ -1,15 +1,19 @@
 {
   "appInfo": {
-    "name": "Repertoar"
+    "name": "Repertoar",
+    "description": "Your personal songbook for gigs, rehearsals, and special occasions. Store songs, create playlists, and follow your Repertoire step by step, even offline."
   },
   "welcomePage": {
     "loginText": "Sign in to your account (easiest with your Google account) by clicking the button below."
+  },
+  "subscription": {
+    "trialEnd": "Trial period has expired.",
+    "contactMe": "Contact Webdak to continue using the app."
   },
   "words": {
     "hello": "Hello World!",
     "welcome": "Welcome",
     "appName": "App name",
-    "appDescription": "Your personal songbook for gigs, rehearsals, and special occasions. Store songs, create playlists, and follow your Repertoire step by step, even offline.",
     "lastUpdate": "Last updated",
     "contact": "Contact",
     "home": "Home",

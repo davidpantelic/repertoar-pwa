@@ -1,15 +1,19 @@
 {
   "appInfo": {
-    "name": "Repertoar"
+    "name": "Repertoar",
+    "description": "Vaša lična zbirka pesama za nastupe, probe i posebne prilike. Čuvajte pesme, pravite liste i pratite Repertoar korak po korak, čak i bez interneta."
   },
   "welcomePage": {
     "loginText": "Prijavite se na vaš korisnički nalog (najlakše uraditi sa Google nalogom) klikom na dugme ispod."
+  },
+  "subscription": {
+    "trialEnd": "Probni period je istekao.",
+    "contactMe": "Kontaktirajte Webdak kako biste nastavili da koristite aplikaciju."
   },
   "words": {
     "hello": "Zdravo Svete!",
     "welcome": "Dobrodošli",
     "appName": "Ime aplikacije",
-    "appDescription": "Vaša lična zbirka pesama za nastupe, probe i posebne prilike. Čuvajte pesme, pravite liste i pratite Repertoar korak po korak, čak i bez interneta.",
     "lastUpdate": "Poslednje ažuriranje",
     "contact": "Kontakt",
     "home": "Početna",
