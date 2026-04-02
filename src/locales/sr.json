@@ -2,10 +2,14 @@
   "appInfo": {
     "name": "Repertoar"
   },
+  "welcomePage": {
+    "loginText": "Prijavite se na vaš korisnički nalog (najlakše uraditi sa Google nalogom) klikom na dugme ispod."
+  },
   "words": {
     "hello": "Zdravo Svete!",
     "welcome": "Dobrodošli",
     "appName": "Ime aplikacije",
+    "appDescription": "Vaša lična zbirka pesama za nastupe, probe i posebne prilike. Čuvajte pesme, pravite liste i pratite Repertoar korak po korak, čak i bez interneta.",
     "lastUpdate": "Poslednje ažuriranje",
     "contact": "Kontakt",
     "home": "Početna",
@@ -34,7 +38,12 @@
     "chat": "Razgovor",
     "resetPassword": "Resetujte lozinku",
     "or": "ili",
-    "started": "Pokrenuto"
+    "started": "Pokrenuto",
+    "add": "Dodaj",
+    "songs": "Pesme",
+    "playlists": "Plejliste",
+    "addSong": "Dodaj pesmu",
+    "addPlaylist": "Dodaj plejlistu"
   },
   "meta": {
     "description": "Menadžer za plejliste pesama"

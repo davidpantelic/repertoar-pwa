@@ -50,3 +50,10 @@
     height: 100%;
   }
 }
+
+.dark-mode {
+  .p-togglebutton {
+    background-color: var(--p-surface-900) !important;
+    border: none !important;
+  }
+}

@@ -2,10 +2,14 @@
   "appInfo": {
     "name": "Repertoar"
   },
+  "welcomePage": {
+    "loginText": "Sign in to your account (easiest with your Google account) by clicking the button below."
+  },
   "words": {
     "hello": "Hello World!",
     "welcome": "Welcome",
     "appName": "App name",
+    "appDescription": "Your personal songbook for gigs, rehearsals, and special occasions. Store songs, create playlists, and follow your Repertoire step by step, even offline.",
     "lastUpdate": "Last updated",
     "contact": "Contact",
     "home": "Home",
@@ -34,7 +38,12 @@
     "chat": "Chat",
     "resetPassword": "Reset password",
     "or": "or",
-    "started": "Started"
+    "started": "Started",
+    "add": "Add",
+    "songs": "Songs",
+    "playlists": "Playlists",
+    "addSong": "Add song",
+    "addPlaylist": "Add playlist"
   },
   "meta": {
     "description": "Songs playlist manager"

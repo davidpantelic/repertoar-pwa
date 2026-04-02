@@ -93,3 +93,5 @@ export type ChatMessage = {
   body: string;
   created_at: string;
 };
+
+export type WorkView = "songs-view" | "playlists-view";

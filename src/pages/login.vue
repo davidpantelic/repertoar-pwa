@@ -11,15 +11,19 @@ const openProfileDialog = () => {
 
 <template>
   <main class="text-center">
-    <div class="max-w-lg mx-auto">
+    <div class="max-w-lg md:max-w-xl mx-auto">
       <h1>{{ $t("words.welcome") }}</h1>
-      <br />
-      <p>
-        Da biste koristili Repertoar prijavite se na vaš korisnički nalog
-        (najlakše uraditi sa Google nalogom) klikom na dugme ispod.
+
+      <p class="mt-2">
+        {{ $t("words.appDescription") }}
       </p>
-      <p>Probni period od 10 dana vas čeka!</p>
+
+      <p class="mt-2">
+        {{ $t("welcomePage.loginText") }}
+      </p>
+
       <br />
+
       <Button
         type="submit"
         icon="pi pi-sign-in"
