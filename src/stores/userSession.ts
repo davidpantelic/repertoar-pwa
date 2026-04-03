@@ -16,7 +16,149 @@ export const useUserSession = defineStore("userSession", () => {
   const clickCounter = ref(0);
   const loadingAllUsers = ref(false);
   const allUsers = ref<ChatProfile[]>([]);
+  const currentProfile = ref<ChatProfile | null>(null);
   const router = useRouter();
+
+  const getUserDisplayName = (user: any) => {
+    const metadata = user?.user_metadata ?? {};
+    return (
+      metadata.display_name ?? metadata.full_name ?? metadata.name ?? "User"
+    );
+  };
+
+  const getUserAvatarSource = (user: any) => {
+    const metadata = user?.user_metadata ?? {};
+    return (
+      metadata.avatar_url ?? metadata.picture ?? metadata.photo_url ?? null
+    );
+  };
+
+  const isGoogleUser = (user: any) => {
+    if (!user) return false;
+
+    const providers = (user.identities ?? []).map(
+      (identity: any) => identity.provider,
+    );
+
+    return (
+      providers.includes("google") || user.app_metadata?.provider === "google"
+    );
+  };
+
+  const isStoredAvatarUrl = (avatarUrl?: string | null) =>
+    Boolean(avatarUrl?.includes("/storage/v1/object/public/avatars/"));
+
+  const syncCurrentProfile = async (
+    user: any,
+    overrides?: Partial<ChatProfile> & { lang?: string | null },
+  ) => {
+    if (!user?.id) return null;
+
+    const profilePayload = {
+      id: user.id,
+      email: overrides?.email ?? user.email ?? null,
+      display_name: overrides?.display_name ?? getUserDisplayName(user),
+      avatar_url:
+        overrides?.avatar_url ??
+        currentProfile.value?.avatar_url ??
+        getUserAvatarSource(user),
+      lang: overrides?.lang ?? locale.value,
+    };
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .upsert(profilePayload, { onConflict: "id" })
+      .select("id, email, display_name, avatar_url")
+      .single();
+
+    if (error) throw error;
+
+    currentProfile.value = data;
+    return data;
+  };
+
+  const loadCurrentProfile = async () => {
+    const userId = session.value?.user?.id;
+    if (!userId) {
+      currentProfile.value = null;
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("id, email, display_name, avatar_url")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    currentProfile.value = data ?? null;
+    return currentProfile.value;
+  };
+
+  const cacheCurrentUserAvatar = async (user: any) => {
+    if (!user?.id || !isGoogleUser(user)) return null;
+
+    const sourceUrl = getUserAvatarSource(user);
+    if (!sourceUrl) return currentProfile.value?.avatar_url ?? null;
+
+    if (isStoredAvatarUrl(currentProfile.value?.avatar_url)) {
+      return currentProfile.value?.avatar_url ?? null;
+    }
+
+    const response = await fetch(sourceUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch avatar: ${response.status}`);
+    }
+
+    const avatarBlob = await response.blob();
+    const avatarContentType = avatarBlob.type || "image/jpeg";
+    const avatarExtension = avatarContentType.includes("png")
+      ? "png"
+      : avatarContentType.includes("webp")
+        ? "webp"
+        : "jpg";
+    const avatarPath = `${user.id}/avatar.${avatarExtension}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(avatarPath, avatarBlob, {
+        upsert: true,
+        contentType: avatarContentType,
+      });
+
+    if (uploadError) throw uploadError;
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("avatars").getPublicUrl(avatarPath);
+
+    await syncCurrentProfile(user, { avatar_url: publicUrl });
+    return publicUrl;
+  };
+
+  const hydrateCurrentUserProfile = async (user: any) => {
+    if (!user?.id) {
+      currentProfile.value = null;
+      return null;
+    }
+
+    await loadCurrentProfile();
+
+    if (!currentProfile.value) {
+      await syncCurrentProfile(user);
+    }
+
+    if (isGoogleUser(user)) {
+      try {
+        await cacheCurrentUserAvatar(user);
+      } catch (error) {
+        console.warn("Failed to cache Google avatar", error);
+      }
+    }
+
+    return currentProfile.value;
+  };
 
   function isSessionAlreadyGone(err: any) {
     const code = err?.code ?? err?.error?.code;
@@ -63,10 +205,12 @@ export const useUserSession = defineStore("userSession", () => {
 
       session.value = data.session ?? null;
       sessionError.value = null;
+      await hydrateCurrentUserProfile(session.value?.user);
     } catch (err) {
       console.error(err);
       session.value = null;
       sessionError.value = err;
+      currentProfile.value = null;
     }
   };
 
@@ -291,6 +435,7 @@ export const useUserSession = defineStore("userSession", () => {
         if (isSessionAlreadyGone(error)) {
           session.value = null;
           sessionError.value = null;
+          currentProfile.value = null;
 
           if (!silent) {
             toast.add({
@@ -337,6 +482,7 @@ export const useUserSession = defineStore("userSession", () => {
       } else {
         session.value = null;
         sessionError.value = null;
+        currentProfile.value = null;
       }
 
       if (!silent) {
@@ -353,6 +499,7 @@ export const useUserSession = defineStore("userSession", () => {
       if (isSessionAlreadyGone(err)) {
         session.value = null;
         sessionError.value = null;
+        currentProfile.value = null;
 
         if (!silent) {
           toast.add({
@@ -393,12 +540,14 @@ export const useUserSession = defineStore("userSession", () => {
         stopForceLogoutListener();
         session.value = null;
         sessionError.value = null;
+        currentProfile.value = null;
         return;
       }
 
       session.value = newSession;
       sessionError.value = null;
       startForceLogoutListener(newSession.user.id);
+      void hydrateCurrentUserProfile(newSession.user);
 
       // optional: keep your existing background validation
       setTimeout(() => {
@@ -487,12 +636,11 @@ export const useUserSession = defineStore("userSession", () => {
         .upsert(
           {
             id: user.id,
-            email: user.email,
+            email: nextEmail,
             display_name: nextUsername,
             avatar_url:
-              metadata.avatar_url ??
-              metadata.picture ??
-              metadata.photo_url ??
+              currentProfile.value?.avatar_url ??
+              getUserAvatarSource(user) ??
               null,
             lang: locale.value,
           },
@@ -503,6 +651,16 @@ export const useUserSession = defineStore("userSession", () => {
           "Profile sync failed after auth.updateUser",
           profileSyncError,
         );
+      } else {
+        currentProfile.value = {
+          id: user.id,
+          email: nextEmail,
+          display_name: nextUsername,
+          avatar_url:
+            currentProfile.value?.avatar_url ??
+            getUserAvatarSource(user) ??
+            null,
+        };
       }
 
       toast.add({
@@ -665,6 +823,8 @@ export const useUserSession = defineStore("userSession", () => {
     clickCounter,
     getAllUsers,
     allUsers,
+    currentProfile,
+    loadCurrentProfile,
     getSubscriptionPlan,
   };
 });

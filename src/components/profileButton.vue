@@ -5,10 +5,17 @@ import { useMainStore } from "../stores/mainStore";
 const { t, locale } = useI18n();
 const userSessionStore = useUserSession();
 const mainStore = useMainStore();
+const avatarFailed = ref(false);
 
 const avatarUrl = computed(() => {
-  const metadata = userSessionStore.session?.user?.user_metadata ?? {};
-  return metadata.avatar_url ?? metadata.picture ?? metadata.photo_url ?? null;
+  return userSessionStore.currentProfile?.avatar_url ?? null;
+});
+
+const avatarLabel = computed(() => {
+  const displayName = userSessionStore.currentProfile?.display_name?.trim();
+  const email = userSessionStore.currentProfile?.email?.trim();
+  const base = displayName || email || "U";
+  return base.charAt(0).toUpperCase();
 });
 
 const userForms = computed(() => {
@@ -27,6 +34,13 @@ watch(
 );
 
 watch(
+  () => avatarUrl.value,
+  () => {
+    avatarFailed.value = false;
+  },
+);
+
+watch(
   () => userSessionStore.session,
   (newSession, oldSession) => {
     // Close dialog only when transitioning from logged-out to logged-in.
@@ -39,18 +53,20 @@ watch(
 
 <template>
   <Button
-    :icon="userSessionStore.session ? 'pi pi-user' : 'pi pi-sign-in'"
+    :icon="!userSessionStore.session ? 'pi pi-sign-in' : undefined"
     severity="secondary"
     size="large"
     class="p-0!"
-    :variant="avatarUrl ? 'text' : 'simple'"
+    :variant="userSessionStore.session ? 'text' : 'simple'"
     @click="mainStore.profileDialogShow = true"
   >
     <Avatar
-      v-if="userSessionStore.session && avatarUrl"
-      :image="avatarUrl || undefined"
+      v-if="userSessionStore.session"
+      :image="avatarUrl && !avatarFailed ? avatarUrl : undefined"
+      :label="!avatarUrl || avatarFailed ? avatarLabel : undefined"
       class="[&>img]:object-contain"
       size="large"
+      @error="avatarFailed = true"
     />
   </Button>
 

@@ -6,10 +6,17 @@ const toast = useToast();
 
 const { t } = useI18n();
 const editProfileForm = ref(false);
+const avatarFailed = ref(false);
 
 const avatarUrl = computed(() => {
-  const metadata = userSessionStore.session?.user?.user_metadata ?? {};
-  return metadata.avatar_url ?? metadata.picture ?? metadata.photo_url ?? null;
+  return userSessionStore.currentProfile?.avatar_url ?? null;
+});
+
+const avatarLabel = computed(() => {
+  const displayName = userSessionStore.currentProfile?.display_name?.trim();
+  const email = userSessionStore.currentProfile?.email?.trim();
+  const base = displayName || email || "U";
+  return base.charAt(0).toUpperCase();
 });
 
 const isGoogleUser = computed(() => {
@@ -32,25 +39,37 @@ const showToast = () => {
     life: 4000,
   });
 };
+
+watch(
+  () => avatarUrl.value,
+  () => {
+    avatarFailed.value = false;
+  },
+);
 </script>
 
 <template>
   <div class="flex flex-col gap-3">
     <div class="font-medium text-center">
       <Avatar
-        v-if="avatarUrl"
-        :image="avatarUrl || undefined"
+        :image="avatarUrl && !avatarFailed ? avatarUrl : undefined"
+        :label="!avatarUrl || avatarFailed ? avatarLabel : undefined"
         size="xlarge"
         class="rounded-sm overflow-hidden"
+        @error="avatarFailed = true"
       />
       <h3>
         {{
+          userSessionStore.currentProfile?.display_name ??
           userSessionStore.session.user.user_metadata.full_name ??
           userSessionStore.session.user.user_metadata.display_name
         }}
       </h3>
       <h3>
-        {{ userSessionStore.session.user.email }}
+        {{
+          userSessionStore.currentProfile?.email ??
+          userSessionStore.session.user.email
+        }}
       </h3>
     </div>
     <div class="flex flex-col gap-4">
