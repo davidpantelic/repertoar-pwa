@@ -10,6 +10,15 @@
     "trialEnd": "Trial period has expired.",
     "contactMe": "Contact Webdak to continue using the app."
   },
+  "songs": {
+    "noSongs": "No songs added",
+    "validation": {
+      "missingName": "Song name is required",
+      "tooLongName": "Song name can be 30 characters or less",
+      "tooLongArtist": "Song artist name can be 30 characters or less",
+      "tooLongNote": "Note can be 1000 characters or less"
+    }
+  },
   "words": {
     "hello": "Hello World!",
     "welcome": "Welcome",
@@ -47,12 +56,21 @@
     "songs": "Songs",
     "playlists": "Playlists",
     "addSong": "Add song",
-    "addPlaylist": "Add playlist"
+    "addPlaylist": "Add playlist",
+    "name": "Name",
+    "artist": "Artist",
+    "note": "Note"
   },
   "meta": {
     "description": "Songs playlist manager"
   },
   "toasts": {
+    "global": {
+      "error": {
+        "summary": "Error",
+        "detail": "Something went wrong!"
+      }
+    },
     "upToDateToastGroup": {
       "success": {
         "summary": "Application is updated",

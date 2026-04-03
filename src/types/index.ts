@@ -95,3 +95,20 @@ export type ChatMessage = {
 };
 
 export type WorkView = "songs-view" | "playlists-view";
+
+export type Song = {
+  id: string;
+  user_id: string;
+  name: string;
+  artist: string | null;
+  note: string | null;
+  deleted_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type SongUpsertPayload = {
+  name: string;
+  artist?: string | null;
+  note?: string | null;
+};

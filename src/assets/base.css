@@ -48,6 +48,11 @@
   --p-card-background: var(--card-layer-a);
 }
 
+.p-textarea {
+  min-height: 100px;
+  max-height: 300px;
+}
+
 html,
 body {
   /* prevent “drag to refresh” / bounce */

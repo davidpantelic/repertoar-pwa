@@ -10,6 +10,15 @@
     "trialEnd": "Probni period je istekao.",
     "contactMe": "Kontaktirajte Webdak kako biste nastavili da koristite aplikaciju."
   },
+  "songs": {
+    "noSongs": "Nema dodatih pesama",
+    "validation": {
+      "missingName": "Ime pesme je obavezno",
+      "tooLongName": "Ime pesme može imati 60 karaktera ili manje",
+      "tooLongArtist": "Ime izvođača pesme može imati 30 karaktera ili manje",
+      "tooLongNote": "Beleška može imati 1000 karaktera ili manje"
+    }
+  },
   "words": {
     "hello": "Zdravo Svete!",
     "welcome": "Dobrodošli",
@@ -47,7 +56,10 @@
     "songs": "Pesme",
     "playlists": "Plejliste",
     "addSong": "Dodaj pesmu",
-    "addPlaylist": "Dodaj plejlistu"
+    "addPlaylist": "Dodaj plejlistu",
+    "name": "Ime",
+    "artist": "Izvođač",
+    "note": "Beleška"
   },
   "meta": {
     "description": "Menadžer za plejliste pesama"
