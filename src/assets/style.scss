@@ -57,3 +57,30 @@
     border: none !important;
   }
 }
+
+.songs-list {
+  .p-card-body {
+    padding: 10px 15px;
+    @media (min-width: 600px) {
+      font-size: 15px;
+    }
+  }
+}
+
+.song-delete-confirm-dialog {
+  --global-dialog-padding: 10px;
+  max-width: 550px;
+  .p-dialog-header {
+    padding: var(--global-dialog-padding);
+  }
+  .p-dialog-footer {
+    padding-inline: var(--global-dialog-padding);
+    padding-bottom: var(--global-dialog-padding);
+  }
+}
+
+.song-view-dialog {
+  .p-dialog-header {
+    padding: 10px;
+  }
+}

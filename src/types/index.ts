@@ -112,3 +112,10 @@ export type SongUpsertPayload = {
   artist?: string | null;
   note?: string | null;
 };
+
+export type SongView = {
+  id: string;
+  name: string;
+  artist?: string | null;
+  note?: string | null;
+};

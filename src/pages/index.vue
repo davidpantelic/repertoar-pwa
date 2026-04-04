@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUserSession } from "@/stores/userSession";
-import type { WorkView } from "@/types";
+import type { Song, WorkView } from "@/types";
 
 const userSession = useUserSession();
 const subscriptionPlan = await userSession.getSubscriptionPlan();
@@ -27,6 +27,19 @@ const onAddedSong = async () => {
   await loadSongs();
 };
 
+const onDeletedSong = async () => {
+  await loadSongs();
+};
+
+const onEditedSong = (updatedSong: Song) => {
+  const existingIndex = songs.value.findIndex(
+    (song) => song.id === updatedSong.id,
+  );
+  if (existingIndex === -1) return;
+
+  songs.value.splice(existingIndex, 1, updatedSong);
+};
+
 onMounted(async () => {
   if (subscriptionPlan.trial || subscriptionPlan.basic) {
     await loadSongs();
@@ -35,7 +48,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main class="h-svh flex flex-col">
+  <main class="h-svh flex flex-col max-w-150 mx-auto">
     <template v-if="subscriptionPlan.trial || subscriptionPlan.basic">
       <SelectButton
         v-model="selectedView"
@@ -46,13 +59,24 @@ onMounted(async () => {
         fluid
         class="mb-3"
       />
-      <div class="flex gap-3 justify-center flex-col items-center grow">
+      <div
+        class="flex gap-3 justify-center flex-col items-center grow mt-1"
+        :class="songs.length > 0 ? 'h-full min-h-0' : ''"
+      >
         <!-- SONGS view -->
         <template v-if="selectedView == 'songs-view'">
-          <div class="text-center" :class="songs.length > 0 ? 'mt-auto' : ''">
+          <div
+            class="text-center w-full"
+            :class="songs.length > 0 ? 'mt-auto flex-1 min-h-0' : ''"
+          >
             <i v-if="loadingSongs" class="pi pi-spinner pi-spin text-2xl!"></i>
 
-            <SongsView v-else-if="songs.length > 0" :songs="songs" />
+            <SongsView
+              v-else-if="songs.length > 0"
+              :songs="songs"
+              @song-edited="onEditedSong"
+              @song-deleted="onDeletedSong"
+            />
 
             <p v-else>{{ $t("songs.noSongs") }}</p>
           </div>
@@ -63,7 +87,7 @@ onMounted(async () => {
             iconPos="left"
             icon="pi pi-plus"
             :label="$t('words.addSong')"
-            :class="songs.length > 0 ? 'mt-auto self-end' : ''"
+            :class="songs.length > 0 ? 'mt-auto self-end mb-3' : ''"
             @click="showAddSongDialog = true"
           />
 

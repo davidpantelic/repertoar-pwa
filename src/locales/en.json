@@ -17,7 +17,8 @@
       "tooLongName": "Song name can be 30 characters or less",
       "tooLongArtist": "Song artist name can be 30 characters or less",
       "tooLongNote": "Note can be 1000 characters or less"
-    }
+    },
+    "deleteSongConfirm": "Are you sure you want to delete this song?"
   },
   "words": {
     "hello": "Hello World!",
@@ -59,7 +60,9 @@
     "addPlaylist": "Add playlist",
     "name": "Name",
     "artist": "Artist",
-    "note": "Note"
+    "note": "Note",
+    "yes": "Yes",
+    "no": "No"
   },
   "meta": {
     "description": "Songs playlist manager"
@@ -232,7 +235,7 @@
   "googleAuth": {
     "pageConfirmationTitle": "Signed with Google",
     "pageConfirmationText": "You have successfully signed with Google account, you may continue to use the app.",
-    "googleEmailLocked": "For accounts signed in through Google, it is not possible to change the password or email address in this way.",
+    "googleEmailLocked": "For accounts signed in through Google, it is not possible to change the email address in this way.",
     "failedSigning": "Failed to sign in with Google account."
   },
   "userEdit": {

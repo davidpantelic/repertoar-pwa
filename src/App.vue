@@ -27,6 +27,10 @@ onMounted(async () => {
 
 const metaDescription = computed(() => t("meta.description"));
 
+const isLocalhost =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
 useHead({
   title: "Repertoar",
   meta: [
@@ -59,7 +63,7 @@ useSeoMeta({
     <div class="flex flex-wrap gap-1 xxs:gap-2 xs:gap-3 p-1 xs:p-2 max-w-full">
       <OfflineIndicator />
       <UpdateToastAndButton />
-      <InstallToastAndButton />
+      <InstallToastAndButton v-if="!isLocalhost" />
       <Suspense>
         <ProfileButton />
       </Suspense>

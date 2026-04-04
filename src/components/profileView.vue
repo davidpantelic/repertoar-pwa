@@ -98,7 +98,7 @@ watch(
         <Button
           type="button"
           severity="secondary"
-          :disabled="isGoogleUser"
+          :class="isGoogleUser ? 'hidden!' : ''"
           @pointerdown="showToast"
           :label="t('words.resetPassword')"
           :icon="

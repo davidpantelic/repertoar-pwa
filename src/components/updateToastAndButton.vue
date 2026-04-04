@@ -27,6 +27,7 @@ watch(showRefreshToast, (val) => {
 
 const askToReloadToUpdate = () => {
   confirmDialog.require({
+    group: "updateConfirm",
     message: t("dialogs.updateDialogConfirm.message"),
     header: t("dialogs.updateDialogConfirm.header"),
 
@@ -106,7 +107,7 @@ onMounted(() => {
 
   <Toast group="successUpdateToastGroup" />
 
-  <ConfirmDialog class="update-dialog"></ConfirmDialog>
+  <ConfirmDialog group="updateConfirm" class="update-dialog"></ConfirmDialog>
 </template>
 
 <style scoped>
