@@ -83,6 +83,7 @@ declare module 'vue' {
     Toast: typeof import('primevue/toast')['default']
     ToastsGroup: typeof import('./../../components/toastsGroup.vue')['default']
     UpdateToastAndButton: typeof import('./../../components/updateToastAndButton.vue')['default']
+    ViewSong: typeof import('./../../components/viewSong.vue')['default']
     WriteToIndexedDB: typeof import('./../../components/writeToIndexedDB.vue')['default']
     WriteToSupabase: typeof import('./../../components/writeToSupabase.vue')['default']
   }

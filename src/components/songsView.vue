@@ -1,58 +1,15 @@
 <script setup lang="ts">
 import type { Song, SongView, SongUpsertPayload } from "@/types";
 
-const { softDeleteSong, songsError } = useSongs();
-const confirmDialog = useConfirm();
-const { t } = useI18n();
-const toast = useToast();
 const emit = defineEmits(["songDeleted", "songEdited"]);
 const props = defineProps<{
   songs: Song[];
 }>();
 
-const deleteSong = async (songId: string) => {
-  if (!songId) return;
-
-  confirmDialog.require({
-    group: "deleteSong",
-    message: t("songs.deleteSongConfirm"),
-    // header: t("dialogs.updateDialogConfirm.header"),
-
-    rejectProps: {
-      label: t("words.no"),
-      severity: "secondary",
-      outlined: true,
-    },
-    acceptProps: {
-      severity: "danger",
-      label: t("words.delete"),
-    },
-    accept: async () => {
-      const success = await softDeleteSong(songId);
-      if (!success) {
-        toast.removeGroup("deleteSongError");
-        toast.add({
-          group: "deleteSongError",
-          severity: "error",
-          summary: t("toasts.global.error.summary"),
-          detail: t("toasts.global.error.detail"),
-          life: 3000,
-        });
-        console.log("Error on adding song:", songsError.value);
-      }
-      if (success) {
-        openSongDialogShown.value = false;
-        emit("songDeleted");
-      }
-    },
-    reject: () => {},
-  });
-};
-
 const openSongDialogShown = ref(false);
-const openSongObj = ref<SongView>();
+const songToOpen = ref<SongView>();
 const openSong = (song: SongView) => {
-  openSongObj.value = song;
+  songToOpen.value = song;
   openSongDialogShown.value = true;
 };
 
@@ -66,7 +23,7 @@ const toggleEditMode = (songId: string, song: SongUpsertPayload) => {
 };
 
 const onEditedSong = (updatedSong: Song) => {
-  openSongObj.value = {
+  songToOpen.value = {
     id: updatedSong.id,
     name: updatedSong.name,
     artist: updatedSong.artist,
@@ -130,47 +87,15 @@ const onEditedSong = (updatedSong: Song) => {
         @cancel="editMode = false"
       />
 
-      <template v-else>
-        <ScrollPanel class="min-h-0">
-          <h2>{{ openSongObj?.name }}</h2>
-          <h3 v-if="openSongObj?.artist" class="italic">
-            {{ openSongObj?.artist }}
-          </h3>
-          <p v-if="openSongObj?.note" class="mt-3 whitespace-pre-wrap">
-            {{ openSongObj?.note }}
-          </p>
-        </ScrollPanel>
-        <div class="flex gap-3">
-          <Button
-            severity="danger"
-            size="small"
-            icon="pi pi-trash"
-            class="min-w-fit grow"
-            @click="deleteSong(openSongObj!.id)"
-          />
-          <Button
-            severity="secondary"
-            variant="outlined"
-            size="small"
-            icon="pi pi-pen-to-square"
-            class="min-w-fit grow"
-            @click="
-              toggleEditMode(openSongObj!.id, {
-                name: openSongObj!.name,
-                artist: openSongObj?.artist,
-                note: openSongObj?.note,
-              })
-            "
-          />
-          <Button
-            severity="primary"
-            size="small"
-            icon="pi pi-plus"
-            class="min-w-fit grow"
-            @click="deleteSong(openSongObj!.id)"
-          />
-        </div>
-      </template>
+      <ViewSong
+        v-else-if="songToOpen"
+        :song="songToOpen"
+        @edit-song="toggleEditMode"
+        @song-deleted="
+          openSongDialogShown = false;
+          emit('songDeleted');
+        "
+      />
     </div>
 
     <template #closebutton>
@@ -186,11 +111,4 @@ const onEditedSong = (updatedSong: Song) => {
       />
     </template>
   </Dialog>
-
-  <ConfirmDialog
-    group="deleteSong"
-    class="song-delete-confirm-dialog"
-  ></ConfirmDialog>
-
-  <Toast group="deleteSongError" />
 </template>
