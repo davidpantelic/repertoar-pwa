@@ -34,7 +34,7 @@ const openLink = (url: string) => {
   />
 
   <Dialog
-    class="about-dialog w-[90%] max-w-4xl"
+    class="about-dialog"
     v-model:visible="aboutDialogVisible"
     modal
     :header="$t('aboutTitle')"

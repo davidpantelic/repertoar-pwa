@@ -73,7 +73,7 @@ const onEditedSong = (updatedSong: Song) => {
   </ScrollPanel>
 
   <Dialog
-    class="song-view-dialog max-w-150 h-full w-[calc(100%-20px)]!"
+    class="song-view-dialog h-full"
     v-model:visible="openSongDialogShown"
     modal
     header=" "

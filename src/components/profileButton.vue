@@ -74,8 +74,6 @@ watch(
     v-model:visible="mainStore.profileDialogShow"
     modal
     :header="$t('words.profile')"
-    class="w-sm max-w-full mt-12!"
-    position="top"
   >
     <ProfileView v-if="userSessionStore.session" />
 

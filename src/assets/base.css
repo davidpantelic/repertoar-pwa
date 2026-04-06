@@ -147,16 +147,8 @@ img {
   justify-content: space-between;
 }
 
-.p-dialog:not(.song-view-dialog) {
-  margin-inline: 20px !important;
-}
-
-.p-dialog.install-instructions-dialog {
-  max-width: 550px;
-}
-
-.p-dialog.update-dialog {
-  max-width: 550px;
+.p-dialog {
+  @apply max-w-100! w-[calc(100%-20px)]!;
 }
 
 .p-dialog.about-dialog .p-accordionheader {

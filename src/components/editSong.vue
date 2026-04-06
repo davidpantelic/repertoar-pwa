@@ -112,7 +112,7 @@ const hasChanges = (values: SongUpsertPayload) => {
     v-slot="$form"
     :initialValues
     :resolver="resolverRef"
-    class="flex flex-col gap-4 w-full h-full"
+    class="flex flex-col gap-2 w-full h-full"
     @submit="onFormSubmit"
     @reset="onFormReset"
   >

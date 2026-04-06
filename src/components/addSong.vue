@@ -84,7 +84,7 @@ const onFormReset = () => {
     v-slot="$form"
     :initialValues
     :resolver="resolverRef"
-    class="flex flex-col gap-4 w-full"
+    class="flex flex-col gap-3 w-full"
     @submit="onFormSubmit"
     @reset="onFormReset"
   >
@@ -150,6 +150,7 @@ const onFormReset = () => {
         :label="t('words.cancel')"
         icon="pi pi-times"
         iconPos="right"
+        size="small"
       />
       <Button
         type="submit"
@@ -158,6 +159,7 @@ const onFormReset = () => {
         :icon="creatingSong ? 'pi pi-spinner pi-spin' : 'pi pi-save'"
         iconPos="right"
         :disabled="creatingSong"
+        size="small"
       />
     </div>
   </Form>

@@ -82,12 +82,12 @@ onMounted(async () => {
           </div>
 
           <Button
-            size="large"
+            size="small"
             severity="primary"
             iconPos="left"
             icon="pi pi-plus"
             :label="$t('words.addSong')"
-            :class="songs.length > 0 ? 'mt-auto self-end mb-3' : ''"
+            :class="songs.length > 0 ? 'mt-auto self-end' : ''"
             @click="showAddSongDialog = true"
           />
 
@@ -95,8 +95,6 @@ onMounted(async () => {
             v-model:visible="showAddSongDialog"
             modal
             :header="$t('words.addSong')"
-            class="w-sm max-w-full"
-            position="center"
           >
             <AddSong
               @cancel="showAddSongDialog = false"
@@ -119,7 +117,7 @@ onMounted(async () => {
           <div class="text-center">
             <p>no playlist</p>
             <Button
-              size="large"
+              size="small"
               severity="primary"
               iconPos="left"
               icon="pi pi-plus"

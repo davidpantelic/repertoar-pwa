@@ -60,7 +60,7 @@ const deleteSong = async (songId: string) => {
       {{ props.song?.note }}
     </p>
   </ScrollPanel>
-  <div class="flex gap-3">
+  <div class="flex gap-3 h-8.5">
     <Button
       severity="danger"
       size="small"
