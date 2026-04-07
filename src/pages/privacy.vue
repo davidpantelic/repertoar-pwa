@@ -57,12 +57,12 @@ const { locale } = useI18n();
       </ul>
 
       <h3>1.3 App content data</h3>
-      <p>If you create app records/content, we process:</p>
+      <p>If you create songs, playlists, notes, or other app content, we process:</p>
       <ul>
         <li>
           <p>
-            record fields you submit (for example title/body and related
-            metadata)
+            content fields you submit (for example song names, artists,
+            playlist names, notes, and related metadata)
           </p>
         </li>
         <li>
@@ -93,7 +93,7 @@ const { locale } = useI18n();
       </p>
       <ul>
         <li>
-          <p>IndexedDB: app records and sync queue</p>
+          <p>IndexedDB: songs, playlists, playlist links, and sync queue</p>
         </li>
         <li>
           <p>
@@ -117,7 +117,7 @@ const { locale } = useI18n();
           <p>authenticate you and keep sessions secure</p>
         </li>
         <li>
-          <p>let you create/read/update/delete your own records</p>
+          <p>let you create/read/update/delete your own songs and playlists</p>
         </li>
         <li>
           <p>provide offline-first behavior and later sync</p>
@@ -173,7 +173,7 @@ const { locale } = useI18n();
       <h2>5. Access Control</h2>
       <p>
         Your app data is protected by access rules (RLS) so authenticated users
-        can access only their own records (by `user_id`) unless explicitly
+        can access only their own data (by `user_id`) unless explicitly
         configured otherwise.
       </p>
 
@@ -187,9 +187,7 @@ const { locale } = useI18n();
           <p>account and related profile data while account is active</p>
         </li>
         <li>
-          <p>
-            app records until you delete them or request account/data deletion
-          </p>
+          <p>songs, playlists, notes, and related app data until you delete them or request account/data deletion</p>
         </li>
         <li>
           <p>push subscriptions until removed/expired/unsubscribed</p>

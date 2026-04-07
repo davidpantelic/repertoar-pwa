@@ -72,39 +72,6 @@ const onFormSubmit = ({ valid }: { valid: boolean }) => {
 
     <SendTestPush />
 
-    <Divider />
-
-    <h2>API testing</h2>
-    <br />
-
-    <WriteToIndexedDB />
-
-    <Divider />
-
-    <ReadFromIndexedDB />
-
-    <Divider />
-
-    <WriteToSupabase />
-
-    <Divider />
-
-    <ReadFromSupabase />
-
-    <Divider />
-
-    <SyncDb />
-
-    <Divider />
-
-    <EditDeleteRecords />
-
-    <Divider />
-
-    <ShowDeletedRecords />
-
-    <Divider />
-
     <h1>PrimeVue</h1>
     <div class="card flex justify-center"></div>
 

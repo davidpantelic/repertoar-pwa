@@ -8,7 +8,6 @@ export {}
 declare global {
   const EffectScope: typeof import('vue').EffectScope
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
-  const addQueueItem: typeof import('../../composables/useIndexedDb').addQueueItem
   const addSyncQueueItem: typeof import('../../composables/useIndexedDb').addSyncQueueItem
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
@@ -26,7 +25,6 @@ declare global {
   const createInjectionState: typeof import('@vueuse/core').createInjectionState
   const createPinia: typeof import('pinia').createPinia
   const createReactiveFn: typeof import('@vueuse/core').createReactiveFn
-  const createRecord: typeof import('../../composables/storageAdapter').createRecord
   const createRef: typeof import('@vueuse/core').createRef
   const createReusableTemplate: typeof import('@vueuse/core').createReusableTemplate
   const createSharedComposable: typeof import('@vueuse/core').createSharedComposable
@@ -37,7 +35,6 @@ declare global {
   const debouncedWatch: typeof import('@vueuse/core').debouncedWatch
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
   const defineComponent: typeof import('vue').defineComponent
-  const defineStorageAdapter: typeof import('../../composables/storageAdapter').defineStorageAdapter
   const defineStore: typeof import('pinia').defineStore
   const delay: typeof import('../../utils/helpers').delay
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
@@ -61,8 +58,6 @@ declare global {
   const isShallow: typeof import('vue').isShallow
   const listPlaylistSongsFromIndexedDb: typeof import('../../composables/useIndexedDb').listPlaylistSongsFromIndexedDb
   const listPlaylistsFromIndexedDb: typeof import('../../composables/useIndexedDb').listPlaylistsFromIndexedDb
-  const listQueueItems: typeof import('../../composables/useIndexedDb').listQueueItems
-  const listRecordsFromIndexedDb: typeof import('../../composables/useIndexedDb').listRecordsFromIndexedDb
   const listSongsFromIndexedDb: typeof import('../../composables/useIndexedDb').listSongsFromIndexedDb
   const listSyncQueueItems: typeof import('../../composables/useIndexedDb').listSyncQueueItems
   const makeDestructurable: typeof import('@vueuse/core').makeDestructurable
@@ -111,14 +106,12 @@ declare global {
   const refManualReset: typeof import('@vueuse/core').refManualReset
   const refThrottled: typeof import('@vueuse/core').refThrottled
   const refWithControl: typeof import('@vueuse/core').refWithControl
-  const removeQueueItem: typeof import('../../composables/useIndexedDb').removeQueueItem
   const removeSongFromIndexedDb: typeof import('../../composables/useIndexedDb').removeSongFromIndexedDb
   const removeSyncQueueItem: typeof import('../../composables/useIndexedDb').removeSyncQueueItem
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
   const savePlaylistSongToIndexedDb: typeof import('../../composables/useIndexedDb').savePlaylistSongToIndexedDb
   const savePlaylistToIndexedDb: typeof import('../../composables/useIndexedDb').savePlaylistToIndexedDb
-  const saveRecordToIndexedDb: typeof import('../../composables/useIndexedDb').saveRecordToIndexedDb
   const saveSongToIndexedDb: typeof import('../../composables/useIndexedDb').saveSongToIndexedDb
   const saveSongsToIndexedDb: typeof import('../../composables/useIndexedDb').saveSongsToIndexedDb
   const setActivePinia: typeof import('pinia').setActivePinia
@@ -298,7 +291,6 @@ declare global {
   const useSupabaseClient: typeof import('../../composables/useSupabase').useSupabaseClient
   const useSupported: typeof import('@vueuse/core').useSupported
   const useSwipe: typeof import('@vueuse/core').useSwipe
-  const useSyncDb: typeof import('../../composables/useSyncDb').useSyncDb
   const useTemplateRef: typeof import('vue').useTemplateRef
   const useTemplateRefsList: typeof import('@vueuse/core').useTemplateRefsList
   const useTextDirection: typeof import('@vueuse/core').useTextDirection
@@ -368,7 +360,6 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
-    readonly addQueueItem: UnwrapRef<typeof import('../../composables/useIndexedDb')['addQueueItem']>
     readonly addSyncQueueItem: UnwrapRef<typeof import('../../composables/useIndexedDb')['addSyncQueueItem']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
@@ -386,7 +377,6 @@ declare module 'vue' {
     readonly createInjectionState: UnwrapRef<typeof import('@vueuse/core')['createInjectionState']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly createReactiveFn: UnwrapRef<typeof import('@vueuse/core')['createReactiveFn']>
-    readonly createRecord: UnwrapRef<typeof import('../../composables/storageAdapter')['createRecord']>
     readonly createRef: UnwrapRef<typeof import('@vueuse/core')['createRef']>
     readonly createReusableTemplate: UnwrapRef<typeof import('@vueuse/core')['createReusableTemplate']>
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
@@ -397,7 +387,6 @@ declare module 'vue' {
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
-    readonly defineStorageAdapter: UnwrapRef<typeof import('../../composables/storageAdapter')['defineStorageAdapter']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly delay: UnwrapRef<typeof import('../../utils/helpers')['delay']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
@@ -421,8 +410,6 @@ declare module 'vue' {
     readonly isShallow: UnwrapRef<typeof import('vue')['isShallow']>
     readonly listPlaylistSongsFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['listPlaylistSongsFromIndexedDb']>
     readonly listPlaylistsFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['listPlaylistsFromIndexedDb']>
-    readonly listQueueItems: UnwrapRef<typeof import('../../composables/useIndexedDb')['listQueueItems']>
-    readonly listRecordsFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['listRecordsFromIndexedDb']>
     readonly listSongsFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['listSongsFromIndexedDb']>
     readonly listSyncQueueItems: UnwrapRef<typeof import('../../composables/useIndexedDb')['listSyncQueueItems']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
@@ -471,14 +458,12 @@ declare module 'vue' {
     readonly refManualReset: UnwrapRef<typeof import('@vueuse/core')['refManualReset']>
     readonly refThrottled: UnwrapRef<typeof import('@vueuse/core')['refThrottled']>
     readonly refWithControl: UnwrapRef<typeof import('@vueuse/core')['refWithControl']>
-    readonly removeQueueItem: UnwrapRef<typeof import('../../composables/useIndexedDb')['removeQueueItem']>
     readonly removeSongFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['removeSongFromIndexedDb']>
     readonly removeSyncQueueItem: UnwrapRef<typeof import('../../composables/useIndexedDb')['removeSyncQueueItem']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly savePlaylistSongToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['savePlaylistSongToIndexedDb']>
     readonly savePlaylistToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['savePlaylistToIndexedDb']>
-    readonly saveRecordToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['saveRecordToIndexedDb']>
     readonly saveSongToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['saveSongToIndexedDb']>
     readonly saveSongsToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['saveSongsToIndexedDb']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
@@ -658,7 +643,6 @@ declare module 'vue' {
     readonly useSupabaseClient: UnwrapRef<typeof import('../../composables/useSupabase')['useSupabaseClient']>
     readonly useSupported: UnwrapRef<typeof import('@vueuse/core')['useSupported']>
     readonly useSwipe: UnwrapRef<typeof import('@vueuse/core')['useSwipe']>
-    readonly useSyncDb: UnwrapRef<typeof import('../../composables/useSyncDb')['useSyncDb']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useTemplateRefsList: UnwrapRef<typeof import('@vueuse/core')['useTemplateRefsList']>
     readonly useTextDirection: UnwrapRef<typeof import('@vueuse/core')['useTextDirection']>

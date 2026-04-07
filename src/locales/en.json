@@ -170,8 +170,6 @@
     }
   },
   "api": {
-    "noRecords": "No records",
-    "noDeletedRecords": "No deleted records",
     "loadingFailed": "Loading failed",
     "changeSaved": "Changes saved",
     "changeFailed": "Failed to save changes",

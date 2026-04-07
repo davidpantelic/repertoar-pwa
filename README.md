@@ -187,17 +187,6 @@ supabase link --project-ref <your_project_ref>
 supabase db push
 ```
 
-Current migration order (by timestamp):
-
-1. `20260226134609_add-records.sql`
-2. `20260226143122_add-push-sub.sql`
-3. `20260226212729_add-auth-events.sql`
-4. `20260226220001_add-profiles.sql`
-5. `20260226223000_add-chat-core.sql`
-6. `20260226223100_add-chat-direct-rpc.sql`
-7. `20260226223200_add-chat-realtime-publication.sql`
-8. `20260226223300_add-rls-auto-enable-event-trigger.sql`
-
 ### 3. Deploy edge functions
 
 ```bash
@@ -233,7 +222,12 @@ supabase secrets set VAPID_SUBJECT=...
   - configure Google Client ID/Secret in Supabase provider settings
 - Enable and verify RLS policies on app tables.
 - Ensure required tables exist and are configured:
-  - `records`
+  - `songs`
+  - `playlists`
+  - `playlist_songs`
+  - `subscription_plan`
+  - `profiles`
+  - `user_note_keys`
   - `push_subscriptions`
   - `auth_events` (if using logout-other-devices realtime signal)
 - Configure Edge Function secrets for `send-push`:

@@ -1,17 +1,8 @@
 import { openDB } from "idb";
-import type {
-  AppRecord,
-  Playlist,
-  PlaylistSong,
-  QueueItem,
-  Song,
-  SyncQueueItem,
-} from "@/types";
+import type { Playlist, PlaylistSong, Song, SyncQueueItem } from "@/types";
 
 const DB_NAME = "repertoar-pwa";
 const DB_VERSION = 3;
-const STORE_NAME = "records";
-const QUEUE_STORE = "queue";
 const SONGS_STORE = "songs";
 const PLAYLISTS_STORE = "playlists";
 const PLAYLIST_SONGS_STORE = "playlist_songs";
@@ -21,12 +12,6 @@ const APP_META_STORE = "app_meta";
 const getDb = () =>
   openDB(DB_NAME, DB_VERSION, {
     upgrade(db) {
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: "id" });
-      }
-      if (!db.objectStoreNames.contains(QUEUE_STORE)) {
-        db.createObjectStore(QUEUE_STORE, { keyPath: "id" });
-      }
       if (!db.objectStoreNames.contains(SONGS_STORE)) {
         const songsStore = db.createObjectStore(SONGS_STORE, { keyPath: "id" });
         songsStore.createIndex("by_user_id", "user_id");
@@ -61,31 +46,6 @@ const getDb = () =>
       }
     },
   });
-
-export async function saveRecordToIndexedDb(record: AppRecord) {
-  const db = await getDb();
-  await db.put(STORE_NAME, record);
-}
-
-export async function listRecordsFromIndexedDb(): Promise<AppRecord[]> {
-  const db = await getDb();
-  return db.getAll(STORE_NAME);
-}
-
-export async function addQueueItem(item: QueueItem) {
-  const db = await getDb();
-  await db.put(QUEUE_STORE, item);
-}
-
-export async function listQueueItems(): Promise<QueueItem[]> {
-  const db = await getDb();
-  return db.getAll(QUEUE_STORE);
-}
-
-export async function removeQueueItem(id: string) {
-  const db = await getDb();
-  await db.delete(QUEUE_STORE, id);
-}
 
 export async function saveSongToIndexedDb(song: Song) {
   const db = await getDb();

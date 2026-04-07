@@ -170,8 +170,6 @@
     }
   },
   "api": {
-    "noRecords": "Nema zapisa",
-    "noDeletedRecords": "Nema obrisanih zapisa",
     "loadingFailed": "Učitavanje nije uspelo",
     "changeSaved": "Izmene sačuvane",
     "changeFailed": "Čuvanje izmene nije uspelo",
