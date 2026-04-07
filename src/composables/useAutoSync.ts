@@ -1,20 +1,20 @@
 import { useMainStore } from "@/stores/mainStore";
-import { useSyncDb } from "@/composables/useSyncDb";
+import { useSongs } from "@/composables/useSongs";
 
 export function useAutoSync() {
   const store = useMainStore();
   const online = useOnline();
-  const { syncDb, syncing } = useSyncDb();
+  const { syncSongs, syncingSongs } = useSongs();
 
   watch(
     online,
     (isOnline, wasOnline) => {
       if (isOnline && wasOnline === false && store.autoSyncOnReconnect) {
-        syncDb();
+        void syncSongs();
       }
     },
     { flush: "post" },
   );
 
-  return { syncing };
+  return { syncing: syncingSongs };
 }

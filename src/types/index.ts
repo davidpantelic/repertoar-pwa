@@ -119,3 +119,64 @@ export type SongView = {
   artist?: string | null;
   note?: string | null;
 };
+
+export type RemoteSongRow = {
+  id: string;
+  user_id: string;
+  name: string;
+  artist: string | null;
+  note_encrypted: string | null;
+  note_iv: string | null;
+  note_version: number;
+  deleted_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Playlist = {
+  id: string;
+  user_id: string;
+  name: string;
+  note: string | null;
+  songs_count: number;
+  sort_order: number;
+  deleted_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PlaylistSong = {
+  id: string;
+  playlist_id: string;
+  song_id: string;
+  position: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type NoteKeyMaterial = {
+  user_id: string;
+  wrapped_key: string;
+  key_version: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type SyncEntity = "song" | "playlist" | "playlist_song";
+export type SyncOperation =
+  | "upsert"
+  | "soft_delete"
+  | "restore"
+  | "remove"
+  | "reorder";
+
+export type SyncQueueItem = {
+  id: string;
+  entity: SyncEntity;
+  operation: SyncOperation;
+  record_id: string;
+  payload: Record<string, unknown>;
+  user_id: string;
+  created_at: string;
+  retry_count: number;
+};
