@@ -18,6 +18,8 @@ export const useUserSession = defineStore("userSession", () => {
   const allUsers = ref<ChatProfile[]>([]);
   const currentProfile = ref<ChatProfile | null>(null);
   const router = useRouter();
+  const isOnline = useOnline();
+  const isExplicitLogout = ref(false);
 
   const getUserDisplayName = (user: any) => {
     const metadata = user?.user_metadata ?? {};
@@ -170,23 +172,72 @@ export const useUserSession = defineStore("userSession", () => {
     );
   }
 
+  function isOfflineValidationError(err: any) {
+    const msg = String(err?.message ?? err ?? "").toLowerCase();
+    const name = String(err?.name ?? "").toLowerCase();
+    const status = err?.status ?? err?.error?.status;
+
+    return (
+      isOnline.value === false ||
+      name.includes("abort") ||
+      name.includes("network") ||
+      msg.includes("failed to fetch") ||
+      msg.includes("networkerror") ||
+      msg.includes("load failed") ||
+      msg.includes("network request failed") ||
+      status === 0
+    );
+  }
+
+  const redirectToLoginIfProtected = async () => {
+    if (router.currentRoute.value.path === "/login") return;
+
+    const publicPaths = new Set([
+      "/login",
+      "/auth-confirmation",
+      "/google-auth-confirmation",
+      "/password-reset",
+      "/privacy",
+      "/terms",
+    ]);
+
+    if (publicPaths.has(router.currentRoute.value.path)) return;
+
+    await router.replace({
+      path: "/login",
+      query: { redirect: router.currentRoute.value.fullPath },
+    });
+  };
+
   const checkSession = async () => {
     try {
       const { data, error } = await supabase.auth.getSession();
       if (error) {
+        if (isOfflineValidationError(error) && session.value) {
+          sessionError.value = null;
+          return;
+        }
         console.error(error);
         session.value = null;
         sessionError.value = error;
+        currentProfile.value = null;
         return;
       }
 
       // If there's a session locally, confirm it's valid on server
-      if (data.session) {
+      if (data.session && isOnline.value) {
         const { data: userRes, error: userErr } = await supabase.auth.getUser();
         if (userErr || !userRes?.user) {
+          if (isOfflineValidationError(userErr) && session.value) {
+            session.value = data.session;
+            sessionError.value = null;
+            return;
+          }
           await logOut("global", { silent: true });
           session.value = null;
           sessionError.value = userErr ?? null;
+          currentProfile.value = null;
+          await redirectToLoginIfProtected();
           return;
         }
 
@@ -205,8 +256,14 @@ export const useUserSession = defineStore("userSession", () => {
 
       session.value = data.session ?? null;
       sessionError.value = null;
-      await hydrateCurrentUserProfile(session.value?.user);
+      if (session.value?.user && isOnline.value) {
+        await hydrateCurrentUserProfile(session.value.user);
+      }
     } catch (err) {
+      if (isOfflineValidationError(err) && session.value) {
+        sessionError.value = null;
+        return;
+      }
       console.error(err);
       session.value = null;
       sessionError.value = err;
@@ -408,6 +465,7 @@ export const useUserSession = defineStore("userSession", () => {
     logOutScope: "local" | "global" | "others" | undefined = "local",
     options?: { silent?: boolean },
   ) => {
+    isExplicitLogout.value = true;
     isLoggingOut.value = logOutScope === "local";
     isLoggingOutOthers.value = logOutScope === "others";
     const silent = options?.silent === true;
@@ -529,6 +587,7 @@ export const useUserSession = defineStore("userSession", () => {
     } finally {
       isLoggingOut.value = false;
       isLoggingOutOthers.value = false;
+      isExplicitLogout.value = false;
     }
   };
 
@@ -537,10 +596,14 @@ export const useUserSession = defineStore("userSession", () => {
 
     const { data } = supabase.auth.onAuthStateChange((_event, newSession) => {
       if (!newSession) {
+        if (!isExplicitLogout.value && !isOnline.value && session.value) {
+          return;
+        }
         stopForceLogoutListener();
         session.value = null;
         sessionError.value = null;
         currentProfile.value = null;
+        void redirectToLoginIfProtected();
         return;
       }
 
