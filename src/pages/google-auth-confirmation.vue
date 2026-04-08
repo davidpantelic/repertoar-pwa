@@ -1,32 +1,85 @@
 <script setup lang="ts">
+import { useUserSession } from "@/stores/userSession";
+
 const router = useRouter();
 const toast = useToast();
 const { t } = useI18n();
+const userSession = useUserSession();
+const isFinishingAuth = ref(true);
 
-onMounted(() => {
-  const rawHash = window.location.hash; // includes #access_token...
-  const hashParams = new URLSearchParams(rawHash.replace(/^#/, ""));
+const readHashParams = () => {
+  const rawHash = window.location.hash;
+  return new URLSearchParams(rawHash.replace(/^#/, ""));
+};
 
-  const accessToken = hashParams.get("access_token");
-  const providerToken = hashParams.get("provider_token");
-  const error = hashParams.get("error_description");
+const finishGoogleAuth = async () => {
+  const hashParams = readHashParams();
+  const authError =
+    hashParams.get("error_description") ?? hashParams.get("error");
 
-  setTimeout(() => {
-    console.log("setTimeout");
-    router.push({ path: "/" });
+  if (authError) {
+    toast.removeGroup("userSignToastGroup");
+    toast.add({
+      group: "userSignToastGroup",
+      severity: "warn",
+      summary: t("googleAuth.failedSigning"),
+      detail: authError,
+      life: 5000,
+    });
+    await router.replace({ path: "/login" });
+    return;
+  }
 
-    if (accessToken && providerToken && !error) {
-      toast.removeGroup("userSignToastGroup");
-      toast.add({
-        group: "userSignToastGroup",
-        severity: "success",
-        summary: t("googleAuth.pageConfirmationTitle"),
-        detail: t("googleAuth.pageConfirmationText"),
-        life: 7000,
-      });
-    }
-  }, 200);
+  await userSession.checkSession();
+
+  if (!userSession.session) {
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    await userSession.checkSession();
+  }
+
+  if (userSession.session) {
+    toast.removeGroup("userSignToastGroup");
+    toast.add({
+      group: "userSignToastGroup",
+      severity: "success",
+      summary: t("googleAuth.pageConfirmationTitle"),
+      detail: t("googleAuth.pageConfirmationText"),
+      life: 7000,
+    });
+
+    await router.replace({ path: "/" });
+    return;
+  }
+
+  toast.removeGroup("userSignToastGroup");
+  toast.add({
+    group: "userSignToastGroup",
+    severity: "warn",
+    summary: t("googleAuth.failedSigning"),
+    life: 5000,
+  });
+  await router.replace({ path: "/login" });
+};
+
+onMounted(async () => {
+  try {
+    await finishGoogleAuth();
+  } finally {
+    isFinishingAuth.value = false;
+  }
 });
 </script>
 
-<template></template>
+<template>
+  <main class="h-svh flex items-center justify-center text-center">
+    <div class="flex flex-col items-center gap-3">
+      <i
+        v-if="isFinishingAuth"
+        class="pi pi-spinner pi-spin text-2xl!"
+        aria-hidden="true"
+      />
+      <h1>{{ $t("googleAuth.pageConfirmationTitle") }}</h1>
+      <p>{{ $t("googleAuth.pageConfirmationText") }}</p>
+    </div>
+  </main>
+</template>
