@@ -26,7 +26,7 @@ export function useAppTheme() {
       },
       {
         name: "color-scheme",
-        content: "#0f1c0d",
+        content: "#00ca53",
       },
     ],
   });

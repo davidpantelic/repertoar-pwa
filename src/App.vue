@@ -41,7 +41,7 @@ useHead({
   ],
   link: [
     { rel: "icon", href: "/favicon.ico" },
-    { rel: "mask-icon", href: "/repertoar.svg", color: "#0f1c0d" },
+    { rel: "mask-icon", href: "/repertoar.svg", color: "#00ca53" },
     { rel: "apple-touch-icon", href: "/repertoar_192.png", sizes: "192x192" },
     { rel: "canonical", href: "https://example.com/" },
   ],
