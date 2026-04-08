@@ -30,7 +30,7 @@ export default defineConfig({
       manifest: {
         name: "Repertoar",
         short_name: "Repertoar",
-        description: "Songs playlist manager",
+        description: "Songs list manager",
         theme_color: "#0f1c0d",
         background_color: "#0f1c0d",
         orientation: "portrait",

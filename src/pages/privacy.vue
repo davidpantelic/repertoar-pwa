@@ -57,12 +57,14 @@ const { locale } = useI18n();
       </ul>
 
       <h3>1.3 App content data</h3>
-      <p>If you create songs, playlists, notes, or other app content, we process:</p>
+      <p>
+        If you create songs, lists, notes, or other app content, we process:
+      </p>
       <ul>
         <li>
           <p>
-            content fields you submit (for example song names, artists,
-            playlist names, notes, and related metadata)
+            content fields you submit (for example song names, artists, list
+            names, notes, and related metadata)
           </p>
         </li>
         <li>
@@ -93,7 +95,7 @@ const { locale } = useI18n();
       </p>
       <ul>
         <li>
-          <p>IndexedDB: songs, playlists, playlist links, and sync queue</p>
+          <p>IndexedDB: songs, lists, list links, and sync queue</p>
         </li>
         <li>
           <p>
@@ -117,7 +119,7 @@ const { locale } = useI18n();
           <p>authenticate you and keep sessions secure</p>
         </li>
         <li>
-          <p>let you create/read/update/delete your own songs and playlists</p>
+          <p>let you create/read/update/delete your own songs and lists</p>
         </li>
         <li>
           <p>provide offline-first behavior and later sync</p>
@@ -187,7 +189,10 @@ const { locale } = useI18n();
           <p>account and related profile data while account is active</p>
         </li>
         <li>
-          <p>songs, playlists, notes, and related app data until you delete them or request account/data deletion</p>
+          <p>
+            songs, lists, notes, and related app data until you delete them or
+            request account/data deletion
+          </p>
         </li>
         <li>
           <p>push subscriptions until removed/expired/unsubscribed</p>

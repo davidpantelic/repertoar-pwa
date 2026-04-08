@@ -9,7 +9,7 @@ const { songs, loadSongs, loadingSongs, songsError } = useSongs();
 
 const views = computed(() => [
   {
-    label: t("words.playlists"),
+    label: t("words.lists"),
     value: "playlists-view" as const,
   },
   {
@@ -115,13 +115,13 @@ onMounted(async () => {
         <!-- PLAYLISTS view -->
         <template v-if="selectedView == 'playlists-view'">
           <div class="text-center">
-            <p>no playlist</p>
+            <p>no list</p>
             <Button
               size="small"
               severity="primary"
               iconPos="left"
               icon="pi pi-plus"
-              :label="$t('words.addPlaylist')"
+              :label="$t('words.addlist')"
               class="mt-3"
               @click="console.log('sds')"
             />

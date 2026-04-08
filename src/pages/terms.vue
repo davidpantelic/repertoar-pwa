@@ -60,9 +60,8 @@ const { locale } = useI18n();
       <h2>4. User Content and Ownership</h2>
       <p>
         You retain ownership of content you create in the app (for example,
-        songs, playlists, notes, and messages). You grant us the rights
-        necessary to store, process, and sync that content to provide the
-        service.
+        songs, lists, notes, and messages). You grant us the rights necessary to
+        store, process, and sync that content to provide the service.
       </p>
 
       <h2>5. Acceptable Use</h2>

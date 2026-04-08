@@ -87,7 +87,7 @@ const deleteSong = async (songId: string) => {
       size="small"
       icon="pi pi-plus"
       class="min-w-fit grow"
-      @click="console.log('add song to playlist')"
+      @click="console.log('add song to list')"
     />
   </div>
 

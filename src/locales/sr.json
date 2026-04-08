@@ -55,9 +55,9 @@
     "started": "Pokrenuto",
     "add": "Dodaj",
     "songs": "Pesme",
-    "playlists": "Plejliste",
+    "lists": "Spiskovi",
     "addSong": "Dodaj pesmu",
-    "addPlaylist": "Dodaj plejlistu",
+    "addlist": "Dodaj spisak",
     "name": "Ime",
     "artist": "Izvođač",
     "note": "Beleška",
@@ -65,7 +65,7 @@
     "no": "Ne"
   },
   "meta": {
-    "description": "Menadžer za plejliste pesama"
+    "description": "Menadžer za spiskove pesama"
   },
   "toasts": {
     "global": {

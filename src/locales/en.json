@@ -1,7 +1,7 @@
 {
   "appInfo": {
     "name": "Repertoar",
-    "description": "Your personal songbook for gigs, rehearsals, and special occasions. Store songs, create playlists, and follow your Repertoire step by step, even offline."
+    "description": "Your personal songbook for gigs, rehearsals, and special occasions. Store songs, create lists, and follow your Repertoire step by step, even offline."
   },
   "welcomePage": {
     "loginText": "Sign in to your account (easiest with your Google account) by clicking the button below."
@@ -55,9 +55,9 @@
     "started": "Started",
     "add": "Add",
     "songs": "Songs",
-    "playlists": "Playlists",
+    "lists": "lists",
     "addSong": "Add song",
-    "addPlaylist": "Add playlist",
+    "addlist": "Add list",
     "name": "Name",
     "artist": "Artist",
     "note": "Note",
@@ -65,7 +65,7 @@
     "no": "No"
   },
   "meta": {
-    "description": "Songs playlist manager"
+    "description": "Songs list manager"
   },
   "toasts": {
     "global": {
