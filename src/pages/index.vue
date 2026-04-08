@@ -3,9 +3,16 @@ import { useUserSession } from "@/stores/userSession";
 import type { Song, WorkView } from "@/types";
 
 const userSession = useUserSession();
-const subscriptionPlan = await userSession.getSubscriptionPlan();
 const { t } = useI18n();
 const { songs, loadSongs, loadingSongs, songsError } = useSongs();
+const loadingSubscriptionPlan = ref(false);
+
+const canUseApp = computed(
+  () =>
+    Boolean(
+      userSession.subscriptionPlan?.trial || userSession.subscriptionPlan?.basic,
+    ),
+);
 
 const views = computed(() => [
   {
@@ -41,15 +48,27 @@ const onEditedSong = (updatedSong: Song) => {
 };
 
 onMounted(async () => {
-  if (subscriptionPlan.trial || subscriptionPlan.basic) {
-    await loadSongs();
+  loadingSubscriptionPlan.value = true;
+
+  try {
+    if (canUseApp.value) {
+      void loadSongs();
+    }
+
+    await userSession.getSubscriptionPlan();
+
+    if (canUseApp.value && songs.value.length === 0) {
+      await loadSongs();
+    }
+  } finally {
+    loadingSubscriptionPlan.value = false;
   }
 });
 </script>
 
 <template>
   <main class="h-svh flex flex-col max-w-150 mx-auto">
-    <template v-if="subscriptionPlan.trial || subscriptionPlan.basic">
+    <template v-if="canUseApp">
       <SelectButton
         v-model="selectedView"
         :options="views"
@@ -130,13 +149,19 @@ onMounted(async () => {
       </div>
     </template>
 
-    <template v-else>
+    <template v-else-if="!loadingSubscriptionPlan">
       <div class="text-center">
         <h1>{{ $t("subscription.trialEnd") }}</h1>
         <p class="my-2">{{ $t("subscription.contactMe") }}</p>
         <a href="mailto:info@webdak.rs" class="hover:underline"
           ><strong>info@webdak.rs</strong></a
         >
+      </div>
+    </template>
+
+    <template v-else>
+      <div class="flex grow items-center justify-center">
+        <i class="pi pi-spinner pi-spin text-2xl!" />
       </div>
     </template>
   </main>

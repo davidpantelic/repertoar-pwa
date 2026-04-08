@@ -1,5 +1,13 @@
 import type { userCredentials, ChatProfile } from "@/types";
 
+type SubscriptionPlan = {
+  trial: boolean;
+  basic: boolean;
+};
+
+const CURRENT_PROFILE_CACHE_KEY = "repertoar-current-profile";
+const SUBSCRIPTION_PLAN_CACHE_KEY = "repertoar-subscription-plan";
+
 export const useUserSession = defineStore("userSession", () => {
   const isLoading = ref(false);
   const isResetPasswordRequestLoading = ref(false);
@@ -17,9 +25,58 @@ export const useUserSession = defineStore("userSession", () => {
   const loadingAllUsers = ref(false);
   const allUsers = ref<ChatProfile[]>([]);
   const currentProfile = ref<ChatProfile | null>(null);
+  const subscriptionPlan = ref<SubscriptionPlan | null>(null);
   const router = useRouter();
   const isOnline = useOnline();
   const isExplicitLogout = ref(false);
+
+  const readJsonStorage = <T,>(key: string): T | null => {
+    try {
+      const rawValue = localStorage.getItem(key);
+      return rawValue ? (JSON.parse(rawValue) as T) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const writeJsonStorage = (key: string, value: unknown) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // ignore storage failures
+    }
+  };
+
+  const removeStorageValue = (key: string) => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // ignore storage failures
+    }
+  };
+
+  const setCurrentProfile = (profile: ChatProfile | null) => {
+    currentProfile.value = profile;
+    if (profile) {
+      writeJsonStorage(CURRENT_PROFILE_CACHE_KEY, profile);
+      return;
+    }
+    removeStorageValue(CURRENT_PROFILE_CACHE_KEY);
+  };
+
+  const setSubscriptionPlan = (plan: SubscriptionPlan | null) => {
+    subscriptionPlan.value = plan;
+    if (plan) {
+      writeJsonStorage(SUBSCRIPTION_PLAN_CACHE_KEY, plan);
+      return;
+    }
+    removeStorageValue(SUBSCRIPTION_PLAN_CACHE_KEY);
+  };
+
+  currentProfile.value = readJsonStorage<ChatProfile>(CURRENT_PROFILE_CACHE_KEY);
+  subscriptionPlan.value = readJsonStorage<SubscriptionPlan>(
+    SUBSCRIPTION_PLAN_CACHE_KEY,
+  );
 
   const getUserDisplayName = (user: any) => {
     const metadata = user?.user_metadata ?? {};
@@ -50,6 +107,21 @@ export const useUserSession = defineStore("userSession", () => {
   const isStoredAvatarUrl = (avatarUrl?: string | null) =>
     Boolean(avatarUrl?.includes("/storage/v1/object/public/avatars/"));
 
+  const seedCurrentProfileFromSession = (user: any) => {
+    if (!user?.id) {
+      setCurrentProfile(null);
+      return;
+    }
+
+    setCurrentProfile({
+      id: user.id,
+      email: currentProfile.value?.email ?? user.email ?? null,
+      display_name:
+        currentProfile.value?.display_name ?? getUserDisplayName(user),
+      avatar_url: currentProfile.value?.avatar_url ?? null,
+    });
+  };
+
   const syncCurrentProfile = async (
     user: any,
     overrides?: Partial<ChatProfile> & { lang?: string | null },
@@ -75,14 +147,14 @@ export const useUserSession = defineStore("userSession", () => {
 
     if (error) throw error;
 
-    currentProfile.value = data;
+    setCurrentProfile(data);
     return data;
   };
 
   const loadCurrentProfile = async () => {
     const userId = session.value?.user?.id;
     if (!userId) {
-      currentProfile.value = null;
+      setCurrentProfile(null);
       return null;
     }
 
@@ -94,7 +166,7 @@ export const useUserSession = defineStore("userSession", () => {
 
     if (error) throw error;
 
-    currentProfile.value = data ?? null;
+    setCurrentProfile(data ?? null);
     return currentProfile.value;
   };
 
@@ -141,9 +213,11 @@ export const useUserSession = defineStore("userSession", () => {
 
   const hydrateCurrentUserProfile = async (user: any) => {
     if (!user?.id) {
-      currentProfile.value = null;
+      setCurrentProfile(null);
       return null;
     }
+
+    seedCurrentProfileFromSession(user);
 
     await loadCurrentProfile();
 
@@ -220,7 +294,8 @@ export const useUserSession = defineStore("userSession", () => {
         console.error(error);
         session.value = null;
         sessionError.value = error;
-        currentProfile.value = null;
+        setCurrentProfile(null);
+        setSubscriptionPlan(null);
         return;
       }
 
@@ -236,7 +311,8 @@ export const useUserSession = defineStore("userSession", () => {
           await logOut("global", { silent: true });
           session.value = null;
           sessionError.value = userErr ?? null;
-          currentProfile.value = null;
+          setCurrentProfile(null);
+          setSubscriptionPlan(null);
           await redirectToLoginIfProtected();
           return;
         }
@@ -256,8 +332,11 @@ export const useUserSession = defineStore("userSession", () => {
 
       session.value = data.session ?? null;
       sessionError.value = null;
-      if (session.value?.user && isOnline.value) {
-        await hydrateCurrentUserProfile(session.value.user);
+      if (session.value?.user) {
+        seedCurrentProfileFromSession(session.value.user);
+        if (isOnline.value) {
+          void hydrateCurrentUserProfile(session.value.user);
+        }
       }
     } catch (err) {
       if (isOfflineValidationError(err) && session.value) {
@@ -267,7 +346,8 @@ export const useUserSession = defineStore("userSession", () => {
       console.error(err);
       session.value = null;
       sessionError.value = err;
-      currentProfile.value = null;
+      setCurrentProfile(null);
+      setSubscriptionPlan(null);
     }
   };
 
@@ -493,7 +573,8 @@ export const useUserSession = defineStore("userSession", () => {
         if (isSessionAlreadyGone(error)) {
           session.value = null;
           sessionError.value = null;
-          currentProfile.value = null;
+          setCurrentProfile(null);
+          setSubscriptionPlan(null);
 
           if (!silent) {
             toast.add({
@@ -540,7 +621,8 @@ export const useUserSession = defineStore("userSession", () => {
       } else {
         session.value = null;
         sessionError.value = null;
-        currentProfile.value = null;
+        setCurrentProfile(null);
+        setSubscriptionPlan(null);
       }
 
       if (!silent) {
@@ -557,7 +639,8 @@ export const useUserSession = defineStore("userSession", () => {
       if (isSessionAlreadyGone(err)) {
         session.value = null;
         sessionError.value = null;
-        currentProfile.value = null;
+        setCurrentProfile(null);
+        setSubscriptionPlan(null);
 
         if (!silent) {
           toast.add({
@@ -602,13 +685,15 @@ export const useUserSession = defineStore("userSession", () => {
         stopForceLogoutListener();
         session.value = null;
         sessionError.value = null;
-        currentProfile.value = null;
+        setCurrentProfile(null);
+        setSubscriptionPlan(null);
         void redirectToLoginIfProtected();
         return;
       }
 
       session.value = newSession;
       sessionError.value = null;
+      seedCurrentProfileFromSession(newSession.user);
       startForceLogoutListener(newSession.user.id);
       void hydrateCurrentUserProfile(newSession.user);
 
@@ -855,13 +940,32 @@ export const useUserSession = defineStore("userSession", () => {
   };
 
   const getSubscriptionPlan = async () => {
-    const { data, error } = await supabase
-      .from("subscription_plan")
-      .select("*")
-      .single();
+    if (!session.value?.user?.id) {
+      setSubscriptionPlan(null);
+      return null;
+    }
 
-    if (error) throw error;
-    return data;
+    try {
+      const { data, error } = await supabase
+        .from("subscription_plan")
+        .select("trial, basic")
+        .single();
+
+      if (error) throw error;
+
+      const nextPlan: SubscriptionPlan = {
+        trial: Boolean(data?.trial),
+        basic: Boolean(data?.basic),
+      };
+
+      setSubscriptionPlan(nextPlan);
+      return nextPlan;
+    } catch (error) {
+      if (isOfflineValidationError(error) && subscriptionPlan.value) {
+        return subscriptionPlan.value;
+      }
+      throw error;
+    }
   };
 
   return {
@@ -887,6 +991,7 @@ export const useUserSession = defineStore("userSession", () => {
     getAllUsers,
     allUsers,
     currentProfile,
+    subscriptionPlan,
     loadCurrentProfile,
     getSubscriptionPlan,
   };
