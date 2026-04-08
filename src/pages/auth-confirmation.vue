@@ -1,35 +1,28 @@
 <script setup lang="ts">
 const router = useRouter();
+const redirectDelayMs = 3000;
 
 onMounted(() => {
   const query = new URLSearchParams(window.location.search);
   const shouldDelayRedirect = query.get("redirect_to_home") === "true";
 
-  const isStandalonePwa =
-    window.matchMedia("(display-mode: standalone)").matches ||
-    (window.navigator as Navigator & { standalone?: boolean }).standalone ===
-      true;
-
-  if (isStandalonePwa) {
-    void router.push({ path: "/" });
-    return;
-  }
-
   if (shouldDelayRedirect) {
     setTimeout(() => {
-      void router.push({ path: "/" });
-    }, 6000);
+      void router.replace({ path: "/" });
+    }, redirectDelayMs);
     return;
   }
 
-  void router.push({ path: "/" });
+  void router.replace({ path: "/" });
 });
 </script>
 
 <template>
-  <main class="text-center">
+  <main class="text-center h-svh flex items-center justify-center">
+    <div class="flex flex-col items-center gap-3">
+      <i class="pi pi-check-circle text-2xl!" aria-hidden="true" />
     <h1>{{ $t("authConfirmation.title") }}</h1>
-    <br />
     <p>{{ $t("authConfirmation.text") }}</p>
+    </div>
   </main>
 </template>
