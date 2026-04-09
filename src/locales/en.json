@@ -16,7 +16,7 @@
       "missingName": "Song name is required",
       "tooLongName": "Song name can be 30 characters or less",
       "tooLongArtist": "Song artist name can be 30 characters or less",
-      "tooLongNote": "Note can be 1000 characters or less"
+      "tooLongNote": "Note can be 1300 characters or less"
     },
     "deleteSongConfirm": "Are you sure you want to delete this song?"
   },

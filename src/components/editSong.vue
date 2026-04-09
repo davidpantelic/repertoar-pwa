@@ -33,7 +33,7 @@ const buildSchema = () =>
     note: z
       .string()
       .trim()
-      .max(1000, { message: t("songs.validation.tooLongNote") })
+      .max(1300, { message: t("songs.validation.tooLongNote") })
       .optional(),
   });
 
@@ -116,7 +116,7 @@ const hasChanges = (values: SongUpsertPayload) => {
     @submit="onFormSubmit"
     @reset="onFormReset"
   >
-    <div class="flex-wrap gap-y-1">
+    <div class="flex-col gap-y-1">
       <InputText
         name="name"
         id="name"
@@ -134,7 +134,7 @@ const hasChanges = (values: SongUpsertPayload) => {
       >
     </div>
 
-    <div class="flex-wrap gap-y-1">
+    <div class="flex-col gap-y-1">
       <InputText
         name="artist"
         id="artist"
@@ -152,7 +152,7 @@ const hasChanges = (values: SongUpsertPayload) => {
       >
     </div>
 
-    <div class="flex-wrap gap-y-1 grow">
+    <div class="flex flex-col gap-y-1 grow">
       <Textarea
         name="note"
         id="note"
@@ -160,11 +160,11 @@ const hasChanges = (values: SongUpsertPayload) => {
         fluid
         rows="5"
         cols="30"
-        class="h-full max-h-full!"
+        class="flex-1 min-h-0 max-h-full!"
       />
       <Message
         v-if="$form.note?.invalid"
-        class="w-full"
+        class="w-full h-fit"
         severity="error"
         size="small"
         variant="simple"
