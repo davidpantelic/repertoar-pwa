@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import {
+  AUTH_CONFIRMATION_REDIRECT_DELAY_MS,
+  GOOGLE_AUTH_SESSION_RETRY_DELAY_MS,
+} from "@/config/authRedirects";
 import { useUserSession } from "@/stores/userSession";
 
 const router = useRouter();
@@ -33,7 +37,9 @@ const finishGoogleAuth = async () => {
   await userSession.checkSession();
 
   if (!userSession.session) {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) =>
+      setTimeout(resolve, GOOGLE_AUTH_SESSION_RETRY_DELAY_MS),
+    );
     await userSession.checkSession();
   }
 
@@ -44,7 +50,7 @@ const finishGoogleAuth = async () => {
       severity: "success",
       summary: t("googleAuth.pageConfirmationTitle"),
       detail: t("googleAuth.pageConfirmationText"),
-      life: 7000,
+      life: AUTH_CONFIRMATION_REDIRECT_DELAY_MS + 4000,
     });
 
     await router.replace({ path: "/" });
