@@ -44,7 +44,7 @@ const onEditedSong = (updatedSong: Song) => {
     <Card
       v-for="song in props.songs"
       :key="song.id"
-      class="songs-list grow min-w-0 text-left cursor-pointer hover:bg-emphasis! transition-colors mb-3"
+      class="songs-card grow min-w-0 text-left cursor-pointer hover:bg-emphasis! transition-colors mb-3"
       @click="
         openSong({
           id: song.id,

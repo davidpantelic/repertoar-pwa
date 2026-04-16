@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import type { SongUpsertPayload } from "@/types";
+import type { Playlist, PlaylistUpsertPayload } from "@/types";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { z } from "zod";
 
-const { creatingSong, createSong, songsError } = useSongs();
+const { updatingList, renameList, listsError } = useLists();
 const { t, locale } = useI18n();
 const toast = useToast();
 const emit = defineEmits(["cancel", "success"]);
+const props = defineProps<{
+  list: PlaylistUpsertPayload;
+  listId: string;
+}>();
 
-const initialValues = ref<SongUpsertPayload>({
-  name: "",
-  artist: "",
-  note: "",
+const initialValues = ref<PlaylistUpsertPayload>({
+  name: props.list.name,
+  note: props.list.note || "",
 });
 
 const buildSchema = () =>
@@ -19,17 +22,17 @@ const buildSchema = () =>
     name: z
       .string()
       .trim()
-      .min(1, { message: t("songs.validation.missingName") })
-      .max(60, { message: t("songs.validation.tooLongName") }),
+      .min(1, { message: t("lists.validation.missingName") })
+      .max(60, { message: t("lists.validation.tooLongName") }),
     artist: z
       .string()
       .trim()
-      .max(30, { message: t("songs.validation.tooLongArtist") })
+      .max(30, { message: t("lists.validation.tooLongArtist") })
       .optional(),
     note: z
       .string()
       .trim()
-      .max(1300, { message: t("songs.validation.tooLongNote") })
+      .max(1300, { message: t("lists.validation.tooLongNote") })
       .optional(),
   });
 
@@ -42,26 +45,26 @@ const onFormSubmit = async (e: any): Promise<void> => {
   // e.reset: A function that resets the form to its initial state.
 
   if (e.valid) {
-    const payload: SongUpsertPayload = {
+    const payload: PlaylistUpsertPayload = {
       ...e.values,
     };
 
     // console.log(payload);
     // return;
 
-    const success = await createSong(payload);
-    if (!success) {
-      toast.removeGroup("addSongError");
+    const updatedList = await renameList(props.listId, payload);
+    if (!updatedList) {
+      toast.removeGroup("editListError");
       toast.add({
-        group: "addSongError",
+        group: "editListError",
         severity: "warn",
         summary: t("toasts.global.error.summary"),
         detail: t("toasts.global.error.detail"),
         life: 3000,
       });
-      console.log("Error on adding song:", songsError.value);
+      console.log("Error on adding list:", listsError.value);
     }
-    if (success) emit("success");
+    if (updatedList) emit("success", updatedList as Playlist);
   }
 };
 
@@ -77,6 +80,27 @@ watch(
 const onFormReset = () => {
   emit("cancel");
 };
+
+const normalizeValues = (values: PlaylistUpsertPayload) => ({
+  name: values.name.trim(),
+  note: values.note?.trim() || "",
+});
+
+const initialNormalizedValues = computed(() =>
+  normalizeValues({
+    name: props.list.name,
+    note: props.list.note || "",
+  }),
+);
+
+const hasChanges = (values: PlaylistUpsertPayload) => {
+  const normalized = normalizeValues(values);
+
+  return (
+    normalized.name !== initialNormalizedValues.value.name ||
+    normalized.note !== initialNormalizedValues.value.note
+  );
+};
 </script>
 
 <template>
@@ -84,11 +108,11 @@ const onFormReset = () => {
     v-slot="$form"
     :initialValues
     :resolver="resolverRef"
-    class="flex flex-col gap-3 w-full"
+    class="flex flex-col gap-2 w-full h-full"
     @submit="onFormSubmit"
     @reset="onFormReset"
   >
-    <div class="flex-wrap gap-y-1">
+    <div class="flex-col gap-y-1">
       <InputText
         name="name"
         id="name"
@@ -106,25 +130,7 @@ const onFormReset = () => {
       >
     </div>
 
-    <div class="flex-wrap gap-y-1">
-      <InputText
-        name="artist"
-        id="artist"
-        type="text"
-        :placeholder="t('words.artist')"
-        fluid
-      />
-      <Message
-        v-if="$form.artist?.invalid"
-        class="w-full"
-        severity="error"
-        size="small"
-        variant="simple"
-        >{{ $form.artist.error.message }}</Message
-      >
-    </div>
-
-    <div class="flex-wrap gap-y-1">
+    <div class="flex flex-col gap-y-1 grow">
       <Textarea
         name="note"
         id="note"
@@ -132,10 +138,11 @@ const onFormReset = () => {
         fluid
         rows="5"
         cols="30"
+        class="flex-1 min-h-0 max-h-full!"
       />
       <Message
         v-if="$form.note?.invalid"
-        class="w-full"
+        class="w-full h-fit"
         severity="error"
         size="small"
         variant="simple"
@@ -156,13 +163,19 @@ const onFormReset = () => {
         type="submit"
         severity="primary"
         :label="t('words.save')"
-        :icon="creatingSong ? 'pi pi-spinner pi-spin' : 'pi pi-save'"
+        :icon="updatingList ? 'pi pi-spinner pi-spin' : 'pi pi-save'"
         iconPos="right"
-        :disabled="creatingSong"
+        :disabled="
+          updatingList ||
+          !hasChanges({
+            name: $form.name?.value || '',
+            note: $form.note?.value || '',
+          })
+        "
         size="small"
       />
     </div>
   </Form>
 
-  <Toast group="addSongError" />
+  <Toast group="editListError" />
 </template>

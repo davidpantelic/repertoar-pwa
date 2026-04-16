@@ -113,6 +113,18 @@ export type Playlist = {
   updated_at: string;
 };
 
+export type PlaylistUpsertPayload = {
+  name: string;
+  note?: string | null;
+};
+
+export type ListView = {
+  id: string;
+  name: string;
+  note?: string | null;
+  songs_count: number;
+};
+
 export type PlaylistSong = {
   id: string;
   playlist_id: string;

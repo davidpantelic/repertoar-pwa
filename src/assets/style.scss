@@ -58,7 +58,8 @@
   }
 }
 
-.songs-list {
+.songs-card,
+.lists-card {
   .p-card-body {
     padding: 10px 15px;
     @media (min-width: 600px) {
@@ -67,7 +68,8 @@
   }
 }
 
-.song-delete-confirm-dialog {
+.song-delete-confirm-dialog,
+.list-delete-confirm-dialog {
   --global-dialog-padding: 10px;
   max-width: 550px;
   .p-dialog-header {
@@ -79,7 +81,8 @@
   }
 }
 
-.song-view-dialog {
+.song-view-dialog,
+.list-view-dialog {
   .p-dialog-header {
     padding: 10px;
   }

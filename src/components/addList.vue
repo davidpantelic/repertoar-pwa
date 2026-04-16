@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import type { SongUpsertPayload } from "@/types";
+import type { PlaylistUpsertPayload } from "@/types";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { z } from "zod";
 
-const { creatingSong, createSong, songsError } = useSongs();
+const { creatingList, createList, listsError } = useLists();
 const { t, locale } = useI18n();
 const toast = useToast();
 const emit = defineEmits(["cancel", "success"]);
 
-const initialValues = ref<SongUpsertPayload>({
+const initialValues = ref<PlaylistUpsertPayload>({
   name: "",
-  artist: "",
   note: "",
 });
 
@@ -19,17 +18,12 @@ const buildSchema = () =>
     name: z
       .string()
       .trim()
-      .min(1, { message: t("songs.validation.missingName") })
-      .max(60, { message: t("songs.validation.tooLongName") }),
-    artist: z
-      .string()
-      .trim()
-      .max(30, { message: t("songs.validation.tooLongArtist") })
-      .optional(),
+      .min(1, { message: t("lists.validation.missingName") })
+      .max(60, { message: t("lists.validation.tooLongName") }),
     note: z
       .string()
       .trim()
-      .max(1300, { message: t("songs.validation.tooLongNote") })
+      .max(300, { message: t("lists.validation.tooLongNote") })
       .optional(),
   });
 
@@ -42,24 +36,24 @@ const onFormSubmit = async (e: any): Promise<void> => {
   // e.reset: A function that resets the form to its initial state.
 
   if (e.valid) {
-    const payload: SongUpsertPayload = {
+    const payload: PlaylistUpsertPayload = {
       ...e.values,
     };
 
     // console.log(payload);
     // return;
 
-    const success = await createSong(payload);
+    const success = await createList(payload);
     if (!success) {
-      toast.removeGroup("addSongError");
+      toast.removeGroup("addListError");
       toast.add({
-        group: "addSongError",
+        group: "addListError",
         severity: "warn",
         summary: t("toasts.global.error.summary"),
         detail: t("toasts.global.error.detail"),
         life: 3000,
       });
-      console.log("Error on adding song:", songsError.value);
+      console.log("Error on adding list:", listsError.value);
     }
     if (success) emit("success");
   }
@@ -107,24 +101,6 @@ const onFormReset = () => {
     </div>
 
     <div class="flex-wrap gap-y-1">
-      <InputText
-        name="artist"
-        id="artist"
-        type="text"
-        :placeholder="t('words.artist')"
-        fluid
-      />
-      <Message
-        v-if="$form.artist?.invalid"
-        class="w-full"
-        severity="error"
-        size="small"
-        variant="simple"
-        >{{ $form.artist.error.message }}</Message
-      >
-    </div>
-
-    <div class="flex-wrap gap-y-1">
       <Textarea
         name="note"
         id="note"
@@ -156,13 +132,13 @@ const onFormReset = () => {
         type="submit"
         severity="primary"
         :label="t('words.save')"
-        :icon="creatingSong ? 'pi pi-spinner pi-spin' : 'pi pi-save'"
+        :icon="creatingList ? 'pi pi-spinner pi-spin' : 'pi pi-save'"
         iconPos="right"
-        :disabled="creatingSong"
+        :disabled="creatingList"
         size="small"
       />
     </div>
   </Form>
 
-  <Toast group="addSongError" />
+  <Toast group="addListError" />
 </template>

@@ -62,7 +62,7 @@ useSeoMeta({
 
     <div class="flex flex-wrap gap-1 xxs:gap-2 xs:gap-3 p-1 xs:p-2 max-w-full">
       <OfflineIndicator />
-      <UpdateToastAndButton />
+      <UpdateToastAndButton v-if="!isLocalhost" />
       <InstallToastAndButton v-if="!isLocalhost" />
       <Suspense>
         <ProfileButton />

@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { useLists } from "@/composables/useLists";
 import { useUserSession } from "@/stores/userSession";
-import type { Song, WorkView } from "@/types";
+import type { Song, Playlist, WorkView } from "@/types";
 
 const userSession = useUserSession();
 const { t } = useI18n();
-const { songs, loadSongs, loadingSongs, songsError } = useSongs();
+const { songs, loadSongs, loadingSongs } = useSongs();
+const { lists, loadLists, loadingLists } = useLists();
 const loadingSubscriptionPlan = ref(false);
 
-const canUseApp = computed(
-  () =>
-    Boolean(
-      userSession.subscriptionPlan?.trial || userSession.subscriptionPlan?.basic,
-    ),
+const canUseApp = computed(() =>
+  Boolean(
+    userSession.subscriptionPlan?.trial || userSession.subscriptionPlan?.basic,
+  ),
 );
 
 const views = computed(() => [
@@ -25,17 +26,27 @@ const views = computed(() => [
   },
 ]);
 
-const selectedView = ref<WorkView>("songs-view");
+const selectedView = ref<WorkView>("playlists-view");
 
 const showAddSongDialog = ref(false);
+const showAddListDialog = ref(false);
 
 const onAddedSong = async () => {
   showAddSongDialog.value = false;
   await loadSongs();
 };
 
+const onAddedList = async () => {
+  showAddListDialog.value = false;
+  await loadLists();
+};
+
 const onDeletedSong = async () => {
   await loadSongs();
+};
+
+const onDeletedList = async () => {
+  await loadLists();
 };
 
 const onEditedSong = (updatedSong: Song) => {
@@ -47,18 +58,32 @@ const onEditedSong = (updatedSong: Song) => {
   songs.value.splice(existingIndex, 1, updatedSong);
 };
 
+const onEditedList = (updatedList: Playlist) => {
+  const existingIndex = lists.value.findIndex(
+    (list) => list.id === updatedList.id,
+  );
+  if (existingIndex === -1) return;
+
+  lists.value.splice(existingIndex, 1, updatedList);
+};
+
 onMounted(async () => {
   loadingSubscriptionPlan.value = true;
 
   try {
     if (canUseApp.value) {
       void loadSongs();
+      void loadLists();
     }
 
     await userSession.getSubscriptionPlan();
 
     if (canUseApp.value && songs.value.length === 0) {
       await loadSongs();
+    }
+
+    if (canUseApp.value && lists.value.length === 0) {
+      await loadLists();
     }
   } finally {
     loadingSubscriptionPlan.value = false;
@@ -133,18 +158,50 @@ onMounted(async () => {
 
         <!-- PLAYLISTS view -->
         <template v-if="selectedView == 'playlists-view'">
-          <div class="text-center">
-            <p>no list</p>
-            <Button
-              size="small"
-              severity="primary"
-              iconPos="left"
-              icon="pi pi-plus"
-              :label="$t('words.addlist')"
-              class="mt-3"
-              @click="console.log('sds')"
+          <div
+            class="text-center w-full"
+            :class="lists.length > 0 ? 'mt-auto flex-1 min-h-0' : ''"
+          >
+            <i v-if="loadingLists" class="pi pi-spinner pi-spin text-2xl!"></i>
+
+            <ListsView
+              v-else-if="lists.length > 0"
+              :lists="lists"
+              @list-edited="onEditedList"
+              @list-deleted="onDeletedList"
             />
+
+            <p v-else>{{ $t("lists.noLists") }}</p>
           </div>
+          <Button
+            size="small"
+            severity="primary"
+            iconPos="left"
+            icon="pi pi-plus"
+            :label="$t('words.addList')"
+            :class="lists.length > 0 ? 'mt-auto self-end' : ''"
+            @click="showAddListDialog = true"
+          />
+
+          <Dialog
+            v-model:visible="showAddListDialog"
+            modal
+            :header="$t('words.addList')"
+          >
+            <AddList
+              @cancel="showAddListDialog = false"
+              @success="onAddedList"
+            />
+            <template #closebutton>
+              <Button
+                severity="secondary"
+                size="small"
+                icon="pi pi-times"
+                variant="text"
+                @click="showAddListDialog = false"
+              />
+            </template>
+          </Dialog>
         </template>
       </div>
     </template>

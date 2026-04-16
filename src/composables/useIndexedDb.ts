@@ -94,6 +94,15 @@ export async function savePlaylistToIndexedDb(playlist: Playlist) {
   await db.put(PLAYLISTS_STORE, playlist);
 }
 
+export async function savePlaylistsToIndexedDb(playlists: Playlist[]) {
+  const db = await getDb();
+  const tx = db.transaction(PLAYLISTS_STORE, "readwrite");
+  for (const playlist of playlists) {
+    await tx.store.put(playlist);
+  }
+  await tx.done;
+}
+
 export async function listPlaylistsFromIndexedDb(
   userId: string,
 ): Promise<Playlist[]> {
@@ -102,14 +111,86 @@ export async function listPlaylistsFromIndexedDb(
   return allPlaylists.filter((playlist) => playlist.user_id === userId);
 }
 
+export async function getPlaylistFromIndexedDb(
+  playlistId: string,
+): Promise<Playlist | null> {
+  const db = await getDb();
+  return (await db.get(PLAYLISTS_STORE, playlistId)) ?? null;
+}
+
+export async function removePlaylistFromIndexedDb(playlistId: string) {
+  const db = await getDb();
+  await db.delete(PLAYLISTS_STORE, playlistId);
+}
+
+export async function clearPlaylistsForUser(userId: string) {
+  const db = await getDb();
+  const allPlaylists = await db.getAll(PLAYLISTS_STORE);
+  const tx = db.transaction(PLAYLISTS_STORE, "readwrite");
+  for (const playlist of allPlaylists) {
+    if (playlist.user_id === userId) {
+      await tx.store.delete(playlist.id);
+    }
+  }
+  await tx.done;
+}
+
 export async function savePlaylistSongToIndexedDb(playlistSong: PlaylistSong) {
   const db = await getDb();
   await db.put(PLAYLIST_SONGS_STORE, playlistSong);
 }
 
-export async function listPlaylistSongsFromIndexedDb(): Promise<PlaylistSong[]> {
+export async function savePlaylistSongsToIndexedDb(
+  playlistSongs: PlaylistSong[],
+) {
   const db = await getDb();
-  return db.getAll(PLAYLIST_SONGS_STORE);
+  const tx = db.transaction(PLAYLIST_SONGS_STORE, "readwrite");
+  for (const playlistSong of playlistSongs) {
+    await tx.store.put(playlistSong);
+  }
+  await tx.done;
+}
+
+export async function listPlaylistSongsFromIndexedDb(
+  playlistIds?: string[],
+): Promise<PlaylistSong[]> {
+  const db = await getDb();
+  const allPlaylistSongs = await db.getAll(PLAYLIST_SONGS_STORE);
+  if (!playlistIds?.length) return allPlaylistSongs;
+
+  const playlistIdSet = new Set(playlistIds);
+  return allPlaylistSongs.filter((playlistSong) =>
+    playlistIdSet.has(playlistSong.playlist_id),
+  );
+}
+
+export async function getPlaylistSongFromIndexedDb(
+  playlistSongId: string,
+): Promise<PlaylistSong | null> {
+  const db = await getDb();
+  return (await db.get(PLAYLIST_SONGS_STORE, playlistSongId)) ?? null;
+}
+
+export async function removePlaylistSongFromIndexedDb(playlistSongId: string) {
+  const db = await getDb();
+  await db.delete(PLAYLIST_SONGS_STORE, playlistSongId);
+}
+
+export async function clearPlaylistSongsForPlaylists(playlistIds: string[]) {
+  if (!playlistIds.length) return;
+
+  const playlistIdSet = new Set(playlistIds);
+  const db = await getDb();
+  const allPlaylistSongs = await db.getAll(PLAYLIST_SONGS_STORE);
+  const tx = db.transaction(PLAYLIST_SONGS_STORE, "readwrite");
+
+  for (const playlistSong of allPlaylistSongs) {
+    if (playlistIdSet.has(playlistSong.playlist_id)) {
+      await tx.store.delete(playlistSong.id);
+    }
+  }
+
+  await tx.done;
 }
 
 export async function addSyncQueueItem(item: SyncQueueItem) {

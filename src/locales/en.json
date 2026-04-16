@@ -11,7 +11,7 @@
     "contactMe": "Contact Webdak to continue using the app."
   },
   "songs": {
-    "noSongs": "No songs added",
+    "noSongs": "No songs",
     "validation": {
       "missingName": "Song name is required",
       "tooLongName": "Song name can be 30 characters or less",
@@ -19,6 +19,16 @@
       "tooLongNote": "Note can be 1300 characters or less"
     },
     "deleteSongConfirm": "Are you sure you want to delete this song?"
+  },
+  "lists": {
+    "noLists": "No lists",
+    "validation": {
+      "missingName": "List name is required",
+      "tooLongName": "List name can be 30 characters or less",
+      "tooLongNote": "Note can be 300 characters or less"
+    },
+    "deleteListConfirm": "Are you sure you want to delete this list?",
+    "removeSongConfirm": "Are you sure you want to remove this song from the list?"
   },
   "words": {
     "hello": "Hello World!",
@@ -57,7 +67,7 @@
     "songs": "Songs",
     "lists": "lists",
     "addSong": "Add song",
-    "addlist": "Add list",
+    "addList": "Add list",
     "name": "Name",
     "artist": "Artist",
     "note": "Note",

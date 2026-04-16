@@ -11,6 +11,8 @@ declare global {
   const addSyncQueueItem: typeof import('../../composables/useIndexedDb').addSyncQueueItem
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
+  const clearPlaylistSongsForPlaylists: typeof import('../../composables/useIndexedDb').clearPlaylistSongsForPlaylists
+  const clearPlaylistsForUser: typeof import('../../composables/useIndexedDb').clearPlaylistsForUser
   const clearSongsForUser: typeof import('../../composables/useIndexedDb').clearSongsForUser
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
@@ -45,6 +47,8 @@ declare global {
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
+  const getPlaylistFromIndexedDb: typeof import('../../composables/useIndexedDb').getPlaylistFromIndexedDb
+  const getPlaylistSongFromIndexedDb: typeof import('../../composables/useIndexedDb').getPlaylistSongFromIndexedDb
   const getSongFromIndexedDb: typeof import('../../composables/useIndexedDb').getSongFromIndexedDb
   const h: typeof import('vue').h
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
@@ -106,12 +110,16 @@ declare global {
   const refManualReset: typeof import('@vueuse/core').refManualReset
   const refThrottled: typeof import('@vueuse/core').refThrottled
   const refWithControl: typeof import('@vueuse/core').refWithControl
+  const removePlaylistFromIndexedDb: typeof import('../../composables/useIndexedDb').removePlaylistFromIndexedDb
+  const removePlaylistSongFromIndexedDb: typeof import('../../composables/useIndexedDb').removePlaylistSongFromIndexedDb
   const removeSongFromIndexedDb: typeof import('../../composables/useIndexedDb').removeSongFromIndexedDb
   const removeSyncQueueItem: typeof import('../../composables/useIndexedDb').removeSyncQueueItem
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
   const savePlaylistSongToIndexedDb: typeof import('../../composables/useIndexedDb').savePlaylistSongToIndexedDb
+  const savePlaylistSongsToIndexedDb: typeof import('../../composables/useIndexedDb').savePlaylistSongsToIndexedDb
   const savePlaylistToIndexedDb: typeof import('../../composables/useIndexedDb').savePlaylistToIndexedDb
+  const savePlaylistsToIndexedDb: typeof import('../../composables/useIndexedDb').savePlaylistsToIndexedDb
   const saveSongToIndexedDb: typeof import('../../composables/useIndexedDb').saveSongToIndexedDb
   const saveSongsToIndexedDb: typeof import('../../composables/useIndexedDb').saveSongsToIndexedDb
   const setActivePinia: typeof import('pinia').setActivePinia
@@ -227,6 +235,7 @@ declare global {
   const useKeyModifier: typeof import('@vueuse/core').useKeyModifier
   const useLastChanged: typeof import('@vueuse/core').useLastChanged
   const useLink: typeof import('vue-router').useLink
+  const useLists: typeof import('../../composables/useLists').useLists
   const useLocalStorage: typeof import('@vueuse/core').useLocalStorage
   const useMagicKeys: typeof import('@vueuse/core').useMagicKeys
   const useManualRefHistory: typeof import('@vueuse/core').useManualRefHistory
@@ -363,6 +372,8 @@ declare module 'vue' {
     readonly addSyncQueueItem: UnwrapRef<typeof import('../../composables/useIndexedDb')['addSyncQueueItem']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
+    readonly clearPlaylistSongsForPlaylists: UnwrapRef<typeof import('../../composables/useIndexedDb')['clearPlaylistSongsForPlaylists']>
+    readonly clearPlaylistsForUser: UnwrapRef<typeof import('../../composables/useIndexedDb')['clearPlaylistsForUser']>
     readonly clearSongsForUser: UnwrapRef<typeof import('../../composables/useIndexedDb')['clearSongsForUser']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
@@ -397,6 +408,8 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
+    readonly getPlaylistFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['getPlaylistFromIndexedDb']>
+    readonly getPlaylistSongFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['getPlaylistSongFromIndexedDb']>
     readonly getSongFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['getSongFromIndexedDb']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
@@ -458,12 +471,16 @@ declare module 'vue' {
     readonly refManualReset: UnwrapRef<typeof import('@vueuse/core')['refManualReset']>
     readonly refThrottled: UnwrapRef<typeof import('@vueuse/core')['refThrottled']>
     readonly refWithControl: UnwrapRef<typeof import('@vueuse/core')['refWithControl']>
+    readonly removePlaylistFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['removePlaylistFromIndexedDb']>
+    readonly removePlaylistSongFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['removePlaylistSongFromIndexedDb']>
     readonly removeSongFromIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['removeSongFromIndexedDb']>
     readonly removeSyncQueueItem: UnwrapRef<typeof import('../../composables/useIndexedDb')['removeSyncQueueItem']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly savePlaylistSongToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['savePlaylistSongToIndexedDb']>
+    readonly savePlaylistSongsToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['savePlaylistSongsToIndexedDb']>
     readonly savePlaylistToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['savePlaylistToIndexedDb']>
+    readonly savePlaylistsToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['savePlaylistsToIndexedDb']>
     readonly saveSongToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['saveSongToIndexedDb']>
     readonly saveSongsToIndexedDb: UnwrapRef<typeof import('../../composables/useIndexedDb')['saveSongsToIndexedDb']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
@@ -579,6 +596,7 @@ declare module 'vue' {
     readonly useKeyModifier: UnwrapRef<typeof import('@vueuse/core')['useKeyModifier']>
     readonly useLastChanged: UnwrapRef<typeof import('@vueuse/core')['useLastChanged']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useLists: UnwrapRef<typeof import('../../composables/useLists')['useLists']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
