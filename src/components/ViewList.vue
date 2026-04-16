@@ -96,6 +96,7 @@ const moveSongInCurrentList = async (songId: string, direction: "up" | "down") =
 
   const nextSongs = [...songsInList.value];
   const [movedSong] = nextSongs.splice(currentIndex, 1);
+  if (!movedSong) return;
   nextSongs.splice(targetIndex, 0, movedSong);
 
   const orderedSongIds = nextSongs.map((song) => song.id);
