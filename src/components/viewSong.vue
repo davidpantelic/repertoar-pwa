@@ -25,7 +25,9 @@ const loadingListsForDialog = ref(false);
 const pendingListIds = ref<string[]>([]);
 
 const linkedLists = computed(() => getListsForSong(props.song.id));
-const linkedListIds = computed(() => new Set(linkedLists.value.map((list) => list.id)));
+const linkedListIds = computed(
+  () => new Set(linkedLists.value.map((list) => list.id)),
+);
 const hasListSelectionChanges = computed(() => {
   const currentIds = [...linkedListIds.value].sort();
   const nextIds = [...pendingListIds.value].sort();
@@ -55,8 +57,12 @@ const saveSongListsSelection = async () => {
   const currentIds = new Set(linkedListIds.value);
   const nextIds = new Set(pendingListIds.value);
 
-  const listIdsToAdd = pendingListIds.value.filter((listId) => !currentIds.has(listId));
-  const listIdsToRemove = [...currentIds].filter((listId) => !nextIds.has(listId));
+  const listIdsToAdd = pendingListIds.value.filter(
+    (listId) => !currentIds.has(listId),
+  );
+  const listIdsToRemove = [...currentIds].filter(
+    (listId) => !nextIds.has(listId),
+  );
 
   for (const listId of listIdsToAdd) {
     const success = await addSongToList(listId, props.song.id);
@@ -185,27 +191,36 @@ const deleteSong = async (songId: string) => {
 
   <Dialog
     v-model:visible="addToListDialogShown"
+    class="h-full [&_.p-dialog-header]:pb-0!"
     modal
-    :header="t('words.lists')"
+    :header="props.song?.name"
   >
-    <div class="flex flex-col gap-3 min-w-60">
+    <div class="flex flex-col gap-3 min-w-60 h-full">
       <div v-if="loadingListsForDialog" class="text-center">
         <i class="pi pi-spinner pi-spin text-2xl!" />
       </div>
 
       <template v-else-if="lists.length > 0">
-        <div class="flex flex-col gap-2">
-          <label
-            v-for="list in lists"
-            :key="list.id"
-            class="flex items-center gap-3 rounded-md border border-surface-200 px-3 py-2 cursor-pointer"
-          >
-            <Checkbox v-model="pendingListIds" :inputId="list.id" :value="list.id" />
-            <span>{{ list.name }}</span>
-          </label>
-        </div>
+        <p class="mb-2">{{ t("words.addSongInLists") }}</p>
 
-        <div class="flex gap-2 flex-wrap [&>button]:grow">
+        <ScrollPanel class="min-h-0">
+          <div class="flex flex-col gap-2">
+            <label
+              v-for="list in lists"
+              :key="list.id"
+              class="flex items-center gap-3 rounded-md border border-surface px-3 py-2 cursor-pointer"
+            >
+              <Checkbox
+                v-model="pendingListIds"
+                :inputId="list.id"
+                :value="list.id"
+              />
+              <span class="truncate">{{ list.name }}</span>
+            </label>
+          </div>
+        </ScrollPanel>
+
+        <div class="flex gap-2 flex-wrap mt-auto [&>button]:grow">
           <Button
             type="button"
             severity="danger"

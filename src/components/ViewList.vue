@@ -27,7 +27,9 @@ const addSongsDialogShown = ref(false);
 const loadingSongsForAddDialog = ref(false);
 const pendingSongIds = ref<string[]>([]);
 
-const currentSongIdsInList = computed(() => songsInList.value.map((song) => song.id));
+const currentSongIdsInList = computed(() =>
+  songsInList.value.map((song) => song.id),
+);
 const hasSongSelectionChanges = computed(() => {
   const currentIds = [...currentSongIdsInList.value].sort();
   const nextIds = [...pendingSongIds.value].sort();
@@ -82,13 +84,22 @@ const confirmRemoveSongFromCurrentList = (songId: string) => {
       }
 
       await loadSongsInCurrentList();
+
+      if (songsInList.value.length < 1) {
+        reorderMode.value = false;
+      }
     },
     reject: () => {},
   });
 };
 
-const moveSongInCurrentList = async (songId: string, direction: "up" | "down") => {
-  const currentIndex = songsInList.value.findIndex((song) => song.id === songId);
+const moveSongInCurrentList = async (
+  songId: string,
+  direction: "up" | "down",
+) => {
+  const currentIndex = songsInList.value.findIndex(
+    (song) => song.id === songId,
+  );
   if (currentIndex === -1) return;
 
   const targetIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
@@ -100,7 +111,10 @@ const moveSongInCurrentList = async (songId: string, direction: "up" | "down") =
   nextSongs.splice(targetIndex, 0, movedSong);
 
   const orderedSongIds = nextSongs.map((song) => song.id);
-  const reorderedEntries = await reorderSongsInList(props.list.id, orderedSongIds);
+  const reorderedEntries = await reorderSongsInList(
+    props.list.id,
+    orderedSongIds,
+  );
 
   if (reorderedEntries.length === 0) {
     toast.removeGroup("listSongMutationError");
@@ -139,8 +153,12 @@ const saveListSongsSelection = async () => {
   const currentIds = new Set(currentSongIdsInList.value);
   const nextIds = new Set(pendingSongIds.value);
 
-  const songIdsToAdd = pendingSongIds.value.filter((songId) => !currentIds.has(songId));
-  const songIdsToRemove = [...currentIds].filter((songId) => !nextIds.has(songId));
+  const songIdsToAdd = pendingSongIds.value.filter(
+    (songId) => !currentIds.has(songId),
+  );
+  const songIdsToRemove = [...currentIds].filter(
+    (songId) => !nextIds.has(songId),
+  );
 
   for (const songId of songIdsToAdd) {
     const success = await addSongToList(props.list.id, songId);
@@ -223,6 +241,8 @@ const deleteList = async (listId: string) => {
     reject: () => {},
   });
 };
+
+const reorderMode = ref(false);
 </script>
 
 <template>
@@ -238,15 +258,18 @@ const deleteList = async (listId: string) => {
       <i class="pi pi-spinner pi-spin text-2xl!" />
     </div>
 
-    <div v-else-if="songsInList.length > 0" class="flex flex-col gap-2 text-left">
+    <div
+      v-else-if="songsInList.length > 0"
+      class="flex flex-col gap-2 text-left"
+    >
       <Card
         v-for="(song, index) in songsInList"
         :key="song.id"
         class="lists-card min-w-0"
       >
         <template #content>
-          <div class="flex gap-3 items-start">
-            <div class="flex flex-col gap-1">
+          <div class="flex gap-3 items-center">
+            <div v-if="reorderMode" class="flex flex-col gap-1">
               <Button
                 severity="secondary"
                 variant="text"
@@ -260,7 +283,9 @@ const deleteList = async (listId: string) => {
                 variant="text"
                 size="small"
                 icon="pi pi-chevron-down"
-                :disabled="mutatingListSongs || index === songsInList.length - 1"
+                :disabled="
+                  mutatingListSongs || index === songsInList.length - 1
+                "
                 @click="moveSongInCurrentList(song.id, 'down')"
               />
             </div>
@@ -273,7 +298,9 @@ const deleteList = async (listId: string) => {
                   {{ song.artist }}
                 </span>
 
-                <span v-if="song.artist && song.note" class="leading-none">-</span>
+                <span v-if="song.artist && song.note" class="leading-none"
+                  >-</span
+                >
 
                 <span
                   v-if="song.note"
@@ -285,6 +312,7 @@ const deleteList = async (listId: string) => {
             </div>
 
             <Button
+              v-if="reorderMode"
               severity="danger"
               variant="text"
               size="small"
@@ -301,12 +329,13 @@ const deleteList = async (listId: string) => {
       {{ $t("songs.noSongs") }}
     </p>
   </ScrollPanel>
-  <div class="flex gap-3 h-8.5">
+  <div class="flex gap-2 h-8.5">
     <Button
       severity="danger"
       size="small"
       icon="pi pi-trash"
       class="min-w-fit grow"
+      :disabled="reorderMode"
       @click="deleteList(props.list!.id)"
     />
     <Button
@@ -315,6 +344,7 @@ const deleteList = async (listId: string) => {
       size="small"
       icon="pi pi-pen-to-square"
       class="min-w-fit grow"
+      :disabled="reorderMode"
       @click="
         emit('editList', props.list!.id, {
           name: props.list!.name,
@@ -323,57 +353,76 @@ const deleteList = async (listId: string) => {
       "
     />
     <Button
+      v-if="songsInList.length > 0"
+      :severity="reorderMode ? 'primary' : 'secondary'"
+      variant="outlined"
+      size="small"
+      icon="pi pi-arrow-right-arrow-left"
+      class="min-w-fit grow [&>span]:rotate-90"
+      @click="reorderMode = !reorderMode"
+    />
+    <Button
       severity="primary"
       size="small"
       icon="pi pi-plus"
       class="min-w-fit grow"
+      :disabled="reorderMode"
       @click="openAddSongsDialog"
     />
   </div>
 
   <Dialog
     v-model:visible="addSongsDialogShown"
+    class="h-full [&_.p-dialog-header]:pb-0!"
     modal
-    :header="t('words.addSong')"
+    :header="props.list?.name"
   >
-    <div class="flex flex-col gap-3 min-w-60">
+    <div class="flex flex-col gap-3 min-w-60 h-full">
       <div v-if="loadingSongsForAddDialog" class="text-center">
         <i class="pi pi-spinner pi-spin text-2xl!" />
       </div>
 
       <template v-else-if="songs.length > 0">
-        <div class="flex flex-col gap-2 max-h-90 overflow-auto">
-          <label
-            v-for="song in songs"
-            :key="song.id"
-            class="flex items-start gap-3 rounded-md border border-surface-200 px-3 py-2 cursor-pointer"
-          >
-            <Checkbox
-              v-model="pendingSongIds"
-              :inputId="song.id"
-              :value="song.id"
-            />
-            <div class="min-w-0 flex-1">
-              <span class="block text-sm sm:text-base">{{ song.name }}</span>
-              <div class="flex gap-2 items-center text-muted-color italic">
-                <span v-if="song.artist" class="text-xs sm:text-sm">
-                  {{ song.artist }}
-                </span>
+        <p class="mb-2">{{ t("words.addSongsInList") }}</p>
 
-                <span v-if="song.artist && song.note" class="leading-none">-</span>
+        <ScrollPanel class="min-h-0">
+          <div class="flex flex-col gap-2 max-h-90 overflow-auto">
+            <label
+              v-for="song in songs"
+              :key="song.id"
+              class="flex items-center gap-3 rounded-md border border-surface px-3 py-2 cursor-pointer"
+            >
+              <Checkbox
+                v-model="pendingSongIds"
+                :inputId="song.id"
+                :value="song.id"
+              />
+              <div class="min-w-0 flex-1">
+                <span class="block text-sm sm:text-base truncate">{{
+                  song.name
+                }}</span>
+                <!-- <div class="flex gap-2 items-center text-muted-color italic">
+                  <span v-if="song.artist" class="text-xs sm:text-sm">
+                    {{ song.artist }}
+                  </span>
 
-                <span
-                  v-if="song.note"
-                  class="text-xs flex-1 truncate sm:text-sm"
-                >
-                  {{ song.note }}
-                </span>
+                  <span v-if="song.artist && song.note" class="leading-none"
+                    >-</span
+                  >
+
+                  <span
+                    v-if="song.note"
+                    class="text-xs flex-1 truncate sm:text-sm"
+                  >
+                    {{ song.note }}
+                  </span>
+                </div> -->
               </div>
-            </div>
-          </label>
-        </div>
+            </label>
+          </div>
+        </ScrollPanel>
 
-        <div class="flex gap-2 flex-wrap [&>button]:grow">
+        <div class="flex gap-2 flex-wrap mt-auto [&>button]:grow">
           <Button
             type="button"
             severity="danger"

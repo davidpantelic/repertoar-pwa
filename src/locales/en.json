@@ -68,6 +68,8 @@
     "lists": "lists",
     "addSong": "Add song",
     "addList": "Add list",
+    "addSongInLists": "Add this song to the list",
+    "addSongsInList": "Add songs to this list",
     "name": "Name",
     "artist": "Artist",
     "note": "Note",

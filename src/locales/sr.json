@@ -68,6 +68,8 @@
     "lists": "Spiskovi",
     "addSong": "Dodaj pesmu",
     "addList": "Dodaj spisak",
+    "addSongInLists": "Dodaj ovu pesmu u spisak",
+    "addSongsInList": "Dodaj pesme u ovaj spisak",
     "name": "Ime",
     "artist": "Izvođač",
     "note": "Beleška",
