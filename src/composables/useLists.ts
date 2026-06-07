@@ -49,6 +49,8 @@ const normalizePlaylistPayload = (payload: PlaylistUpsertPayload) => ({
   note: payload.note?.trim() || null,
 });
 
+const normalizeListName = (name: string) => name.trim().toLowerCase();
+
 const sortListsAlphabetically = (playlists: Playlist[]) =>
   [...playlists].sort((a, b) =>
     a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
@@ -109,6 +111,36 @@ export function useLists() {
     if (userId) return userId;
     setListsError("User is not authenticated.");
     return null;
+  };
+
+  const isListNameTaken = (name: string, excludedPlaylistId?: string) => {
+    const normalizedName = normalizeListName(name);
+    if (!normalizedName) return false;
+
+    return lists.value.some(
+      (playlist) =>
+        playlist.id !== excludedPlaylistId &&
+        normalizeListName(playlist.name) === normalizedName,
+    );
+  };
+
+  const assertUniqueActiveListName = async (
+    userId: string,
+    name: string,
+    excludedPlaylistId?: string,
+  ) => {
+    const normalizedName = normalizeListName(name);
+    const localLists = await listPlaylistsFromIndexedDb(userId);
+    const duplicateExists = localLists.some(
+      (playlist) =>
+        !playlist.deleted_at &&
+        playlist.id !== excludedPlaylistId &&
+        normalizeListName(playlist.name) === normalizedName,
+    );
+
+    if (duplicateExists) {
+      throw new Error("LIST_NAME_ALREADY_EXISTS");
+    }
   };
 
   const applyListsToState = (
@@ -391,6 +423,8 @@ export function useLists() {
 
     try {
       const normalizedPayload = normalizePlaylistPayload(payload);
+      await assertUniqueActiveListName(userId, normalizedPayload.name);
+
       const nowIso = new Date().toISOString();
       const localPlaylist: Playlist = {
         id: crypto.randomUUID(),
@@ -439,6 +473,12 @@ export function useLists() {
       }
 
       const normalizedPayload = normalizePlaylistPayload(payload);
+      await assertUniqueActiveListName(
+        userId,
+        normalizedPayload.name,
+        playlistId,
+      );
+
       const updatedPlaylist: Playlist = {
         ...existingPlaylist,
         name: normalizedPayload.name,
@@ -518,6 +558,12 @@ export function useLists() {
       if (!existingPlaylist || existingPlaylist.user_id !== userId) {
         throw new Error("List not found.");
       }
+
+      await assertUniqueActiveListName(
+        userId,
+        existingPlaylist.name,
+        playlistId,
+      );
 
       const restoredPlaylist: Playlist = {
         ...existingPlaylist,
@@ -820,6 +866,7 @@ export function useLists() {
     mutatingListSongs,
     syncingLists,
     isAuthenticated,
+    isListNameTaken,
     loadLists,
     loadDeletedLists,
     createList,

@@ -24,6 +24,7 @@
     "noLists": "Nema spiskova",
     "validation": {
       "missingName": "Ime spiska je obavezno",
+      "duplicateName": "Spisak sa ovim imenom već postoji",
       "tooLongName": "Ime spiska može imati 60 karaktera ili manje",
       "tooLongNote": "Beleška može imati 300 karaktera ili manje"
     },

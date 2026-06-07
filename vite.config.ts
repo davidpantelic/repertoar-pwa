@@ -38,6 +38,22 @@ export default defineConfig({
         start_url: "/",
         scope: "/",
         id: "/",
+        screenshots: [
+          {
+            src: "/screenshots/mobile-view.png",
+            sizes: "720x1280", // Aspect ratio must match the physical image file
+            type: "image/png",
+            form_factor: "narrow", // Triggers the app-store layout on Android/Mobile devices
+            label: "Mobile dashboard overview",
+          },
+          {
+            src: "/screenshots/desktop-view.png",
+            sizes: "1920x1080", // Aspect ratio must match the physical image file
+            type: "image/png",
+            form_factor: "wide", // Triggers the app-store layout on Desktop/Laptop browsers
+            label: "Desktop analytics platform",
+          },
+        ],
         // related_applications: [
         // const relatedApps = await navigator.getInstalledRelatedApps();
         // const PWAisInstalled = relatedApps.length > 0;

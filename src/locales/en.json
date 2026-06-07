@@ -24,6 +24,7 @@
     "noLists": "No lists",
     "validation": {
       "missingName": "List name is required",
+      "duplicateName": "A list with this name already exists",
       "tooLongName": "List name can be 30 characters or less",
       "tooLongNote": "Note can be 300 characters or less"
     },
@@ -65,7 +66,7 @@
     "started": "Started",
     "add": "Add",
     "songs": "Songs",
-    "lists": "lists",
+    "lists": "Lists",
     "addSong": "Add song",
     "addList": "Add list",
     "addSongInLists": "Add this song to the list",

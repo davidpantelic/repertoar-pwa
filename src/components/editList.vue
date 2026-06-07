@@ -3,7 +3,13 @@ import type { Playlist, PlaylistUpsertPayload } from "@/types";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { z } from "zod";
 
-const { updatingList, renameList, listsError } = useLists();
+const {
+  updatingList,
+  renameList,
+  listsError,
+  isListNameTaken,
+  loadLists,
+} = useLists();
 const { t, locale } = useI18n();
 const toast = useToast();
 const emit = defineEmits(["cancel", "success"]);
@@ -23,7 +29,10 @@ const buildSchema = () =>
       .string()
       .trim()
       .min(1, { message: t("lists.validation.missingName") })
-      .max(60, { message: t("lists.validation.tooLongName") }),
+      .max(60, { message: t("lists.validation.tooLongName") })
+      .refine((name) => !isListNameTaken(name, props.listId), {
+        message: t("lists.validation.duplicateName"),
+      }),
     artist: z
       .string()
       .trim()
@@ -59,7 +68,10 @@ const onFormSubmit = async (e: any): Promise<void> => {
         group: "editListError",
         severity: "warn",
         summary: t("toasts.global.error.summary"),
-        detail: t("toasts.global.error.detail"),
+        detail:
+          listsError.value === "LIST_NAME_ALREADY_EXISTS"
+            ? t("lists.validation.duplicateName")
+            : t("toasts.global.error.detail"),
         life: 3000,
       });
       console.log("Error on adding list:", listsError.value);
@@ -101,6 +113,10 @@ const hasChanges = (values: PlaylistUpsertPayload) => {
     normalized.note !== initialNormalizedValues.value.note
   );
 };
+
+onMounted(() => {
+  void loadLists({ sync: false });
+});
 </script>
 
 <template>

@@ -26,6 +26,8 @@ const loadingSongsInList = ref(false);
 const addSongsDialogShown = ref(false);
 const loadingSongsForAddDialog = ref(false);
 const pendingSongIds = ref<string[]>([]);
+const songPreviewDialogShown = ref(false);
+const selectedSongIndex = ref(0);
 
 const currentSongIdsInList = computed(() =>
   songsInList.value.map((song) => song.id),
@@ -37,6 +39,11 @@ const hasSongSelectionChanges = computed(() => {
   if (currentIds.length !== nextIds.length) return true;
   return currentIds.some((songId, index) => songId !== nextIds[index]);
 });
+const selectedSong = computed(() => songsInList.value[selectedSongIndex.value]);
+const hasPreviousSong = computed(() => selectedSongIndex.value > 0);
+const hasNextSong = computed(
+  () => selectedSongIndex.value < songsInList.value.length - 1,
+);
 
 const loadSongsInCurrentList = async () => {
   if (!props.list?.id) {
@@ -130,6 +137,23 @@ const moveSongInCurrentList = async (
   }
 
   songsInList.value = nextSongs;
+};
+
+const openSongPreview = (index: number) => {
+  if (reorderMode.value) return;
+
+  selectedSongIndex.value = index;
+  songPreviewDialogShown.value = true;
+};
+
+const showPreviousSong = () => {
+  if (!hasPreviousSong.value) return;
+  selectedSongIndex.value -= 1;
+};
+
+const showNextSong = () => {
+  if (!hasNextSong.value) return;
+  selectedSongIndex.value += 1;
 };
 
 const openAddSongsDialog = async () => {
@@ -266,6 +290,8 @@ const reorderMode = ref(false);
         v-for="(song, index) in songsInList"
         :key="song.id"
         class="lists-card min-w-0"
+        :class="!reorderMode ? 'cursor-pointer' : ''"
+        @click="openSongPreview(index)"
       >
         <template #content>
           <div class="flex gap-3 items-center">
@@ -276,7 +302,7 @@ const reorderMode = ref(false);
                 size="small"
                 icon="pi pi-chevron-up"
                 :disabled="mutatingListSongs || index === 0"
-                @click="moveSongInCurrentList(song.id, 'up')"
+                @click.stop="moveSongInCurrentList(song.id, 'up')"
               />
               <Button
                 severity="secondary"
@@ -286,7 +312,7 @@ const reorderMode = ref(false);
                 :disabled="
                   mutatingListSongs || index === songsInList.length - 1
                 "
-                @click="moveSongInCurrentList(song.id, 'down')"
+                @click.stop="moveSongInCurrentList(song.id, 'down')"
               />
             </div>
 
@@ -318,7 +344,7 @@ const reorderMode = ref(false);
               size="small"
               icon="pi pi-times"
               :disabled="mutatingListSongs"
-              @click="confirmRemoveSongFromCurrentList(song.id)"
+              @click.stop="confirmRemoveSongFromCurrentList(song.id)"
             />
           </div>
         </template>
@@ -370,6 +396,51 @@ const reorderMode = ref(false);
       @click="openAddSongsDialog"
     />
   </div>
+
+  <Dialog
+    v-model:visible="songPreviewDialogShown"
+    modal
+    class="h-full [&_.p-dialog-header]:pb-0!"
+    :header="props.list?.name"
+  >
+    <div
+      v-if="selectedSong"
+      class="flex items-stretch flex-col gap-2 w-full h-full"
+    >
+      <ScrollPanel class="min-h-0 grow">
+        <div class="min-w-0 text-center">
+          <h2>{{ selectedSong.name }}</h2>
+          <p v-if="selectedSong.artist" class="italic">
+            {{ selectedSong.artist }}
+          </p>
+          <p v-if="selectedSong.note" class="mt-3 whitespace-pre-wrap">
+            {{ selectedSong.note }}
+          </p>
+        </div>
+      </ScrollPanel>
+
+      <div class="flex w-full gap-3">
+        <Button
+          severity="secondary"
+          variant="outlined"
+          icon="pi pi-chevron-left"
+          class="grow"
+          size="small"
+          :disabled="!hasPreviousSong"
+          @click="showPreviousSong"
+        />
+        <Button
+          severity="secondary"
+          variant="outlined"
+          icon="pi pi-chevron-right"
+          class="grow"
+          size="small"
+          :disabled="!hasNextSong"
+          @click="showNextSong"
+        />
+      </div>
+    </div>
+  </Dialog>
 
   <Dialog
     v-model:visible="addSongsDialogShown"
