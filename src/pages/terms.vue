@@ -9,7 +9,7 @@ const { locale } = useI18n();
 
     <p>
       {{ $t("words.lastUpdate") }}:
-      <b>{{ $d(new Date("2026-04-01"), "numeric") }}</b>
+      <b>{{ $d(new Date("2026-06-08"), "numericPadded") }}</b>
     </p>
     <p>
       {{ $t("words.appName") }}: <strong>{{ $t("appInfo.name") }}</strong>
@@ -64,7 +64,16 @@ const { locale } = useI18n();
         store, process, and sync that content to provide the service.
       </p>
 
-      <h2>5. Acceptable Use</h2>
+      <h2>5. Content Removal and Rights Claims</h2>
+      <p>
+        We may remove or disable access to a song or other content after
+        receiving a valid request from its author, copyright owner, other rights
+        holder, a court, regulator, or another competent legal authority. We may
+        also remove content when we reasonably believe that it violates
+        applicable law or the rights of another person.
+      </p>
+
+      <h2>6. Acceptable Use</h2>
       <p>You agree not to:</p>
       <ul>
         <li>
@@ -79,60 +88,60 @@ const { locale } = useI18n();
         <li><p>upload malware or malicious content.</p></li>
       </ul>
 
-      <h2>6. Push Notifications</h2>
+      <h2>7. Push Notifications</h2>
       <p>
         Push notifications are optional and require your device/browser
         permission. You can disable notifications in browser or system settings
         at any time.
       </p>
 
-      <h2>7. Offline Mode and Sync</h2>
+      <h2>8. Offline Mode and Sync</h2>
       <p>
         The app may store data locally (for example IndexedDB) and sync later
         when online. You are responsible for reviewing synced content and
         ensuring it is accurate.
       </p>
 
-      <h2>8. Service Availability</h2>
+      <h2>9. Service Availability</h2>
       <p>
         We aim to keep the service available but do not guarantee uninterrupted
         operation. Maintenance, connectivity issues, third-party outages, or
         technical failures may affect availability.
       </p>
 
-      <h2>9. Changes to the Service and Terms</h2>
+      <h2>10. Changes to the Service and Terms</h2>
       <p>
         We may update the app and these Terms from time to time. Continued use
         after updates means you accept the updated Terms.
       </p>
 
-      <h2>10. Suspension and Termination</h2>
+      <h2>11. Suspension and Termination</h2>
       <p>
         We may suspend or terminate access if you violate these Terms, use the
         app unlawfully, or create security risks.
       </p>
 
-      <h2>11. Disclaimer of Warranties</h2>
+      <h2>12. Disclaimer of Warranties</h2>
       <p>
         The app is provided on an “as is” and “as available” basis, to the
         extent permitted by law, without warranties of any kind.
       </p>
 
-      <h2>12. Limitation of Liability</h2>
+      <h2>13. Limitation of Liability</h2>
       <p>
         To the maximum extent permitted by law, we are not liable for indirect,
         incidental, special, consequential, or punitive damages arising from use
         of the app.
       </p>
 
-      <h2>13. Governing Law</h2>
+      <h2>14. Governing Law</h2>
       <p>
         These Terms are governed by applicable laws of the Republic of Serbia,
         unless mandatory consumer law in your country of residence provides
         otherwise.
       </p>
 
-      <h2>14. Contact</h2>
+      <h2>15. Contact</h2>
       <p>
         For questions about these Terms, contact:
         <a href="mailto:info@webdak.rs" class="hover:underline"
@@ -180,7 +189,16 @@ const { locale } = useI18n();
         obradu i sinhronizaciju tog sadržaja radi pružanja usluge.
       </p>
 
-      <h2>5. Dozvoljeno korišćenje</h2>
+      <h2>5. Uklanjanje sadržaja i zahtevi nosilaca prava</h2>
+      <p>
+        Možemo ukloniti pesmu ili drugi sadržaj, ili onemogućiti pristup tom
+        sadržaju, nakon prijema osnovanog zahteva autora, nosioca autorskog
+        prava, drugog nosioca prava, suda, regulatornog tela ili drugog
+        nadležnog organa. Sadržaj možemo ukloniti i kada opravdano smatramo da
+        krši važeće propise ili prava drugog lica.
+      </p>
+
+      <h2>6. Dozvoljeno korišćenje</h2>
       <p>Saglasni ste da nećete:</p>
       <ul>
         <li>
@@ -195,60 +213,60 @@ const { locale } = useI18n();
         <li><p>unositi maliciozan kod ili štetan sadržaj.</p></li>
       </ul>
 
-      <h2>6. Push obaveštenja</h2>
+      <h2>7. Push obaveštenja</h2>
       <p>
         Push obaveštenja su opciona i zahtevaju dozvolu vašeg
         uređaja/pretraživača. U svakom trenutku možete ih isključiti u
         podešavanjima.
       </p>
 
-      <h2>7. Offline režim i sinhronizacija</h2>
+      <h2>8. Offline režim i sinhronizacija</h2>
       <p>
         Aplikacija može čuvati podatke lokalno (na primer IndexedDB) i kasnije
         ih sinhronizovati kada ste online. Vi ste odgovorni da proverite
         sinhronizovan sadržaj i njegovu tačnost.
       </p>
 
-      <h2>8. Dostupnost usluge</h2>
+      <h2>9. Dostupnost usluge</h2>
       <p>
         Težimo da usluga bude dostupna, ali ne garantujemo neprekidan rad.
         Održavanje, problemi sa mrežom, prekidi kod trećih strana ili tehnički
         kvarovi mogu uticati na dostupnost.
       </p>
 
-      <h2>9. Izmene usluge i uslova</h2>
+      <h2>10. Izmene usluge i uslova</h2>
       <p>
         Možemo povremeno menjati aplikaciju i ove Uslove. Nastavkom korišćenja
         nakon izmena smatramo da ste prihvatili ažurirane Uslove.
       </p>
 
-      <h2>10. Ograničenje ili ukidanje pristupa</h2>
+      <h2>11. Ograničenje ili ukidanje pristupa</h2>
       <p>
         Možemo ograničiti ili ukinuti pristup ako kršite ove Uslove, koristite
         aplikaciju protivzakonito ili stvarate bezbednosni rizik.
       </p>
 
-      <h2>11. Odricanje od garancija</h2>
+      <h2>12. Odricanje od garancija</h2>
       <p>
         Aplikacija se pruža po principu „takva kakva jeste“ i „kako je
         dostupna“, u meri dozvoljenoj zakonom, bez bilo kakvih garancija.
       </p>
 
-      <h2>12. Ograničenje odgovornosti</h2>
+      <h2>13. Ograničenje odgovornosti</h2>
       <p>
         U najvećoj meri dozvoljenoj zakonom, ne odgovaramo za posrednu,
         incidentnu, posebnu, posledičnu ili kaznenu štetu nastalu korišćenjem
         aplikacije.
       </p>
 
-      <h2>13. Merodavno pravo</h2>
+      <h2>14. Merodavno pravo</h2>
       <p>
         Na ove Uslove primenjuje se pravo Republike Srbije, osim ako obavezna
         pravila zaštite potrošača u vašoj državi prebivališta propisuju
         drugačije.
       </p>
 
-      <h2>14. Kontakt</h2>
+      <h2>15. Kontakt</h2>
       <p>
         Za pitanja u vezi sa ovim Uslovima, kontaktirajte:
         <a href="mailto:info@webdak.rs" class="hover:underline"

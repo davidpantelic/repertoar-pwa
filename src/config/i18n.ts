@@ -15,6 +15,11 @@ const datetimeFormats = {
       month: "numeric",
       day: "numeric",
     },
+    numericPadded: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    },
     short: {
       year: "numeric",
       month: "short",
@@ -39,6 +44,11 @@ const datetimeFormats = {
       year: "numeric",
       month: "numeric",
       day: "numeric",
+    },
+    numericPadded: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     },
     short: {
       year: "numeric",

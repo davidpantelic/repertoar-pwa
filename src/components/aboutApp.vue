@@ -47,9 +47,9 @@ const openLink = (url: string) => {
             <p>
               {{ $t("aboutAppInstall.text1") }}
             </p>
-            <p>
+            <!-- <p>
               {{ $t("aboutAppInstall.text2") }}
-            </p>
+            </p> -->
             <i18n-t scope="global" keypath="aboutAppInstall.text2" tag="p">
               <strong>{{ $t("words.install") }}</strong>
             </i18n-t>
@@ -77,7 +77,7 @@ const openLink = (url: string) => {
         </AccordionContent>
       </AccordionPanel>
 
-      <AccordionPanel value="1">
+      <!-- <AccordionPanel value="1">
         <AccordionHeader>{{ $t("aboutNotifications.title") }}</AccordionHeader>
         <AccordionContent>
           <div class="flex flex-col gap-3">
@@ -93,7 +93,7 @@ const openLink = (url: string) => {
             </i18n-t>
           </div>
         </AccordionContent>
-      </AccordionPanel>
+      </AccordionPanel> -->
 
       <AccordionPanel value="2">
         <AccordionHeader>{{ $t("aboutOffline.title") }}</AccordionHeader>
