@@ -83,7 +83,7 @@ watch(
         :options="userForms"
         :allowEmpty="false"
         fluid
-        class="mb-3"
+        class="mb-3 border rounded-lg! border-[#1f2937]"
       />
 
       <GoogleAuthButton />

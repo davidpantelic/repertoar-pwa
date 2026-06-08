@@ -28,6 +28,8 @@ const loadingSongsForAddDialog = ref(false);
 const pendingSongIds = ref<string[]>([]);
 const songPreviewDialogShown = ref(false);
 const selectedSongIndex = ref(0);
+const songPreviewScrollWrapper = ref<HTMLElement | null>(null);
+const songPreviewHasMoreBelow = ref(false);
 
 const currentSongIdsInList = computed(() =>
   songsInList.value.map((song) => song.id),
@@ -146,14 +148,48 @@ const openSongPreview = (index: number) => {
   songPreviewDialogShown.value = true;
 };
 
-const showPreviousSong = () => {
-  if (!hasPreviousSong.value) return;
-  selectedSongIndex.value -= 1;
+const getSongPreviewScrollContent = () =>
+  songPreviewScrollWrapper.value?.querySelector<HTMLElement>(
+    ".p-scrollpanel-content",
+  ) ?? null;
+
+const updateSongPreviewFade = (event?: Event) => {
+  const content = (event?.target as HTMLElement | null)?.classList.contains(
+    "p-scrollpanel-content",
+  )
+    ? (event?.target as HTMLElement)
+    : getSongPreviewScrollContent();
+
+  if (!content) {
+    songPreviewHasMoreBelow.value = false;
+    return;
+  }
+
+  songPreviewHasMoreBelow.value =
+    content.scrollHeight - content.scrollTop - content.clientHeight > 1;
 };
 
-const showNextSong = () => {
+const resetSongPreviewScroll = async () => {
+  await nextTick();
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+  });
+
+  const content = getSongPreviewScrollContent();
+  if (content) content.scrollTop = 0;
+  updateSongPreviewFade();
+};
+
+const showPreviousSong = async () => {
+  if (!hasPreviousSong.value) return;
+  selectedSongIndex.value -= 1;
+  await resetSongPreviewScroll();
+};
+
+const showNextSong = async () => {
   if (!hasNextSong.value) return;
   selectedSongIndex.value += 1;
+  await resetSongPreviewScroll();
 };
 
 const openAddSongsDialog = async () => {
@@ -284,7 +320,7 @@ const reorderMode = ref(false);
 
     <div
       v-else-if="songsInList.length > 0"
-      class="flex flex-col gap-2 text-left"
+      class="flex flex-col gap-2 text-left p-1 bg-emphasis rounded-lg"
     >
       <Card
         v-for="(song, index) in songsInList"
@@ -295,26 +331,15 @@ const reorderMode = ref(false);
       >
         <template #content>
           <div class="flex gap-3 items-center">
-            <div v-if="reorderMode" class="flex flex-col gap-1">
-              <Button
-                severity="secondary"
-                variant="text"
-                size="small"
-                icon="pi pi-chevron-up"
-                :disabled="mutatingListSongs || index === 0"
-                @click.stop="moveSongInCurrentList(song.id, 'up')"
-              />
-              <Button
-                severity="secondary"
-                variant="text"
-                size="small"
-                icon="pi pi-chevron-down"
-                :disabled="
-                  mutatingListSongs || index === songsInList.length - 1
-                "
-                @click.stop="moveSongInCurrentList(song.id, 'down')"
-              />
-            </div>
+            <Button
+              v-if="reorderMode"
+              severity="danger"
+              variant="text"
+              size="small"
+              icon="pi pi-times"
+              :disabled="mutatingListSongs"
+              @click.stop="confirmRemoveSongFromCurrentList(song.id)"
+            />
 
             <div class="min-w-0 flex-1">
               <span class="w-full text-sm sm:text-base">{{ song.name }}</span>
@@ -337,21 +362,34 @@ const reorderMode = ref(false);
               </div>
             </div>
 
-            <Button
-              v-if="reorderMode"
-              severity="danger"
-              variant="text"
-              size="small"
-              icon="pi pi-times"
-              :disabled="mutatingListSongs"
-              @click.stop="confirmRemoveSongFromCurrentList(song.id)"
-            />
+            <div v-if="reorderMode" class="flex flex-col gap-2">
+              <Button
+                severity="secondary"
+                variant="outlined"
+                size="small"
+                class="p-1!"
+                icon="pi pi-chevron-up"
+                :disabled="mutatingListSongs || index === 0"
+                @click.stop="moveSongInCurrentList(song.id, 'up')"
+              />
+              <Button
+                severity="secondary"
+                variant="outlined"
+                size="small"
+                class="p-1!"
+                icon="pi pi-chevron-down"
+                :disabled="
+                  mutatingListSongs || index === songsInList.length - 1
+                "
+                @click.stop="moveSongInCurrentList(song.id, 'down')"
+              />
+            </div>
           </div>
         </template>
       </Card>
     </div>
 
-    <p v-else class="mt-3 text-sm text-muted-color text-left">
+    <p v-else class="mt-3 text-sm text-muted-color text-center">
       {{ $t("songs.noSongs") }}
     </p>
   </ScrollPanel>
@@ -402,22 +440,37 @@ const reorderMode = ref(false);
     modal
     class="h-full [&_.p-dialog-header]:pb-0!"
     :header="props.list?.name"
+    @show="resetSongPreviewScroll"
   >
     <div
       v-if="selectedSong"
       class="flex items-stretch flex-col gap-2 w-full h-full"
     >
-      <ScrollPanel class="min-h-0 grow">
-        <div class="min-w-0 text-center">
-          <h2>{{ selectedSong.name }}</h2>
-          <p v-if="selectedSong.artist" class="italic">
-            {{ selectedSong.artist }}
-          </p>
-          <p v-if="selectedSong.note" class="mt-3 whitespace-pre-wrap">
-            {{ selectedSong.note }}
-          </p>
-        </div>
-      </ScrollPanel>
+      <div
+        ref="songPreviewScrollWrapper"
+        class="relative min-h-0 grow overflow-hidden"
+        @scroll.capture="updateSongPreviewFade"
+      >
+        <ScrollPanel class="h-full">
+          <div class="min-w-0 text-center">
+            <h2>{{ selectedSong.name }}</h2>
+            <p v-if="selectedSong.artist" class="italic">
+              {{ selectedSong.artist }}
+            </p>
+            <p v-if="selectedSong.note" class="mt-3 whitespace-pre-wrap">
+              {{ selectedSong.note }}
+            </p>
+          </div>
+        </ScrollPanel>
+
+        <div
+          class="song-preview-bottom-fade"
+          :class="{
+            'song-preview-bottom-fade-visible': songPreviewHasMoreBelow,
+          }"
+          aria-hidden="true"
+        />
+      </div>
 
       <div class="flex w-full gap-3">
         <Button

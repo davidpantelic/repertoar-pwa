@@ -40,6 +40,26 @@
   }
 }
 
+.song-preview-bottom-fade {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 70px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--p-dialog-background, var(--body-bg)) 100%
+  );
+}
+
+.song-preview-bottom-fade-visible {
+  opacity: 1;
+}
+
 .chat-scroll-card {
   .p-card-body {
     max-height: 100%;
@@ -84,6 +104,12 @@
 .song-view-dialog,
 .list-view-dialog {
   .p-dialog-header {
+    padding: 10px;
+  }
+}
+
+.list-view-dialog {
+  .p-dialog-content {
     padding: 10px;
   }
 }
