@@ -279,6 +279,14 @@
     "temporaryCheckFailedTitle": "Temporary issue",
     "temporaryCheckFailedText": "We couldn't verify the password reset link right now. Check your internet connection and try again."
   },
+  "installation": {
+    "title": "Installing the application",
+    "subtitle": "To install the application on your device:",
+    "text1": "{0}: Open the link in the Google Chrome browser and then click the {1} button and confirm.",
+    "text2": "{0}: Open the link in the Safari browser and then on 3 dots, then on {1}, and then on {3} / {4} and confirm.",
+    "text3": "By clicking the button below, you can copy the application link and then paste it into the Google Chrome / Safari browser.",
+    "text4": "You can certainly continue to use the application without installing it."
+  },
   "aboutTitle": "Help",
   "aboutAppInstall": {
     "title": "Installing the application",

@@ -80,7 +80,7 @@ onMounted(() => {
     sessionStorage.getItem("repertoar_install_button_clicked") === "1";
 
   hideInstallButton.value =
-    cookies.get("repertoar-pwa-cookie") === "repertoar-install-button-clicked";
+    cookies.get("repertoar-pwa-cookie") === "repertoar-install-button-hidden";
   setTimeout(() => {
     waitAfterMounted.value = true;
   }, 500);
@@ -100,14 +100,14 @@ const copyAppLink = async () => {
   }
 };
 
-const hideInstallButtonManually = () => {
-  hideInstallButton.value = true;
-  cookies.set(
-    "repertoar-pwa-cookie",
-    "repertoar-install-button-clicked",
-    { maxAge: 3600 }, // s
-  );
-};
+// const hideInstallButtonManually = () => {
+//   hideInstallButton.value = true;
+//   cookies.set(
+//     "repertoar-pwa-cookie",
+//     "repertoar-install-button-hidden",
+//     { maxAge: 3600 }, // s
+//   );
+// };
 </script>
 
 <template>
@@ -164,14 +164,24 @@ const hideInstallButtonManually = () => {
     class="install-instructions-dialog"
     v-model:visible="installDialogVisible"
     modal
-    header="Instalacija nije moguća u trenutnom pretraživaču."
+    :header="t('installation.title')"
   >
     <div class="flex flex-col gap-3 [&>p]:text-justify">
-      <i18n-t scope="global" keypath="dialogs.installFailed.text1" tag="p">
+      <p>{{ t("installation.subtitle") }}</p>
+      <i18n-t scope="global" keypath="installation.text1" tag="p">
+        <strong>Android</strong>
         <strong>{{ $t("words.install") }}</strong>
       </i18n-t>
+      <i18n-t scope="global" keypath="installation.text2" tag="p">
+        <strong>iOS</strong>
+        <strong>Share</strong>
+        <strong>Podeli</strong>
+        <strong>Add to home screen</strong>
+        <strong>Add shortcut</strong>
+        <strong>Dodaj na početni ekran</strong>
+      </i18n-t>
       <p>
-        {{ t("dialogs.installFailed.text2") }}
+        {{ t("installation.text3") }}
       </p>
       <Button
         size="small"
@@ -180,14 +190,6 @@ const hideInstallButtonManually = () => {
         :disabled="copied"
         icon-pos="right"
         @click="copyAppLink"
-      />
-      <p>
-        {{ t("dialogs.installFailed.text3") }}
-      </p>
-      <Button
-        size="small"
-        :label="t('words.hideButton')"
-        @click="hideInstallButtonManually"
       />
     </div>
 
