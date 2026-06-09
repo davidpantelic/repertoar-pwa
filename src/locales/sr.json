@@ -279,6 +279,14 @@
     "temporaryCheckFailedTitle": "Privremeni problem",
     "temporaryCheckFailedText": "Trenutno nije moguće proveriti link za resetovanje lozinke. Proverite internet vezu i pokušajte ponovo."
   },
+  "installation": {
+    "title": "Instaliranje aplikacije",
+    "subtitle": "Da biste instalirali aplikaciju na svoj uređaj:",
+    "text1": "{0}: Otvorite link u Google Chrome pretraživaču a zatim kliknite na {1} dugme i potvrdite.",
+    "text2": "{0}: Otvorite link u Safari pretraživaču a zatim tapnite na 3 tačkice, zatim na {1} / {2}, a zatim na {3} / {4} / {5} a zatim potvrdite.",
+    "text3": "Klikom na dugme ispod možete kopirati link aplikacije a zatim ga zalepiti u Google Chrome / Safari pretraživač.",
+    "text4": "Svakako možete nastaviti da koristite aplikaciju i bez instaliranja."
+  },
   "aboutTitle": "Pomoć",
   "aboutAppInstall": {
     "title": "Instaliranje aplikacije",
