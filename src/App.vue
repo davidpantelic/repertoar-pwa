@@ -59,6 +59,7 @@ useSeoMeta({
 <template>
   <Analytics />
   <SpeedInsights />
+
   <header class="absolute w-full flex items-center gap-3 justify-between p-1">
     <RouterLink to="/">
       <img alt="Vue logo" class="logo size-16" src="@/assets/logo.svg" />
