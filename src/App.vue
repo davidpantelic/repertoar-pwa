@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Analytics } from "@vercel/analytics/vue";
+import { SpeedInsights } from "@vercel/speed-insights/vue";
 import { useUserSession } from "@/stores/userSession";
 
 const { t } = useI18n();
@@ -55,6 +57,8 @@ useSeoMeta({
 </script>
 
 <template>
+  <Analytics />
+  <SpeedInsights />
   <header class="absolute w-full flex items-center gap-3 justify-between p-1">
     <RouterLink to="/">
       <img alt="Vue logo" class="logo size-16" src="@/assets/logo.svg" />
