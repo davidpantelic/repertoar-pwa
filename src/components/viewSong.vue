@@ -23,6 +23,7 @@ const props = defineProps<{
 const addToListDialogShown = ref(false);
 const loadingListsForDialog = ref(false);
 const pendingListIds = ref<string[]>([]);
+const addToListsSearchQuery = ref("");
 const songPreviewScrollWrapper = ref<HTMLElement | null>(null);
 const songPreviewHasMoreBelow = ref(false);
 
@@ -36,6 +37,16 @@ const hasListSelectionChanges = computed(() => {
 
   if (currentIds.length !== nextIds.length) return true;
   return currentIds.some((listId, index) => listId !== nextIds[index]);
+});
+const filteredListsForAdd = computed(() => {
+  const query = addToListsSearchQuery.value.trim().toLowerCase();
+  if (!query) return lists.value;
+
+  return lists.value.filter((list) =>
+    [list.name, list.note].some((value) =>
+      value?.toLowerCase().includes(query),
+    ),
+  );
 });
 
 const getSongPreviewScrollContent = () =>
@@ -72,6 +83,7 @@ const resetSongPreviewScroll = async () => {
 
 const openAddToListDialog = async () => {
   loadingListsForDialog.value = true;
+  addToListsSearchQuery.value = "";
 
   try {
     await loadLists();
@@ -85,6 +97,7 @@ const openAddToListDialog = async () => {
 const closeAddToListDialog = () => {
   addToListDialogShown.value = false;
   pendingListIds.value = [];
+  addToListsSearchQuery.value = "";
 };
 
 const saveSongListsSelection = async () => {
@@ -262,10 +275,29 @@ onMounted(() => {
       <template v-else-if="lists.length > 0">
         <p class="mb-2">{{ t("words.addSongInLists") }}</p>
 
-        <ScrollPanel class="min-h-0">
+        <IconField class="shrink-0">
+          <InputIcon class="pi pi-search" />
+          <InputText
+            v-model="addToListsSearchQuery"
+            :placeholder="t('words.searchLists')"
+            class="pr-10!"
+            fluid
+          />
+          <button
+            v-if="addToListsSearchQuery"
+            type="button"
+            class="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-muted-color hover:text-color"
+            :aria-label="t('words.clearSearch')"
+            @click="addToListsSearchQuery = ''"
+          >
+            <i class="pi pi-times" aria-hidden="true" />
+          </button>
+        </IconField>
+
+        <ScrollPanel class="min-h-0 grow">
           <div class="flex flex-col gap-2">
             <label
-              v-for="list in lists"
+              v-for="list in filteredListsForAdd"
               :key="list.id"
               class="flex items-center gap-3 rounded-md border border-surface px-3 py-2 cursor-pointer"
             >
@@ -276,6 +308,13 @@ onMounted(() => {
               />
               <span class="truncate">{{ list.name }}</span>
             </label>
+
+            <p
+              v-if="filteredListsForAdd.length === 0"
+              class="text-sm text-muted-color text-center"
+            >
+              {{ t("lists.noSearchResults") }}
+            </p>
           </div>
         </ScrollPanel>
 

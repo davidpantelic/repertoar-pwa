@@ -19,7 +19,7 @@ const filteredSongs = computed(() => {
   if (!query) return props.songs;
 
   return props.songs.filter((song) =>
-    [song.name, song.artist, song.note].some((value) =>
+    [song.name, song.artist].some((value) =>
       value?.toLowerCase().includes(query),
     ),
   );
@@ -73,8 +73,18 @@ watch(
       <InputText
         v-model="searchQuery"
         :placeholder="t('words.searchSongs')"
+        class="pr-10!"
         fluid
       />
+      <button
+        v-if="searchQuery"
+        type="button"
+        class="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-muted-color hover:text-color"
+        :aria-label="t('words.clearSearch')"
+        @click="searchQuery = ''"
+      >
+        <i class="pi pi-times" aria-hidden="true" />
+      </button>
     </IconField>
 
     <div ref="scrollPanelWrapper" class="grow min-h-0">

@@ -26,6 +26,7 @@ const loadingSongsInList = ref(false);
 const addSongsDialogShown = ref(false);
 const loadingSongsForAddDialog = ref(false);
 const pendingSongIds = ref<string[]>([]);
+const addSongsSearchQuery = ref("");
 const songPreviewDialogShown = ref(false);
 const selectedSongIndex = ref(0);
 const songPreviewScrollWrapper = ref<HTMLElement | null>(null);
@@ -40,6 +41,16 @@ const hasSongSelectionChanges = computed(() => {
 
   if (currentIds.length !== nextIds.length) return true;
   return currentIds.some((songId, index) => songId !== nextIds[index]);
+});
+const filteredSongsForAdd = computed(() => {
+  const query = addSongsSearchQuery.value.trim().toLowerCase();
+  if (!query) return songs.value;
+
+  return songs.value.filter((song) =>
+    [song.name, song.artist].some((value) =>
+      value?.toLowerCase().includes(query),
+    ),
+  );
 });
 const selectedSong = computed(() => songsInList.value[selectedSongIndex.value]);
 const hasPreviousSong = computed(() => selectedSongIndex.value > 0);
@@ -194,6 +205,7 @@ const showNextSong = async () => {
 
 const openAddSongsDialog = async () => {
   loadingSongsForAddDialog.value = true;
+  addSongsSearchQuery.value = "";
 
   try {
     await Promise.all([loadSongs(), loadSongsInCurrentList()]);
@@ -207,6 +219,7 @@ const openAddSongsDialog = async () => {
 const closeAddSongsDialog = () => {
   addSongsDialogShown.value = false;
   pendingSongIds.value = [];
+  addSongsSearchQuery.value = "";
 };
 
 const saveListSongsSelection = async () => {
@@ -509,10 +522,29 @@ const reorderMode = ref(false);
       <template v-else-if="songs.length > 0">
         <p class="mb-2">{{ t("words.addSongsInList") }}</p>
 
-        <ScrollPanel class="min-h-0">
-          <div class="flex flex-col gap-2 max-h-90 overflow-auto">
+        <IconField class="shrink-0">
+          <InputIcon class="pi pi-search" />
+          <InputText
+            v-model="addSongsSearchQuery"
+            :placeholder="t('words.searchSongs')"
+            class="pr-10!"
+            fluid
+          />
+          <button
+            v-if="addSongsSearchQuery"
+            type="button"
+            class="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-muted-color hover:text-color"
+            :aria-label="t('words.clearSearch')"
+            @click="addSongsSearchQuery = ''"
+          >
+            <i class="pi pi-times" aria-hidden="true" />
+          </button>
+        </IconField>
+
+        <ScrollPanel class="min-h-0 grow">
+          <div class="flex flex-col gap-2">
             <label
-              v-for="song in songs"
+              v-for="song in filteredSongsForAdd"
               :key="song.id"
               class="flex items-center gap-3 rounded-md border border-surface px-3 py-2 cursor-pointer"
             >
@@ -543,6 +575,13 @@ const reorderMode = ref(false);
                 </div> -->
               </div>
             </label>
+
+            <p
+              v-if="filteredSongsForAdd.length === 0"
+              class="text-sm text-muted-color text-center"
+            >
+              {{ t("songs.noSearchResults") }}
+            </p>
           </div>
         </ScrollPanel>
 

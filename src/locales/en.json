@@ -75,6 +75,7 @@
     "addSongsInList": "Add songs to this list",
     "searchSongs": "Search songs",
     "searchLists": "Search lists",
+    "clearSearch": "Clear search",
     "name": "Name",
     "artist": "Artist",
     "note": "Note",
