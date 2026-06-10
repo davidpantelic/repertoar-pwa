@@ -23,6 +23,8 @@ const props = defineProps<{
 const addToListDialogShown = ref(false);
 const loadingListsForDialog = ref(false);
 const pendingListIds = ref<string[]>([]);
+const songPreviewScrollWrapper = ref<HTMLElement | null>(null);
+const songPreviewHasMoreBelow = ref(false);
 
 const linkedLists = computed(() => getListsForSong(props.song.id));
 const linkedListIds = computed(
@@ -35,6 +37,38 @@ const hasListSelectionChanges = computed(() => {
   if (currentIds.length !== nextIds.length) return true;
   return currentIds.some((listId, index) => listId !== nextIds[index]);
 });
+
+const getSongPreviewScrollContent = () =>
+  songPreviewScrollWrapper.value?.querySelector<HTMLElement>(
+    ".p-scrollpanel-content",
+  ) ?? null;
+
+const updateSongPreviewFade = (event?: Event) => {
+  const content = (event?.target as HTMLElement | null)?.classList.contains(
+    "p-scrollpanel-content",
+  )
+    ? (event?.target as HTMLElement)
+    : getSongPreviewScrollContent();
+
+  if (!content) {
+    songPreviewHasMoreBelow.value = false;
+    return;
+  }
+
+  songPreviewHasMoreBelow.value =
+    content.scrollHeight - content.scrollTop - content.clientHeight > 1;
+};
+
+const resetSongPreviewScroll = async () => {
+  await nextTick();
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+  });
+
+  const content = getSongPreviewScrollContent();
+  if (content) content.scrollTop = 0;
+  updateSongPreviewFade();
+};
 
 const openAddToListDialog = async () => {
   loadingListsForDialog.value = true;
@@ -146,18 +180,43 @@ const deleteSong = async (songId: string) => {
     reject: () => {},
   });
 };
+
+watch(
+  () => props.song.id,
+  () => {
+    void resetSongPreviewScroll();
+  },
+);
+
+onMounted(() => {
+  void resetSongPreviewScroll();
+});
 </script>
 
 <template>
-  <ScrollPanel class="min-h-0">
-    <h2>{{ props.song?.name }}</h2>
-    <p v-if="props.song?.artist" class="italic">
-      {{ props.song?.artist }}
-    </p>
-    <p v-if="props.song?.note" class="mt-3 whitespace-pre-wrap">
-      {{ props.song?.note }}
-    </p>
-  </ScrollPanel>
+  <div
+    ref="songPreviewScrollWrapper"
+    class="relative min-h-0 grow overflow-hidden"
+    @scroll.capture="updateSongPreviewFade"
+  >
+    <ScrollPanel class="h-full">
+      <h2>{{ props.song?.name }}</h2>
+      <p v-if="props.song?.artist" class="italic">
+        {{ props.song?.artist }}
+      </p>
+      <p v-if="props.song?.note" class="mt-3 whitespace-pre-wrap">
+        {{ props.song?.note }}
+      </p>
+    </ScrollPanel>
+
+    <div
+      class="song-preview-bottom-fade"
+      :class="{
+        'song-preview-bottom-fade-visible': songPreviewHasMoreBelow,
+      }"
+      aria-hidden="true"
+    />
+  </div>
   <div class="flex gap-3 h-8.5">
     <Button
       severity="danger"
