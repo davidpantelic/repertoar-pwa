@@ -1,10 +1,29 @@
 <script setup lang="ts">
+import { useScrollPanelOverflow } from "@/composables/useScrollPanelOverflow";
 import type { Song, SongView, SongUpsertPayload } from "@/types";
 
 const emit = defineEmits(["songDeleted", "songEdited"]);
 const props = defineProps<{
   songs: Song[];
 }>();
+
+const { t } = useI18n();
+const searchQuery = ref("");
+const { scrollPanelWrapper, hasVerticalOverflow, scheduleOverflowMeasurement } =
+  useScrollPanelOverflow();
+const showSearch = computed(
+  () => hasVerticalOverflow.value || searchQuery.value.length > 0,
+);
+const filteredSongs = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase();
+  if (!query) return props.songs;
+
+  return props.songs.filter((song) =>
+    [song.name, song.artist, song.note].some((value) =>
+      value?.toLowerCase().includes(query),
+    ),
+  );
+});
 
 const openSongDialogShown = ref(false);
 const songToOpen = ref<SongView>();
@@ -37,40 +56,70 @@ const onEditedSong = (updatedSong: Song) => {
   editMode.value = false;
   emit("songEdited", updatedSong);
 };
+
+watch(
+  [() => props.songs, searchQuery],
+  () => {
+    void scheduleOverflowMeasurement();
+  },
+  { deep: true, flush: "post" },
+);
 </script>
 
 <template>
-  <ScrollPanel class="w-full h-full">
-    <Card
-      v-for="song in props.songs"
-      :key="song.id"
-      class="songs-card grow min-w-0 text-left cursor-pointer hover:bg-emphasis! transition-colors mb-3"
-      @click="
-        openSong({
-          id: song.id,
-          name: song.name,
-          artist: song.artist,
-          note: song.note,
-        })
-      "
-    >
-      <template #content>
-        <span class="w-full text-sm sm:text-base">{{ song.name }}</span>
+  <div class="flex flex-col gap-2 w-full h-full min-h-0">
+    <IconField v-if="showSearch" class="shrink-0">
+      <InputIcon class="pi pi-search" />
+      <InputText
+        v-model="searchQuery"
+        :placeholder="t('words.searchSongs')"
+        fluid
+      />
+    </IconField>
 
-        <div class="flex gap-2 items-center text-muted-color italic">
-          <span v-if="song.artist" class="text-xs sm:text-sm">
-            {{ song.artist }}
-          </span>
+    <div ref="scrollPanelWrapper" class="grow min-h-0">
+      <ScrollPanel class="w-full h-full">
+        <Card
+          v-for="song in filteredSongs"
+          :key="song.id"
+          class="songs-card grow min-w-0 text-left cursor-pointer hover:bg-emphasis! transition-colors mb-3"
+          @click="
+            openSong({
+              id: song.id,
+              name: song.name,
+              artist: song.artist,
+              note: song.note,
+            })
+          "
+        >
+          <template #content>
+            <span class="w-full text-sm sm:text-base">{{ song.name }}</span>
 
-          <span v-if="song.artist && song.note" class="leading-none">-</span>
+            <div class="flex gap-2 items-center text-muted-color italic">
+              <span v-if="song.artist" class="text-xs sm:text-sm">
+                {{ song.artist }}
+              </span>
 
-          <span v-if="song.note" class="text-xs flex-1 truncate sm:text-sm">
-            {{ song.note }}
-          </span>
-        </div>
-      </template>
-    </Card>
-  </ScrollPanel>
+              <span v-if="song.artist && song.note" class="leading-none"
+                >-</span
+              >
+
+              <span v-if="song.note" class="text-xs flex-1 truncate sm:text-sm">
+                {{ song.note }}
+              </span>
+            </div>
+          </template>
+        </Card>
+
+        <p
+          v-if="filteredSongs.length === 0"
+          class="text-sm text-muted-color text-center"
+        >
+          {{ t("songs.noSearchResults") }}
+        </p>
+      </ScrollPanel>
+    </div>
+  </div>
 
   <Dialog
     class="song-view-dialog h-full"

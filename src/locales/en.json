@@ -12,6 +12,7 @@
   },
   "songs": {
     "noSongs": "No songs",
+    "noSearchResults": "No matching songs",
     "validation": {
       "missingName": "Song name is required",
       "tooLongName": "Song name can be 30 characters or less",
@@ -22,6 +23,7 @@
   },
   "lists": {
     "noLists": "No lists",
+    "noSearchResults": "No matching lists",
     "validation": {
       "missingName": "List name is required",
       "duplicateName": "A list with this name already exists",
@@ -71,6 +73,8 @@
     "addList": "Add list",
     "addSongInLists": "Add this song to the list",
     "addSongsInList": "Add songs to this list",
+    "searchSongs": "Search songs",
+    "searchLists": "Search lists",
     "name": "Name",
     "artist": "Artist",
     "note": "Note",

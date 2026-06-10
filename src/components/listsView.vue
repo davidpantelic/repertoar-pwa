@@ -1,10 +1,29 @@
 <script setup lang="ts">
+import { useScrollPanelOverflow } from "@/composables/useScrollPanelOverflow";
 import type { Playlist, ListView, PlaylistUpsertPayload } from "@/types";
 
 const emit = defineEmits(["listDeleted", "listEdited"]);
 const props = defineProps<{
   lists: Playlist[];
 }>();
+
+const { t } = useI18n();
+const searchQuery = ref("");
+const { scrollPanelWrapper, hasVerticalOverflow, scheduleOverflowMeasurement } =
+  useScrollPanelOverflow();
+const showSearch = computed(
+  () => hasVerticalOverflow.value || searchQuery.value.length > 0,
+);
+const filteredLists = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase();
+  if (!query) return props.lists;
+
+  return props.lists.filter((list) =>
+    [list.name, list.note].some((value) =>
+      value?.toLowerCase().includes(query),
+    ),
+  );
+});
 
 const openListDialogShown = ref(false);
 const listToOpen = ref<ListView>();
@@ -36,34 +55,62 @@ const onEditedList = (updatedList: Playlist) => {
   editMode.value = false;
   emit("listEdited", updatedList);
 };
+
+watch(
+  [() => props.lists, searchQuery],
+  () => {
+    void scheduleOverflowMeasurement();
+  },
+  { deep: true, flush: "post" },
+);
 </script>
 
 <template>
-  <ScrollPanel class="w-full h-full">
-    <Card
-      v-for="list in props.lists"
-      :key="list.id"
-      class="lists-card grow min-w-0 text-left cursor-pointer hover:bg-emphasis! transition-colors mb-3"
-      @click="
-        openList({
-          id: list.id,
-          name: list.name,
-          note: list.note,
-          songs_count: list.songs_count,
-        })
-      "
-    >
-      <template #content>
-        <span class="w-full text-sm sm:text-base">{{ list.name }}</span>
+  <div class="flex flex-col gap-2 w-full h-full min-h-0">
+    <IconField v-if="showSearch" class="shrink-0">
+      <InputIcon class="pi pi-search" />
+      <InputText
+        v-model="searchQuery"
+        :placeholder="t('words.searchLists')"
+        fluid
+      />
+    </IconField>
 
-        <div class="flex gap-2 items-center text-muted-color italic">
-          <span v-if="list.note" class="text-xs flex-1 truncate sm:text-sm">
-            {{ list.note }}
-          </span>
-        </div>
-      </template>
-    </Card>
-  </ScrollPanel>
+    <div ref="scrollPanelWrapper" class="grow min-h-0">
+      <ScrollPanel class="w-full h-full">
+        <Card
+          v-for="list in filteredLists"
+          :key="list.id"
+          class="lists-card grow min-w-0 text-left cursor-pointer hover:bg-emphasis! transition-colors mb-3"
+          @click="
+            openList({
+              id: list.id,
+              name: list.name,
+              note: list.note,
+              songs_count: list.songs_count,
+            })
+          "
+        >
+          <template #content>
+            <span class="w-full text-sm sm:text-base">{{ list.name }}</span>
+
+            <div class="flex gap-2 items-center text-muted-color italic">
+              <span v-if="list.note" class="text-xs flex-1 truncate sm:text-sm">
+                {{ list.note }}
+              </span>
+            </div>
+          </template>
+        </Card>
+
+        <p
+          v-if="filteredLists.length === 0"
+          class="text-sm text-muted-color text-center"
+        >
+          {{ t("lists.noSearchResults") }}
+        </p>
+      </ScrollPanel>
+    </div>
+  </div>
 
   <Dialog
     class="list-view-dialog h-full"
